@@ -35,7 +35,7 @@ export default class Login extends React.Component {
                         if (resp[i].userName === this.state.currentUser.username
                             && resp[i].password === this.state.currentUser.password) {
                             if (resp[i].userType === "Admin") {
-                                return this.props.history.push("/admin")
+                                return this.props.history.push("/admin/"+resp[i]._id);
                             } else {
                                 return this.props.history.push("/")
                             }
