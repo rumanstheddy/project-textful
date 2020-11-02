@@ -1,4 +1,4 @@
-Textful
+#Textful
 
 Textful is a web based application which enables its users to exchange text messages directly or through groups, which they have formed.
 
