@@ -1,3 +1,24 @@
-li.list-group-item {
-    cursor: pointer;
+h3 {
+  padding-top: 25px;
+  padding-bottom: 25px;
+}
+
+.form-control-borderless {
+    border: none;
+}
+
+.form-control-borderless:hover, .form-control-borderless:active, .form-control-borderless:focus {
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+
+.d-flex.flex-row.border.rounded {
+    position: relative;
+}
+
+button.btn.btn-primary {
+    position: absolute;
+    right: 25px;
+    bottom: 7px;
 }
