@@ -20,5 +20,10 @@ h3 {
 button.btn.btn-primary {
     position: absolute;
     right: 25px;
-    bottom: 7px;
+    bottom: 4px;
+}
+
+p#username {
+    font-size: 20px;
+    margin-bottom: 0px;
 }
