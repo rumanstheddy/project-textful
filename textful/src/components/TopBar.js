@@ -1,14 +1,13 @@
 import React from "react";
 import {
-    Navbar,
-    Nav,
-    NavItem,
-    Form,
-    FormControl,
-    Button,
-  } from "react-bootstrap";
+  Navbar,
+  Nav,
+  NavItem,
+  Form,
+  FormControl,
+  Button,
+} from "react-bootstrap";
 import history from "../services/History";
-
 
 class TopBar extends React.Component {
   constructor(props) {
@@ -37,13 +36,13 @@ class TopBar extends React.Component {
             {this.props.showSearch ? (
               <NavItem className="ml-5">
                 <Form inline>
-                    <Nav.Link
-                      onClick={() => {
-                        history.push("/adminHome");
-                      }}
-                    >
-                      Admin Home
-                    </Nav.Link>
+                  <Nav.Link
+                    onClick={() => {
+                      history.push("/adminHome");
+                    }}
+                  >
+                    Admin Home
+                  </Nav.Link>
 
                   <Nav.Link
                     onClick={() => {
