@@ -8,6 +8,7 @@ import Registration from "./components/login/Registration";
 import AdminHome from "./components/admin/AdminHome";
 import UserProfile from "./components/profile/UserProfile";
 import Home from "./components/home/Home";
+import "@fortawesome/fontawesome-free/js/all.js";
 import ChatWindow from "./components/chat/ChatWindow";
 
 class App extends React.Component {
@@ -20,7 +21,7 @@ class App extends React.Component {
           <Route exact path="/register" component={Registration} />
           <Route exact path="/admin/:id" component={AdminHome} />
           <Route exact path="/profile/:id" component={UserProfile} />
-          <Route exact path="/user/:id/chat" component={ChatWindow} />
+          <Route exact path="/user/:userName/chat" component={ChatWindow} />
         </Switch>
       </Router>
     );

@@ -1,6 +1,7 @@
 import React from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
+import "./Registration.css";
 
 export default class Registration extends React.Component {
   constructor(props) {
@@ -158,6 +159,7 @@ export default class Registration extends React.Component {
           <div className="col">
             <button
               className="btn btn-primary"
+              id="cancelBtn"
               onClick={() => this.props.history.push("/")}
             >
               Cancel

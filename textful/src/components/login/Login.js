@@ -1,6 +1,7 @@
 import React from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
+import "./Login.css";
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -40,7 +41,7 @@ export default class Login extends React.Component {
                 return this.props.history.push("/admin/" + resp[i]._id);
               } else {
                 return this.props.history.push(
-                  "/user/" + resp[i]._id + "/chat"
+                  "/user/" + resp[i].userName + "/chat"
                 );
               }
             }
@@ -116,6 +117,7 @@ export default class Login extends React.Component {
           <div className="col">
             <button
               className="btn btn-primary"
+              id="cancelBtn"
               onClick={() => this.props.history.push("/")}
             >
               Cancel
