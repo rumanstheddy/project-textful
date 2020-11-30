@@ -1,19 +1,20 @@
-import React from 'react';
-import conversationView from './conversationView';
-import conversationList from './conversationList';
+import React from "react";
+import ConversationList from "./ConversationList";
+import ConversationView from "./ConversationView";
+import "./Chat.css";
 
-export default class chatWindow extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {}
-    }
+export default class ChatWindow extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
 
-    render = () => {
-        return (
-            <div>
-                <conversationList></conversationList>
-                <conversationView></conversationView>
-            </div>
-        )
-    }
+  render() {
+    return (
+      <div class="d-flex" id="wrapper">
+        <ConversationList />
+        <ConversationView />
+      </div>
+    );
+  }
 }

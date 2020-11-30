@@ -39,7 +39,9 @@ export default class Login extends React.Component {
               if (resp[i].userType === "Admin") {
                 return this.props.history.push("/admin/" + resp[i]._id);
               } else {
-                return this.props.history.push("/");
+                return this.props.history.push(
+                  "/user/" + resp[i]._id + "/chat"
+                );
               }
             }
           }

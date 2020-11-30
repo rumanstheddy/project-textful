@@ -1,67 +1,29 @@
 import React from "react";
-import "./chat.css";
 
-const conversationList = () => (
-  <nav id="sidebar">
-    <div class="sidebar-header">
-      <h3>Bootstrap Sidebar</h3>
+const ConversationList = () => (
+  <div class="bg-light border-right" id="sidebar-wrapper">
+    <div class="sidebar-heading">Start Bootstrap </div>
+    <div class="list-group list-group-flush">
+      <a href="#" class="list-group-item list-group-item-action bg-light">
+        Dashboard
+      </a>
+      <a href="#" class="list-group-item list-group-item-action bg-light">
+        Shortcuts
+      </a>
+      <a href="#" class="list-group-item list-group-item-action bg-light">
+        Overview
+      </a>
+      <a href="#" class="list-group-item list-group-item-action bg-light">
+        Events
+      </a>
+      <a href="#" class="list-group-item list-group-item-action bg-light">
+        Profile
+      </a>
+      <a href="#" class="list-group-item list-group-item-action bg-light">
+        Status
+      </a>
     </div>
-
-    <ul class="list-unstyled components">
-      <p>Dummy Heading</p>
-      <li class="active">
-        <a
-          href="#homeSubmenu"
-          data-toggle="collapse"
-          aria-expanded="false"
-          class="dropdown-toggle"
-        >
-          Home
-        </a>
-        <ul class="collapse list-unstyled" id="homeSubmenu">
-          <li>
-            <a href="#">Home 1</a>
-          </li>
-          <li>
-            <a href="#">Home 2</a>
-          </li>
-          <li>
-            <a href="#">Home 3</a>
-          </li>
-        </ul>
-      </li>
-      <li>
-        <a href="#">About</a>
-      </li>
-      <li>
-        <a
-          href="#pageSubmenu"
-          data-toggle="collapse"
-          aria-expanded="false"
-          class="dropdown-toggle"
-        >
-          Pages
-        </a>
-        <ul class="collapse list-unstyled" id="pageSubmenu">
-          <li>
-            <a href="#">Page 1</a>
-          </li>
-          <li>
-            <a href="#">Page 2</a>
-          </li>
-          <li>
-            <a href="#">Page 3</a>
-          </li>
-        </ul>
-      </li>
-      <li>
-        <a href="#">Portfolio</a>
-      </li>
-      <li>
-        <a href="#">Contact</a>
-      </li>
-    </ul>
-  </nav>
+  </div>
 );
 
-export default conversationList;
+export default ConversationList;

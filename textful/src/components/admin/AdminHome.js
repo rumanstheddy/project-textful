@@ -66,6 +66,7 @@ export default class AdminHome extends React.Component {
           <p class="text-right m-0">
             <button
               class="btn btn-primary"
+              id="goToProfileBtn"
               onClick={() => this.goToProfile(user)}
             >
               <svg
