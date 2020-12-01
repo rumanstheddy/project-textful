@@ -1,8 +1,8 @@
 import "./App.css";
 import React from "react";
 import "bootstrap/dist/css/bootstrap.css";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { useHistory } from "react-router-dom";
+import { Router, Route, Switch } from "react-router-dom";
+import history from "./services/History";
 import Login from "./components/login/Login";
 import Registration from "./components/login/Registration";
 import AdminHome from "./components/admin/AdminHome";
@@ -14,7 +14,7 @@ import ChatWindow from "./components/chat/ChatWindow";
 class App extends React.Component {
   render() {
     return (
-      <Router history={useHistory}>
+      <Router history={history}>
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/login" component={Login} />

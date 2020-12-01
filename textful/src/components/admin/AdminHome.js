@@ -1,5 +1,6 @@
 import React from "react";
 import "./AdminHome.css";
+import history from "../../services/History";
 
 export default class AdminHome extends React.Component {
   constructor(props) {
@@ -48,12 +49,12 @@ export default class AdminHome extends React.Component {
     })
       .then((res) => res.json())
       .then((user) => {
-        this.props.history.push("/profile/" + user._id, user);
+        history.push("/profile/" + user._id, user);
       });
   };
 
   goToProfile = (user) => {
-    this.props.history.push("/profile/" + user._id, user);
+    history.push("/profile/" + user._id, user);
   };
 
   renderUserList = () => {

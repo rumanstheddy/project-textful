@@ -1,6 +1,7 @@
 import React from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
+import history from "../../services/History";
 import "./Login.css";
 
 export default class Login extends React.Component {
@@ -38,11 +39,9 @@ export default class Login extends React.Component {
               resp[i].password === this.state.currentUser.password
             ) {
               if (resp[i].userType === "Admin") {
-                return this.props.history.push("/admin/" + resp[i]._id);
+                return history.push("/admin/" + resp[i]._id);
               } else {
-                return this.props.history.push(
-                  "/user/" + resp[i].userName + "/chat"
-                );
+                return history.push("/user/" + resp[i].userName + "/chat");
               }
             }
           }
@@ -55,10 +54,12 @@ export default class Login extends React.Component {
     return (
       <div className="container">
         <Navbar bg="light" expand="lg">
-          <Navbar.Brand href="#home">Textful</Navbar.Brand>
+          <Navbar.Brand onClick={() => history.push("/")}>Textful</Navbar.Brand>
           <Nav className="mr-auto">
-            <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/register">Register</Nav.Link>
+            <Nav.Link onClick={() => history.push("/")}>Home</Nav.Link>
+            <Nav.Link onClick={() => history.push("/register")}>
+              Register
+            </Nav.Link>
           </Nav>
         </Navbar>
 
@@ -118,7 +119,7 @@ export default class Login extends React.Component {
             <button
               className="btn btn-primary"
               id="cancelBtn"
-              onClick={() => this.props.history.push("/")}
+              onClick={() => history.push("/")}
             >
               Cancel
             </button>

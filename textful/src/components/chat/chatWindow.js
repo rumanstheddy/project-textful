@@ -2,8 +2,9 @@ import React from "react";
 import ConversationList from "./ConversationList";
 import ConversationView from "./ConversationView";
 import "./Chat.css";
+import { withRouter } from "react-router-dom";
 
-export default class ChatWindow extends React.Component {
+class ChatWindow extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -44,8 +45,10 @@ export default class ChatWindow extends React.Component {
           fullName={this.state.fullName}
           contactList={this.state.contactList}
         />
-        <ConversationView />
+        <ConversationView fullName={this.state.fullName} />
       </div>
     );
   }
 }
+
+export default withRouter(ChatWindow);

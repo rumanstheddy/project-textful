@@ -1,9 +1,15 @@
 a#contactName {
   padding-left: 30px;
+  cursor: pointer;
 }
 
 a#signoutLink {
   font-size: 1.1em;
+  cursor: pointer;
+}
+
+#userNameTxt {
+  text-align: center;
 }
 
 #wrapper {
@@ -44,6 +50,19 @@ button#newConvoBtn {
   margin-left: 0;
 }
 
+#defaultConvoViewTxt {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: rgba(0, 0, 0, 0.65);
+  text-align: center;
+}
+
+#newConvoInfoTxt {
+  color: #0062cc;
+}
+
 @media (min-width: 768px) {
   #sidebar-wrapper {
     margin-left: 0;
@@ -53,27 +72,6 @@ button#newConvoBtn {
     position: relative;
     min-width: 0;
     width: 100%;
-  }
-
-  h1#defaultConvoViewTxt1 {
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    transform: translate(-45%, -45%);
-    color: rgba(0, 0, 0, 0.65);
-  }
-
-  h5#defaultConvoViewTxt2 {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: rgba(0, 0, 0, 0.65);
-    text-align: center;
-  }
-
-  span#newConvoInfoTxt {
-    color: #0062cc;
   }
 
   #wrapper.toggled #sidebar-wrapper {
