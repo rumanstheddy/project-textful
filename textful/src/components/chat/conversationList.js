@@ -14,16 +14,16 @@ class ConversationList extends React.Component {
         </div>
         <div class="list-group list-group-flush">
           {console.log(this.props)}
-          {/* {props.contactList.map((userName) => (
-          <a href="#" class="list-group-item list-group-item-action bg-light">
-            {userName}
-          </a>
-        ))} */}
+          {this.props.contactList.map((user) => (
+            <a class="list-group-item list-group-item-action bg-light">
+              {user.userName}
+            </a>
+          ))}
         </div>
         <button
           type="button"
           class="btn btn-primary rounded-circle"
-          id="newConvoBtn"
+          id="createConvoBtn"
         >
           <i class="fas fa-comment-medical"></i>
         </button>

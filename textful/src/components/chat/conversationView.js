@@ -7,9 +7,28 @@ export default class ConversationView extends React.Component {
     super(props);
   }
 
-  render() {
+  renderChatView = () => {
     return (
-      <div id="page-content-wrapper">
+      <div class="row col-11 ml-4 p-0 shadow-lg" id="chatInputFld">
+        <div class="input-group">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Send a message"
+          />
+          <div class="input-group-append">
+            <button class="btn btn-primary" type="button">
+              <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  renderDefaultView = () => {
+    return (
+      <div>
         <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
           <button class="btn btn-primary" id="menu-toggle">
             <i class="fas fa-chevron-left"></i>
@@ -43,5 +62,9 @@ export default class ConversationView extends React.Component {
         </div>
       </div>
     );
+  };
+
+  render() {
+    return <div id="page-content-wrapper">{this.renderChatView()}</div>;
   }
 }

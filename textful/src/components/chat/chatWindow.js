@@ -31,7 +31,7 @@ class ChatWindow extends React.Component {
         users.map((user) => {
           if (user.userName !== userName) {
             return this.setState({
-              contactList: [...this.state.contactList, user.userName],
+              contactList: [...this.state.contactList, user],
             });
           }
         });
@@ -45,7 +45,10 @@ class ChatWindow extends React.Component {
           fullName={this.state.fullName}
           contactList={this.state.contactList}
         />
-        <ConversationView fullName={this.state.fullName} />
+        <ConversationView
+          fullName={this.state.fullName}
+          contactList={this.state.contactList}
+        />
       </div>
     );
   }
