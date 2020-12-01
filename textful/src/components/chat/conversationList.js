@@ -4,6 +4,8 @@ import history from "../../services/History";
 class ConversationList extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {};
   }
 
   render() {
@@ -15,7 +17,16 @@ class ConversationList extends React.Component {
         <div class="list-group list-group-flush">
           {console.log(this.props)}
           {this.props.contactList.map((user) => (
-            <a class="list-group-item list-group-item-action bg-light">
+            <a
+              class="list-group-item list-group-item-action bg-light"
+              onClick={() =>
+                history.push({
+                  pathname:
+                    "/user/" + this.props.userName + "/chat/" + user.userName,
+                  state: { toUserName: user.userName },
+                })
+              }
+            >
               {user.userName}
             </a>
           ))}

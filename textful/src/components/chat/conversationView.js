@@ -5,21 +5,59 @@ import "./Chat.css";
 export default class ConversationView extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      toUsernameExists: false,
+      toUserName: "",
+    };
   }
 
+  componentDidUpdate = () => {
+    this.handleUrlChange();
+  }
+
+  handleUrlChange = () => {
+    try {
+      let toUserName = history.location.state.toUserName;
+      this.setState({ toUsernameExists: true, toUserName: toUserName });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   renderChatView = () => {
+    console.log("history:", history);
     return (
-      <div class="row col-11 ml-4 p-0 shadow-lg" id="chatInputFld">
-        <div class="input-group">
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Send a message"
-          />
-          <div class="input-group-append">
-            <button class="btn btn-primary" type="button">
-              <i class="fas fa-arrow-right"></i>
-            </button>
+      <div id="page-content-wrapper">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+          {/* <button class="btn btn-primary" id="menu-toggle">
+            <i class="fas fa-chevron-left"></i>
+          </button> */}
+
+          <a class="navbar-brand" id="contactName">
+            {this.state.toUserName}
+          </a>
+
+          <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+            <li class="nav-item" onClick={() => history.push("/login")}>
+              <a class="nav-link" id="signoutLink">
+                Sign out <i class="fas fa-sign-out-alt"></i>
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <div class="row col-11 ml-4 p-0 shadow-lg" id="chatInputFld">
+          <div class="input-group">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Send a message"
+            />
+            <div class="input-group-append">
+              <button class="btn btn-primary" type="button">
+                <i class="fas fa-arrow-right"></i>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -28,15 +66,11 @@ export default class ConversationView extends React.Component {
 
   renderDefaultView = () => {
     return (
-      <div>
+      <div id="page-content-wrapper">
         <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-          <button class="btn btn-primary" id="menu-toggle">
+          {/* <button class="btn btn-primary" id="menu-toggle">
             <i class="fas fa-chevron-left"></i>
-          </button>
-
-          <a class="navbar-brand" id="contactName">
-            Another user
-          </a>
+          </button> */}
 
           <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
             <li class="nav-item" onClick={() => history.push("/login")}>
@@ -65,6 +99,8 @@ export default class ConversationView extends React.Component {
   };
 
   render() {
-    return <div id="page-content-wrapper">{this.renderChatView()}</div>;
+    return this.state.toUsernameExists
+      ? this.renderChatView()
+      : this.renderDefaultView();
   }
 }

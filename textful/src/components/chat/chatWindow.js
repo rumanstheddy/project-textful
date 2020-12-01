@@ -43,6 +43,7 @@ class ChatWindow extends React.Component {
       <div class="d-flex" id="wrapper">
         <ConversationList
           fullName={this.state.fullName}
+          userName={this.props.match.params.userName}
           contactList={this.state.contactList}
         />
         <ConversationView
