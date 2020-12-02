@@ -5,15 +5,31 @@ class ConversationList extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      searchUserName: "",
+      isSearchEnabled: false
+    };
+    this.searchRef = React.createRef();
   }
 
+  handleSearch = () => {
+    let self = this;
+    console.log(this.state.searchUserName)
+    this.setState({isSearchEnabled: true, searchUserName: self.searchRef.current.value})
+      
+  }
   render() {
     return (
       <div class="bg-light border-right" id="sidebar-wrapper">
         <div class="sidebar-heading" id="userNameTxt">
           {this.props.fullName}
         </div>
+        <div class="row">
+          <input class="text col-8" ref={this.searchRef}></input>
+          <div class="col-3" onClick={this.handleSearch}><i class="fas fa-search fa-2x"></i></div>
+          
+        </div>
+        {!this.state.isSearchEnabled ? 
         <div class="list-group list-group-flush">
           {console.log(this.props)}
           {this.props.contactList.map((user) => (
@@ -30,7 +46,22 @@ class ConversationList extends React.Component {
               {user.userName}
             </a>
           ))}
+        </div> :
+        <div>
+          <a
+              class="list-group-item list-group-item-action bg-light"
+              onClick={() =>
+                history.push({
+                  pathname:
+                    "/user/" + this.props.userName + "/chat/" + this.state.searchUserName,
+                  state: { toUserName: this.state.searchUserName, userName: this.props.userName },
+                })
+              }
+            >
+              {this.state.searchUserName}
+            </a>
         </div>
+      } 
         <button
           type="button"
           class="btn btn-primary rounded-circle"
@@ -39,8 +70,9 @@ class ConversationList extends React.Component {
           <i class="fas fa-comment-medical"></i>
         </button>
       </div>
-    );
+       );
   }
 }
+
 
 export default ConversationList;

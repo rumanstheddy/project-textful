@@ -1,5 +1,7 @@
 import React from "react";
 import "./UserProfile.css";
+import history from "../../services/History";
+
 
 const UserProfile = (props) => {
   let user = props.location.state;
@@ -26,6 +28,15 @@ const UserProfile = (props) => {
         <a href="https://medium.com/@talhaqc">
           <i class="fa fa-medium"></i>
         </a>
+      </div>
+      <div>
+      <button
+              className="btn btn-primary"
+              id="cancelBtn"
+              onClick={() => history.push("/user/"+user.userName+"/chat")}
+            >
+              Chat
+            </button>
       </div>
     </div>
   );

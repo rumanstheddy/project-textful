@@ -35,7 +35,7 @@ export default class Registration extends React.Component {
     });
 
     console.log(newUser);
-    history.push("/login");
+    history.push("/user/"+newUser.userName+"/chat");
   };
 
   handleUserTypeSelection = (e) => {
@@ -161,7 +161,7 @@ export default class Registration extends React.Component {
             <button
               className="btn btn-primary"
               id="cancelBtn"
-              onClick={() => history.push("/")}
+              onClick={() => history.push("/login")}
             >
               Cancel
             </button>
