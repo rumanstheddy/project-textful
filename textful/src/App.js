@@ -10,7 +10,6 @@ import UserProfile from "./components/profile/UserProfile";
 import Home from "./components/home/Home";
 import "@fortawesome/fontawesome-free/js/all.js";
 import ChatWindow from "./components/chat/ChatWindow";
-import ConversationView from "./components/chat/ConversationView";
 
 class App extends React.Component {
   render() {
