@@ -1,7 +1,7 @@
 import React from "react";
 import history from "../../services/History";
 import "./Chat.css";
-// import ChatBubble from "./ChatBubble";
+import ChatBubble from "./ChatBubble";
 
 export default class ConversationView extends React.Component {
   constructor(props) {
@@ -50,9 +50,9 @@ export default class ConversationView extends React.Component {
         <div id="scrollableContent">
           <span>
             {/* compare username from conversation json and this username to display sender and receiver */}
-            {/* <ChatBubble userName={this.props.userName}/>
             <ChatBubble userName={this.props.userName}/>
-            <ChatBubble userName={this.props.userName}/> */}
+            <ChatBubble userName={this.props.userName}/>
+            <ChatBubble userName={this.props.userName}/>
           </span>
         </div>
         <div class="row col-9 ml-4 p-0 shadow-lg" id="chatInputFld">
