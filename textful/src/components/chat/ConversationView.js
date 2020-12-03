@@ -50,9 +50,27 @@ export default class ConversationView extends React.Component {
         <div id="scrollableContent">
           <span>
             {/* compare username from conversation json and this username to display sender and receiver */}
-            <ChatBubble userName={this.props.userName}/>
-            <ChatBubble userName={this.props.userName}/>
-            <ChatBubble userName={this.props.userName}/>
+            <ChatBubble
+              userName={this.props.userName}
+              isSentMessage={true}
+              messageBody={
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+              }
+            />
+            <ChatBubble
+              userName={this.props.userName}
+              isSentMessage={false}
+              messageBody={
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+              }
+            />
+            <ChatBubble
+              userName={this.props.userName}
+              isSentMessage={false}
+              messageBody={
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+              }
+            />
           </span>
         </div>
         <div class="row col-9 ml-4 p-0 shadow-lg" id="chatInputFld">
