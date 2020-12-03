@@ -11,15 +11,17 @@ class ChatBubble extends React.Component {
 
   render() {
     return (
-      <div>
-        <div class={this.props.isSentMessage ? "outgoing_msg" : ""}>
-          <div class={this.props.isSentMessage ? "sent_msg" : "received_msg"}>
-            {console.log("bubble history: ", history)}
-            {this.props.userName}
-            <p>{this.props.messageBody}</p>
-            <span class="time_date"> 11:01 AM | Today</span>
-          </div>
-        </div>
+      <div
+        class={
+          this.props.isSentMessage
+            ? "outgoing_msg sent_msg"
+            : "incoming_msg received_msg received_withd_msg"
+        }
+      >
+        {console.log("bubble history: ", history)}
+        {this.props.userName}
+        <p>{this.props.messageBody}</p>
+        <span class="time_date"> 11:01 AM | Today</span>
       </div>
     );
   }

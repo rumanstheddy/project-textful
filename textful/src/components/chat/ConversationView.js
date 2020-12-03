@@ -58,14 +58,14 @@ export default class ConversationView extends React.Component {
               }
             />
             <ChatBubble
-              userName={this.props.userName}
+              userName={this.state.toUserName}
               isSentMessage={false}
               messageBody={
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
               }
             />
             <ChatBubble
-              userName={this.props.userName}
+              userName={this.state.toUserName}
               isSentMessage={false}
               messageBody={
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
