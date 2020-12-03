@@ -14,10 +14,21 @@ class ConversationList extends React.Component {
 
   handleSearch = () => {
     let self = this;
-    console.log(this.state.searchUserName)
-    this.setState({isSearchEnabled: true, searchUserName: self.searchRef.current.value})
-      
+    let shouldSearch = false;
+    for (var i=0; i<this.props.contactList.length; i++) {
+      if(this.props.contactList[i].userName == this.searchRef.current.value) {
+        shouldSearch = true;
+        break;
+    }
+    }
+    if(shouldSearch) {
+      this.setState({isSearchEnabled: true, searchUserName: self.searchRef.current.value})
+    }
+    else {
+      this.setState({isSearchEnabled: false, searchUserName: ""})
+    }
   }
+
   render() {
     return (
       <div class="bg-light border-right" id="sidebar-wrapper">
@@ -58,6 +69,7 @@ class ConversationList extends React.Component {
                 })
               }
             >
+              {console.log(this.state.searchUserName)}
               {this.state.searchUserName}
             </a>
         </div>
