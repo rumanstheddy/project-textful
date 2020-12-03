@@ -4,26 +4,28 @@ h3 {
 }
 
 .form-control-borderless {
-    border: none;
+  border: none;
 }
 
-.form-control-borderless:hover, .form-control-borderless:active, .form-control-borderless:focus {
-    border: none;
-    outline: none;
-    box-shadow: none;
+.form-control-borderless:hover,
+.form-control-borderless:active,
+.form-control-borderless:focus {
+  border: none;
+  outline: none;
+  box-shadow: none;
 }
 
 .d-flex.flex-row.border.rounded {
-    position: relative;
+  position: relative;
 }
 
-button.btn.btn-primary {
-    position: absolute;
-    right: 25px;
-    bottom: 4px;
+button#goToProfileBtn {
+  position: absolute;
+  right: 25px;
+  bottom: 4px;
 }
 
 p#username {
-    font-size: 20px;
-    margin-bottom: 0px;
+  font-size: 20px;
+  margin-bottom: 0px;
 }

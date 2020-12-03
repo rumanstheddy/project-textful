@@ -1,6 +1,9 @@
 import React from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
+import history from "../../services/History";
+import "./Login.css";
+import {Alert} from "react-bootstrap";
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -10,6 +13,7 @@ export default class Login extends React.Component {
       username: "",
       password: "",
       currentUser: {},
+      showAlert: false
     };
   }
 
@@ -24,6 +28,8 @@ export default class Login extends React.Component {
     });
 
   handleClick() {
+    var self = this;
+    console.log("reached handle click method")
     if (this.state.username != null || this.state.password != null) {
       this.state.currentUser.username = this.state.username;
       this.state.currentUser.password = this.state.password;
@@ -33,29 +39,45 @@ export default class Login extends React.Component {
         .then((resp) => {
           for (let i = 0; i < resp.length; i++) {
             if (
-              resp[i].userName === this.state.currentUser.username &&
-              resp[i].password === this.state.currentUser.password
+              resp[i].userName === self.state.currentUser.username &&
+              resp[i].password === self.state.currentUser.password
             ) {
               if (resp[i].userType === "Admin") {
-                return this.props.history.push("/admin/" + resp[i]._id);
+                return history.push("/admin/" + resp[i]._id);
               } else {
-                return this.props.history.push("/");
+                return history.push("/user/" + resp[i].userName + "/chat");
               }
             }
+            else {
+              self.setState({showAlert: true});
+            }
           }
-          console.log("User Does Not Exist!");
-        });
+          
+        })
     }
+    // else {
+    //   this.setState({showAlert: true});
+    // }
   }
 
   render() {
+    
+    let self = this;
     return (
       <div className="container">
+        {console.log(this.state.showAlert)}
+        {
+          this.state.showAlert ? <Alert variant="danger" onClose={() => self.setState({showAlert: false})} dismissible>
+                                <Alert.Heading>Invalid Username and password</Alert.Heading>
+                                  </Alert> : null
+        }
         <Navbar bg="light" expand="lg">
-          <Navbar.Brand href="#home">Textful</Navbar.Brand>
+          <Navbar.Brand onClick={() => history.push("/")}>Textful</Navbar.Brand>
           <Nav className="mr-auto">
-            <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/register">Register</Nav.Link>
+            <Nav.Link onClick={() => history.push("/")}>Home</Nav.Link>
+            <Nav.Link onClick={() => history.push("/register")}>
+              Register
+            </Nav.Link>
           </Nav>
         </Navbar>
 
@@ -105,6 +127,7 @@ export default class Login extends React.Component {
         </div>
 
         <div className="btn-link">
+          {console.log("reached login")}
           <a className="btn btn-primary" onClick={() => this.handleClick()}>
             Log In
           </a>
@@ -114,7 +137,8 @@ export default class Login extends React.Component {
           <div className="col">
             <button
               className="btn btn-primary"
-              onClick={() => this.props.history.push("/")}
+              id="cancelBtn"
+              onClick={() => history.push("/")}
             >
               Cancel
             </button>

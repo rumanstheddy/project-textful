@@ -1,6 +1,8 @@
 import React from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
+import "./Registration.css";
+import history from "../../services/History";
 
 export default class Registration extends React.Component {
   constructor(props) {
@@ -33,7 +35,7 @@ export default class Registration extends React.Component {
     });
 
     console.log(newUser);
-    this.props.history.push("/login");
+    history.push("/user/"+newUser.userName+"/chat");
   };
 
   handleUserTypeSelection = (e) => {
@@ -44,10 +46,10 @@ export default class Registration extends React.Component {
     return (
       <div className="container">
         <Navbar bg="light" expand="lg">
-          <Navbar.Brand href="#home">Textful</Navbar.Brand>
+          <Navbar.Brand onClick={() => history.push("/")}>Textful</Navbar.Brand>
           <Nav className="mr-auto">
-            <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/login">Login</Nav.Link>
+            <Nav.Link onClick={() => history.push("/")}>Home</Nav.Link>
+            <Nav.Link onClick={() => history.push("/login")}>login</Nav.Link>
           </Nav>
         </Navbar>
 
@@ -158,7 +160,8 @@ export default class Registration extends React.Component {
           <div className="col">
             <button
               className="btn btn-primary"
-              onClick={() => this.props.history.push("/")}
+              id="cancelBtn"
+              onClick={() => history.push("/login")}
             >
               Cancel
             </button>
