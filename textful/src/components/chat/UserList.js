@@ -1,19 +1,20 @@
 import React from "react";
 import history from "../../services/History";
 
+
 export default class UserList extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
             userList: [],
-            searchValue: "",
+
         };
     }
 
     componentDidMount = () => {
-        const userId = this.props.match.params.id;
-        this.setState({ userId: userId });
+        // const userId = this.props.match.params.id;
+        // this.setState({ userId: userId });
         fetch("https://wbdv-textful-server.herokuapp.com/users", {
             method: "GET",
             mode: "cors",
@@ -63,7 +64,28 @@ export default class UserList extends React.Component {
                     <p class="text-primary" id="username">
                         {user.userName}
                     </p>
+
+
                     <p class="text-right m-0">
+
+                        <button
+                            className="btn btn-primary"
+                            id="goToChatBtn"
+                            onClick={() => {
+                                // this.props.contactList.append(user)
+                                console.log(this.props.location.state.userName)
+                                // history.push("/user/" + this.props.location.state.userName + "/chat")
+                                console.log(user)
+
+                                history.push({pathname: "/user/" + this.props.location.state.userName + "/chat",
+                                                 state: {user: user},
+                                             })}
+
+                            }
+                        >
+                            Chat
+                        </button>
+
                         <button
                             class="btn btn-primary"
                             id="goToProfileBtn"
@@ -93,8 +115,8 @@ export default class UserList extends React.Component {
     render() {
         return (
             // <h1>Hi</h1>
-            <div class="row justify-content-center">
-                <h3>List of usernames to search:</h3>
+            <div class="container">
+                <h3>List of usernames to chat with:</h3>
                 {this.renderUserList()}
             </div>
         );

@@ -7,16 +7,26 @@ class ConversationList extends React.Component {
 
     this.state = {
       searchUserName: "",
-      isSearchEnabled: false
+      isSearchEnabled: false,
+        contactList: []
     };
     this.searchRef = React.createRef();
+
+    if (typeof(this.props.location) !== 'undefined' && this.props.location != null)  {
+          // this.props.addContact(this.props.location.state.user)
+          console.log(this.props.location.state.user)
+          return this.setState({
+                                   contactList: [...this.state.contactList, this.props.location.state.user]
+                               });
+          // this.props.contactList.append(this.props.location.state.user)
+    }
   }
 
-  handleSearch = () => {
+    handleSearch = () => {
     let self = this;
     let shouldSearch = false;
     for (var i=0; i<this.props.contactList.length; i++) {
-      if(this.props.contactList[i].userName == this.searchRef.current.value) {
+      if(this.state.contactList[i].userName == this.searchRef.current.value) {
         shouldSearch = true;
         break;
     }
@@ -27,6 +37,10 @@ class ConversationList extends React.Component {
     else {
       this.setState({isSearchEnabled: false, searchUserName: ""})
     }
+  }
+
+  addContact = (user) => {
+      this.props.addContact(this.props.location.state.user)
   }
 
   render() {
@@ -43,7 +57,7 @@ class ConversationList extends React.Component {
         {!this.state.isSearchEnabled ?
         <div class="list-group list-group-flush">
           {console.log(this.props)}
-          {this.props.contactList.map((user) => (
+          {this.state.contactList.map((user) => (
             <a
               class="list-group-item list-group-item-action bg-light"
               onClick={() =>
@@ -78,7 +92,10 @@ class ConversationList extends React.Component {
           type="button"
           class="btn btn-primary rounded-circle"
           id="createConvoBtn"
-          onClick={() => history.push("/user/" + this.props.userName + "/contacts")}
+          onClick={() => history.push({
+                                          pathname: "/user/" + this.props.userName + "/contacts",
+                                          state: { userName: this.props.userName},
+                                      })}
         >
           <i class="fas fa-comment-medical"></i>
         </button>

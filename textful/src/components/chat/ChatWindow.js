@@ -3,6 +3,7 @@ import ConversationList from "./ConversationList";
 import ConversationView from "./ConversationView";
 import "./Chat.css";
 import { withRouter } from "react-router-dom";
+import UserList from "./UserList";
 
 class ChatWindow extends React.Component {
   constructor(props) {
@@ -25,18 +26,25 @@ class ChatWindow extends React.Component {
         });
       });
 
-    fetch(url)
-      .then((res) => res.json())
-      .then((users) => {
-        users.map((user) => {
-          if (user.userName !== userName) {
-            return this.setState({
-              contactList: [...this.state.contactList, user],
-            });
-          }
-        });
-      });
+    // fetch(url)
+    //   .then((res) => res.json())
+    //   .then((users) => {
+    //     users.map((user) => {
+    //       if (user.userName !== userName) {
+    //         return this.setState({
+    //           contactList: [...this.state.contactList, user],
+    //         });
+    //       }
+    //     });
+    //   });
   };
+
+  addContact = (user) => {
+      return this.setState({
+                               contactList: [...this.state.contactList, user],
+                           });
+  }
+
 
   render() {
     return (
@@ -45,6 +53,7 @@ class ChatWindow extends React.Component {
           fullName={this.state.fullName}
           userName={this.props.match.params.userName}
           contactList={this.state.contactList}
+          addContact = {this.state.addContact}
         />
         <ConversationView
           fullName={this.state.fullName}
