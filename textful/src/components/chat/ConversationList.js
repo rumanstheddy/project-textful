@@ -40,7 +40,7 @@ class ConversationList extends React.Component {
           <div class="col-3" onClick={this.handleSearch}><i class="fas fa-search fa-2x"></i></div>
           
         </div>
-        {!this.state.isSearchEnabled ? 
+        {!this.state.isSearchEnabled ?
         <div class="list-group list-group-flush">
           {console.log(this.props)}
           {this.props.contactList.map((user) => (
@@ -78,6 +78,7 @@ class ConversationList extends React.Component {
           type="button"
           class="btn btn-primary rounded-circle"
           id="createConvoBtn"
+          onClick={() => history.push("/user/" + this.props.userName + "/contacts")}
         >
           <i class="fas fa-comment-medical"></i>
         </button>

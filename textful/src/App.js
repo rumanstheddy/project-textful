@@ -10,6 +10,7 @@ import UserProfile from "./components/profile/UserProfile";
 import Home from "./components/home/Home";
 import "@fortawesome/fontawesome-free/js/all.js";
 import ChatWindow from "./components/chat/ChatWindow";
+import UserList from "./components/chat/UserList";
 
 class App extends React.Component {
   render() {
@@ -23,6 +24,7 @@ class App extends React.Component {
           <Route exact path="/profile/:id" component={UserProfile} />
           <Route exact path="/user/:userName/chat" component={ChatWindow} />
           <Route path="/user/:userName/chat/:userName2" component={ChatWindow} />
+          <Route exact path="user/:userName/contacts" component={UserList}/>
         </Switch>
       </Router>
     );
