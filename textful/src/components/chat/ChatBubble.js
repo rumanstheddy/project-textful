@@ -18,7 +18,6 @@ class ChatBubble extends React.Component {
             : "incoming_msg received_msg received_withd_msg"
         }
       >
-        {console.log("bubble history: ", history)}
         {this.props.userName}
         <p>{this.props.messageBody}</p>
         <span class="time_date"> 11:01 AM | Today</span>

@@ -11,6 +11,8 @@ export default class ConversationView extends React.Component {
     this.state = {
       toUsernameExists: false,
       toUserName: "",
+      conversation: [],
+      messageText: "",
     };
   }
 
@@ -21,7 +23,30 @@ export default class ConversationView extends React.Component {
   handleUrlChange = () => {
     try {
       let toUserName = history.location.state.toUserName;
-      this.setState({ toUsernameExists: true, toUserName: toUserName });
+      this.setState({
+        toUsernameExists: true,
+        toUserName: toUserName,
+        conversation: [
+          {
+            userName: this.props.userName,
+            isSentMessage: true,
+            messageBody:
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+          },
+          {
+            userName: toUserName,
+            isSentMessage: false,
+            messageBody:
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+          },
+          {
+            userName: toUserName,
+            isSentMessage: false,
+            messageBody:
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+          },
+        ],
+      });
     } catch (err) {
       console.log(err);
     }
@@ -34,8 +59,29 @@ export default class ConversationView extends React.Component {
     }
   };
 
+  handleChange = (event) => {
+    console.log("EVENT: ", event);
+    this.setState({ messageText: event.target.value });
+    console.log(this.state.messageText);
+  };
+
+  sendMessage = () => {
+    let conversation = this.state.conversation;
+    console.log(conversation);
+    let message = {
+      userName: this.props.userName,
+      isSentMessage: true,
+      messageBody: this.state.messageText,
+    };
+    conversation = [...conversation, message];
+
+    return this.setState({
+      conversation: conversation,
+    });
+  };
+
   renderChatView = () => {
-    console.log("history:", history);
+    let conversation = this.state.conversation;
     return (
       <div id="page-content-wrapper">
         <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
@@ -58,27 +104,13 @@ export default class ConversationView extends React.Component {
         <div id="scrollableContent">
           <span>
             {/* compare username from conversation json and this username to display sender and receiver */}
-            <ChatBubble
-              userName={this.props.userName}
-              isSentMessage={true}
-              messageBody={
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-              }
-            />
-            <ChatBubble
-              userName={this.state.toUserName}
-              isSentMessage={false}
-              messageBody={
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-              }
-            />
-            <ChatBubble
-              userName={this.state.toUserName}
-              isSentMessage={false}
-              messageBody={
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-              }
-            />
+            {conversation.map((chat) => (
+              <ChatBubble
+                userName={chat.userName}
+                isSentMessage={chat.isSentMessage}
+                messageBody={chat.messageBody}
+              />
+            ))}
           </span>
         </div>
         <div class="row col-9 ml-4 p-0 shadow-lg" id="chatInputFld">
@@ -87,9 +119,14 @@ export default class ConversationView extends React.Component {
               type="text"
               class="form-control"
               placeholder="Send a message"
+              onChange={this.handleChange}
             />
             <div class="input-group-append">
-              <button class="btn btn-primary" type="button">
+              <button
+                class="btn btn-primary"
+                type="button"
+                onClick={this.sendMessage}
+              >
                 <i class="fas fa-arrow-right"></i>
               </button>
             </div>

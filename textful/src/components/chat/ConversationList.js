@@ -1,6 +1,5 @@
 import React from "react";
 import history from "../../services/History";
-import * as sessionMgmt from "../../services/SessionHandler";
 
 class ConversationList extends React.Component {
   constructor(props) {
@@ -17,8 +16,8 @@ class ConversationList extends React.Component {
   handleSearch = () => {
     let self = this;
     let shouldSearch = false;
-    for (var i = 0; i < this.state.contactList.length; i++) {
-      if (this.state.contactList[i].userName === this.searchRef.current.value) {
+    for (var i = 0; i < this.props.contactList.length; i++) {
+      if (this.props.contactList[i].userName === this.searchRef.current.value) {
         shouldSearch = true;
         break;
       }
@@ -55,13 +54,13 @@ class ConversationList extends React.Component {
         {!this.state.isSearchEnabled ? (
           <div class="list-group list-group-flush">
             {console.log(this.props)}
-            {this.state.contactList.map((user) => (
+            {this.props.contactList.map((user) => (
               <a
                 class="list-group-item list-group-item-action bg-light"
                 onClick={() =>
                   history.push({
                     pathname:
-                      "/user/" + this.props.userName + "/chat/" + user.userName,
+                      "/user/chat/" + user.userName,
                     state: {
                       toUserName: user.userName,
                       userName: this.props.userName,
