@@ -3,7 +3,8 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import history from "../../services/History";
 import "./Login.css";
-import {Alert} from "react-bootstrap";
+import { Alert } from "react-bootstrap";
+import * as sessionMgmt from "../../services/SessionHandler";
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -13,7 +14,7 @@ export default class Login extends React.Component {
       username: "",
       password: "",
       currentUser: {},
-      showAlert: false
+      showAlert: false,
     };
   }
 
@@ -29,7 +30,7 @@ export default class Login extends React.Component {
 
   handleClick() {
     var self = this;
-    console.log("reached handle click method")
+    console.log("reached handle click method");
     if (this.state.username != null || this.state.password != null) {
       this.state.currentUser.username = this.state.username;
       this.state.currentUser.password = this.state.password;
@@ -42,35 +43,43 @@ export default class Login extends React.Component {
               resp[i].userName === self.state.currentUser.username &&
               resp[i].password === self.state.currentUser.password
             ) {
-              if (resp[i].userType === "Admin") {
+              sessionMgmt.loginUser(resp[i].userName, resp[i]);
+              console.log(sessionMgmt.getUserRole());
+              if (sessionMgmt.getUserRole() === "Admin") {
                 return history.push("/admin/" + resp[i]._id);
               } else {
                 return history.push("/user/" + resp[i].userName + "/chat");
               }
-            }
-            else {
-              self.setState({showAlert: true});
+              //   if (resp[i].userType === "Admin") {
+              //     return history.push("/admin/" + resp[i]._id);
+              //   } else {
+              //     return history.push("/user/" + resp[i].userName + "/chat");
+              //   }
+              // } else {
+              //   self.setState({ showAlert: true });
+            } else {
+              self.setState({ showAlert: true });
             }
           }
-          
         })
+        .catch(() => self.setState({ showAlert: true }));
     }
-    // else {
-    //   this.setState({showAlert: true});
-    // }
   }
 
   render() {
-    
     let self = this;
     return (
       <div className="container">
         {console.log(this.state.showAlert)}
-        {
-          this.state.showAlert ? <Alert variant="danger" onClose={() => self.setState({showAlert: false})} dismissible>
-                                <Alert.Heading>Invalid Username and password</Alert.Heading>
-                                  </Alert> : null
-        }
+        {this.state.showAlert ? (
+          <Alert
+            variant="danger"
+            onClose={() => self.setState({ showAlert: false })}
+            dismissible
+          >
+            <Alert.Heading>Invalid Username or password</Alert.Heading>
+          </Alert>
+        ) : null}
         <Navbar bg="light" expand="lg">
           <Navbar.Brand onClick={() => history.push("/")}>Textful</Navbar.Brand>
           <Nav className="mr-auto">

@@ -3,12 +3,15 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import "./Registration.css";
 import history from "../../services/History";
+import * as sessionMgmt from "../../services/SessionHandler";
+import { Alert } from "react-bootstrap";
 
 export default class Registration extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       userType: "User",
+      showAlert: false,
     };
 
     this.firstNameRef = React.createRef();
@@ -32,10 +35,14 @@ export default class Registration extends React.Component {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(newUser),
-    });
-
-    console.log(newUser);
-    history.push("/user/"+newUser.userName+"/chat");
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        sessionMgmt.loginUser(newUser.userName, res);
+        console.log(newUser);
+        history.push("/user/" + newUser.userName + "/chat");
+      })
+      .catch(() => this.setState({}));
   };
 
   handleUserTypeSelection = (e) => {
@@ -45,6 +52,15 @@ export default class Registration extends React.Component {
   render() {
     return (
       <div className="container">
+        {this.state.showAlert ? (
+          <Alert
+            variant="danger"
+            onClose={() => this.setState({ showAlert: false })}
+            dismissible
+          >
+            <Alert.Heading>Unable to register. Please try again.</Alert.Heading>
+          </Alert>
+        ) : null}
         <Navbar bg="light" expand="lg">
           <Navbar.Brand onClick={() => history.push("/")}>Textful</Navbar.Brand>
           <Nav className="mr-auto">
