@@ -29,7 +29,7 @@ export default class Login extends React.Component {
 
   handleClick = () => {
     var self = this;
-    console.log("reached handle click method");
+    // console.log("reached handle click method");
     if (this.state.username != null || this.state.password != null) {
       this.state.currentUser.username = this.state.username;
       this.state.currentUser.password = this.state.password;
@@ -43,7 +43,7 @@ export default class Login extends React.Component {
               resp[i].password === self.state.currentUser.password
             ) {
               sessionMgmt.loginUser(resp[i].userName, resp[i]);
-              console.log(sessionMgmt.getUserRole());
+              console.log(sessionMgmt.getUserName());
               if (sessionMgmt.getUserRole() === "Admin") {
                 return history.push("/admin/" + resp[i]._id);
               } else {
@@ -63,7 +63,7 @@ export default class Login extends React.Component {
         })
         .catch(() => self.setState({ showAlert: true }));
     }
-  }
+  };
 
   render() {
     let self = this;
@@ -135,7 +135,7 @@ export default class Login extends React.Component {
         </div>
 
         <div className="btn-link">
-          {console.log("reached login")}
+          {/* {console.log("reached login")} */}
           <a className="btn btn-primary" onClick={() => this.handleClick()}>
             Log In
           </a>

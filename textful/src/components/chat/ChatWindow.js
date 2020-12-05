@@ -19,8 +19,9 @@ class ChatWindow extends React.Component {
     const url = "https://wbdv-textful-server.herokuapp.com/users/";
     let userName = "";
     try {
-      if (!sessionMgmt.anyValidSession()) {
+      if (sessionMgmt.anyValidSession()) {
         userName = sessionMgmt.getUserName();
+        console.log("username: ", userName);
       } else return <Redirect to="/login" />;
     } catch (err) {
       console.log(err);
