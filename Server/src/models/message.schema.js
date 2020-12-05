@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-module.exports = new Schema({
+module.exports = mongoose.Schema({
     text: String,
     fromUser: String,
     time: Date

@@ -26,8 +26,8 @@ app.use(function (req, res, next) {
 
 const userController = require('./src/controllers/user.controller')
 const privateChatController = require('./src/controllers/privateChat.controller');
-const conversationController = require("./src/controllers/conversation.controller")
-const groupController = require("./controller/groupChat.controller")
+const conversationController = require("./src/controllers/conversation.controller");
+const groupController = require("./src/controllers/groupChat.controller");
 const messageController = require("./src/controllers/message.controller");
 
 server = app.listen(process.env.PORT || 4000)
