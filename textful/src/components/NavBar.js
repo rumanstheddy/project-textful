@@ -24,7 +24,7 @@ class NavBar extends React.Component {
           bg="light"
         >
           <Navbar.Brand
-            onClick={() => history.push("/profile/" + self.props.userName)}
+            onClick={() => history.push("/profile/" + self.props.userName, self.props.user)}
           >
             {this.props.userName}
           </Navbar.Brand>

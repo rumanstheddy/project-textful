@@ -18,6 +18,7 @@ export default class AdminHome extends React.Component {
   }
 
   componentDidMount = () => {
+    console.log(this.props);
     const url = "https://wbdv-textful-server.herokuapp.com/users/";
 
     fetch(url, {
@@ -48,7 +49,7 @@ export default class AdminHome extends React.Component {
 
   deleteUser = (userId) => {
     let self = this;
-    fetch("https://cs5200-sp2020-server.herokuapp.com/users/" + userId, {
+    fetch("https://wbdv-textful-server.herokuapp.com/users/" + userId, {
       method: "DELETE",
       headers: {
         Accept: "application/json",
@@ -88,7 +89,7 @@ export default class AdminHome extends React.Component {
     ));
     return (
       <Container>
-        <NavBar userName={sessionMgmt.getUserName()} showSearch={true} />
+        <NavBar userName={sessionMgmt.getUserName()} user={this.props.location.state} showSearch={true} />
         <h2>Welcome {sessionMgmt.getUserName()}!</h2>
         <Button variant="primary" onClick={() => history.push("/register")}>
           Create User

@@ -45,7 +45,7 @@ export default class Login extends React.Component {
               sessionMgmt.loginUser(resp[i].userName, resp[i]);
               console.log(sessionMgmt.getUserName());
               if (sessionMgmt.getUserRole() === "Admin") {
-                return history.push("/admin/" + resp[i].userName);
+                return history.push("/admin/" + resp[i].userName, resp[i]);
               } else {
                 return history.push("/user/chat");
               }

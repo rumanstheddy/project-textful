@@ -3,19 +3,7 @@ import "./UserProfile.css";
 import history from "../../services/History";
 
 const UserProfile = (props) => {
-  const userName = props.match.params.userName;
-  const url = "https://wbdv-textful-server.herokuapp.com/users/" + userName;
-  let userObj = {};
-  try {
-    fetch(url)
-      .then((res) => res.json())
-      .then((user) => {
-        console.log(user);
-        return (userObj = user);
-      });
-  } catch (err) {
-    console.log(err);
-  }
+  let userObj = props.location.state;
 
   console.log("userobj", userObj);
 
