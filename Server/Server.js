@@ -24,10 +24,11 @@ app.use(function (req, res, next) {
     next();
 });
 
-const userController = require('./controller/user.controller')
-const privateChatController = require('./controller/privateChat.controller');
-const conversationController = require("./controller/conversation.controller")
-const messageController = require("./controller/message.controller");
+const userController = require('./src/controllers/user.controller')
+const privateChatController = require('./src/controllers/privateChat.controller');
+const conversationController = require("./src/controllers/conversation.controller")
+const groupController = require("./controller/groupChat.controller")
+const messageController = require("./src/controllers/message.controller");
 
 server = app.listen(process.env.PORT || 4000)
 const socket = require('socket.io')
@@ -44,4 +45,5 @@ io.on('connection', (socket) => {
     userController(app, io);
     messageController(app, io);
     privateChatController(app, io);
+    groupController(app, io);
 })

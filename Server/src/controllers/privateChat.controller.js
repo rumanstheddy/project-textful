@@ -1,4 +1,4 @@
-const privateChatDao = require("../daos/privateChatDao")
+const privateChatDao = require("../services/privateChatService")
 
 module.exports = function(app, socket) {
     app.get("/conversations/individual/:id", (req, res) => {

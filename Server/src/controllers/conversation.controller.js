@@ -1,7 +1,7 @@
-const messageDao = require('../daos/messageDao');
-const conversationDao = require("../daos/conversationDao");
-const groupDao = require("../daos/groupDao");
-const privateChatDao = require("../daos/privateChatDao");
+const messageDao = require('../services/messageService');
+const conversationDao = require("../services/conversationService");
+const groupDao = require("../services/groupService");
+const privateChatDao = require("../services/privateChatService");
 
 module.exports = function(app, socket, userNameToSocketId) {
     app.get("/users/:userName/conversations", (req, res) => {
