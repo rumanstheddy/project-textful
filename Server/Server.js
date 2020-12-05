@@ -42,6 +42,7 @@ io.on('connection', (socket) => {
         conversationController(app, io, userNameToSocketId);
     })
 
+    console.log("Came here")
     userController(app, io);
     messageController(app, io);
     privateChatController(app, io);

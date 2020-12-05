@@ -11,8 +11,10 @@ editMessage = (msgId, msgInfo) => {
     return msgModel.updateOne({_id: msgId}, {$set: {...msgInfo}})
 }
 
+getAllMessages = () => {return msgModel.find()}
+
 deleteMessage = (id) => {return msgModel.deleteOne({_id: id})}
 
 getMessageByConversationId = (convId) => msgModel.find({conversationId: convId})
 
-module.exports = {getMessageById, editMessage, deleteMessage, createMessage, getMessageByConversationId}
+module.exports = {getMessageById, editMessage, getAllMessages, deleteMessage, createMessage, getMessageByConversationId}

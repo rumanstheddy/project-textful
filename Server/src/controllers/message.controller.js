@@ -2,13 +2,13 @@ const messageDao = require('../services/messageService');
 
 module.exports = function(app) {
     app.get("/messages/:id", (req, res) => {
-        messageService.getMessageById(req.params.id)
+        messageDao.getMessageById(req.params.id)
         .then((message) => res.json(message))
         .catch(() => res.status(400).send("Failed to retreive the message"))
     })
 
     app.get("/messages", (res) => {
-        messageService.getAllMessages
+        messageDao.getAllMessages
         .then((messages) => res.json(messages))
         .catch(() => res.status(400).send("Failed to retrieve all messages"))})
 
@@ -19,7 +19,7 @@ module.exports = function(app) {
         content: req.body.content,
         time: req.body.time
         }
-        messageService.editMessage(msgInfo._id, msgInfo)
+        messageDao.editMessage(msgInfo._id, msgInfo)
         .then((message) => res.json(message))
         .catch(() => res.status(400).send("Failed to edit message"))
     })
