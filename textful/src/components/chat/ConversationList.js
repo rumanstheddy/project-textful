@@ -40,10 +40,17 @@ class ConversationList extends React.Component {
         <div class="sidebar-heading" id="userNameTxt">
           {this.props.fullName}
         </div>
-        <div class="row">
-          <input class="text col-8" ref={this.searchRef}></input>
+        <div class="row" id="searchbox">
+          <input
+            class="form-control col-9"
+            ref={this.searchRef}
+            type="search"
+            placeholder="Search"
+          ></input>
           <div class="col-3" onClick={this.handleSearch}>
-            <i class="fas fa-search fa-2x"></i>
+            <button class="btn btn-primary" type="button">
+              <i class="fas fa-search fa-2x" id="searchIcon"></i>
+            </button>
           </div>
         </div>
         {!this.state.isSearchEnabled ? (

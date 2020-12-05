@@ -59,6 +59,15 @@ button#createConvoBtn {
   margin-left: 0;
 }
 
+#searchbox {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+#searchIcon {
+  font-size: 15px;
+}
+
 #defaultConvoViewTxt {
   position: absolute;
   top: 50%;
