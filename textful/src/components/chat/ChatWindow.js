@@ -4,6 +4,7 @@ import ConversationView from "./ConversationView";
 import "./Chat.css";
 import { Redirect } from "react-router-dom";
 import * as sessionMgmt from "../../services/SessionHandler";
+import * as socket from "../../services/ChatSocket";
 
 class ChatWindow extends React.Component {
   constructor(props) {
@@ -12,6 +13,8 @@ class ChatWindow extends React.Component {
       fullName: "",
       contactList: [],
     };
+
+    socket.joinChat()
   }
 
   componentDidMount = () => {

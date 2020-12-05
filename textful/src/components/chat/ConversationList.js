@@ -1,5 +1,6 @@
 import React from "react";
 import history from "../../services/History";
+import * as sessionMgmt from "../../services/SessionHandler";
 
 class ConversationList extends React.Component {
   constructor(props) {
