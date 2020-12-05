@@ -24,7 +24,10 @@ app.use(function (req, res, next) {
     next();
 });
 
-const userController = require('./src/controllers/user.controller');
+const userController = require('./controller/user.controller')
+const privateChatController = require('./controller/privateChat.controller');
+const conversationController = require("./controller/conversation.controller")
+const messageController = require("./controller/message.controller");
 
 server = app.listen(process.env.PORT || 4000)
 const socket = require('socket.io')
@@ -32,4 +35,13 @@ io = socket(server)
 
 let userNameToSocketId = {}
 
-userController(app);
+io.on('connection', (socket) => {
+    socket.on("JOINING", (data) => {
+        userNameToSocketId[data] = socket.id
+        conversationController(app, io, userNameToSocketId);
+    })
+
+    userController(app, io);
+    messageController(app, io);
+    privateChatController(app, io);
+})

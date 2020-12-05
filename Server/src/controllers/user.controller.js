@@ -1,6 +1,6 @@
 const userDao = require('../services/userService');
 
-module.exports = function(app) {
+module.exports = function(app, socket) {
     app.get("/login", (req, res) => {
         userDao.findUserByCredentials(req.headers.username, req.headers.password)
         .then((user) => res.json(user))
@@ -14,22 +14,20 @@ module.exports = function(app) {
     })
 
     app.post("/users", (req, res) => {
-		console.log("hey there");
         const userInfo = {
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             userName: req.body.userName,
         };
-    
+
         if (typeof req.body["password"] !== 'undefined')
             userInfo["password"] = req.body.password
-    
+
         if (typeof req.body["userType"] !== 'undefined')
             userInfo["userType"] = req.body.userType
-    
+
         userDao.findUserByUserName(userInfo.userName)
         .then(user => {
-			console.log("userdb log");
             if (user !== null) {
                 console.log(user)
                 res.status(400).send("Failed to create user")
