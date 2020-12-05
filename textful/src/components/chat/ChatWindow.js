@@ -2,7 +2,8 @@ import React from "react";
 import ConversationList from "./ConversationList";
 import ConversationView from "./ConversationView";
 import "./Chat.css";
-import { withRouter } from "react-router-dom";
+import { Redirect } from "react-router-dom";
+import * as sessionMgmt from "../../services/SessionHandler";
 
 class ChatWindow extends React.Component {
   constructor(props) {
@@ -16,7 +17,7 @@ class ChatWindow extends React.Component {
   componentDidMount = () => {
     console.log(this.props);
     const url = "https://wbdv-textful-server.herokuapp.com/users/";
-    const userName = this.props.match.params.userName;
+    const userName = sessionMgmt.getUserName();
     fetch(url + userName)
       .then((res) => res.json())
       .then((user) => {
@@ -39,16 +40,17 @@ class ChatWindow extends React.Component {
   };
 
   render() {
+    if (!sessionMgmt.anyValidSession()) return <Redirect to="/login" />;
     return (
       <div class="d-flex" id="wrapper">
         <ConversationList
           fullName={this.state.fullName}
-          userName={this.props.match.params.userName}
-          contactList={this.state.contactList}
+          userName={sessionMgmt.getUserName()}
+          // contactList={this.state.contactList}
         />
         <ConversationView
           fullName={this.state.fullName}
-          userName={this.props.match.params.userName}
+          userName={sessionMgmt.getUserName()}
           contactList={this.state.contactList}
         />
       </div>
@@ -56,4 +58,4 @@ class ChatWindow extends React.Component {
   }
 }
 
-export default withRouter(ChatWindow);
+export default ChatWindow;
