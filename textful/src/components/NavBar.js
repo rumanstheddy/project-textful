@@ -4,11 +4,10 @@ import {
   Nav,
   NavItem,
   Form,
-  FormControl,
-  Button,
 } from "react-bootstrap";
 import * as sessionMgmt from "../services/SessionHandler";
 import history from "../services/History";
+import "./NavBar.css";
 
 class NavBar extends React.Component {
   constructor(props) {
@@ -22,11 +21,10 @@ class NavBar extends React.Component {
         <Navbar
           className="justify-content-between"
           expand="lg"
-          bg="dark"
-          variant="dark"
+          bg="light"
         >
           <Navbar.Brand
-            onClick={() => history.push("/profile/" + self.props.id)}
+            onClick={() => history.push("/profile/" + self.props.userName)}
           >
             {this.props.userName}
           </Navbar.Brand>
