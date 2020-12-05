@@ -57,7 +57,7 @@ class ChatWindow extends React.Component {
         <ConversationList
           fullName={this.state.fullName}
           userName={sessionMgmt.getUserName()}
-          // contactList={this.state.contactList}
+          contactList={this.state.contactList}
         />
         <ConversationView
           fullName={this.state.fullName}
