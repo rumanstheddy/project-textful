@@ -9,7 +9,6 @@ import * as sessionMgmt from "../../services/SessionHandler";
 export default class Login extends React.Component {
   constructor(props) {
     super(props);
-    this.handleClick = this.handleClick.bind(this);
     this.state = {
       username: "",
       password: "",
@@ -28,7 +27,7 @@ export default class Login extends React.Component {
       password: event.target.value,
     });
 
-  handleClick() {
+  handleClick = () => {
     var self = this;
     console.log("reached handle click method");
     if (this.state.username != null || this.state.password != null) {

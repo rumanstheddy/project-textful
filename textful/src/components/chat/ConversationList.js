@@ -8,7 +8,7 @@ class ConversationList extends React.Component {
     this.state = {
       searchUserName: "",
       isSearchEnabled: false,
-      contactList: []
+      conversationList: [],
     };
     this.searchRef = React.createRef();
   }
@@ -16,8 +16,10 @@ class ConversationList extends React.Component {
   handleSearch = () => {
     let self = this;
     let shouldSearch = false;
-    for (var i = 0; i < this.state.contactList.length; i++) {
-      if (this.state.contactList[i].userName == this.searchRef.current.value) {
+    for (var i = 0; i < this.state.conversationList.length; i++) {
+      if (
+        this.state.conversationList[i].userName == this.searchRef.current.value
+      ) {
         shouldSearch = true;
         break;
       }
@@ -47,20 +49,23 @@ class ConversationList extends React.Component {
         {!this.state.isSearchEnabled ? (
           <div class="list-group list-group-flush">
             {console.log(this.props)}
-            {/* {this.props.contactList.map((user) => (
-            <a
-              class="list-group-item list-group-item-action bg-light"
-              onClick={() =>
-                history.push({
-                  pathname:
-                    "/user/" + this.props.userName + "/chat/" + user.userName,
-                  state: { toUserName: user.userName, userName: this.props.userName },
-                })
-              }
-            >
-              {user.userName}
-            </a>
-          ))} */}
+            {this.state.conversationList.map((user) => (
+              <a
+                class="list-group-item list-group-item-action bg-light"
+                onClick={() =>
+                  history.push({
+                    pathname:
+                      "/user/" + this.props.userName + "/chat/" + user.userName,
+                    state: {
+                      toUserName: user.userName,
+                      userName: this.props.userName,
+                    },
+                  })
+                }
+              >
+                {user.userName}
+              </a>
+            ))}
           </div>
         ) : (
           <div>

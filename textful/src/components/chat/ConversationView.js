@@ -2,6 +2,7 @@ import React from "react";
 import history from "../../services/History";
 import "./Chat.css";
 import ChatBubble from "./ChatBubble";
+import * as sessionMgmt from "../../services/SessionHandler";
 
 export default class ConversationView extends React.Component {
   constructor(props) {
@@ -23,6 +24,13 @@ export default class ConversationView extends React.Component {
       this.setState({ toUsernameExists: true, toUserName: toUserName });
     } catch (err) {
       console.log(err);
+    }
+  };
+
+  handleSignOut = () => {
+    if (sessionMgmt.isLoggedIn(this.props.userName)) {
+      sessionMgmt.logout(this.props.userName);
+      history.push("/login");
     }
   };
 
@@ -100,7 +108,7 @@ export default class ConversationView extends React.Component {
           </button> */}
 
           <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-            <li class="nav-item" onClick={() => history.push("/login")}>
+            <li class="nav-item" onClick={() => this.handleSignOut()}>
               <a class="nav-link" id="signoutLink">
                 Sign out <i class="fas fa-sign-out-alt"></i>
               </a>
