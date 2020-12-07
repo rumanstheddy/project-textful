@@ -78,21 +78,22 @@ export default class AdminHome extends React.Component {
         <td>{userObj.lastName}</td>
         <td>{userObj.userName}</td>
         <td>
-          <Button
-            variant="primary"
-            onClick={() => this.deleteUser(userObj._id)}
-          >
-            Delete User
+          <Button variant="danger" onClick={() => this.deleteUser(userObj._id)}>
+            <i class="fas fa-user-times"></i>
           </Button>
         </td>
       </tr>
     ));
     return (
       <Container>
-        <NavBar userName={sessionMgmt.getUserName()} user={this.props.location.state} showSearch={true} />
+        <NavBar
+          userName={sessionMgmt.getUserName()}
+          user={this.props.location.state}
+          showSearch={true}
+        />
         <h2>Welcome {sessionMgmt.getUserName()}!</h2>
         <Button variant="primary" onClick={() => history.push("/register")}>
-          Create User
+          <i class="fas fa-user-plus"></i>
         </Button>
         <Table striped bordered hove>
           <thead>

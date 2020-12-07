@@ -25,7 +25,6 @@ export default class Home extends React.Component {
         <div className="header">
           <h1 className="title">Welcome to Textful!</h1>
           <h5 className="description">
-            Textful is the premier chat service in the industry.
           </h5>
         </div>
       </div>

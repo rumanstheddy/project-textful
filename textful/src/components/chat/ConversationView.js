@@ -16,9 +16,16 @@ export default class ConversationView extends React.Component {
     };
   }
 
-  componentDidUpdate = (prevProps, prevState) => {
-    this.handleUrlChange();
+  componentDidMount = () => {
+    this.unlisten = history.listen((location) => {
+      console.log("Route changed");
+      this.handleUrlChange();
+    });
   };
+
+  componentWillUnmount = () => {
+    this.unlisten();
+  }
 
   handleUrlChange = () => {
     try {
@@ -66,17 +73,15 @@ export default class ConversationView extends React.Component {
   };
 
   sendMessage = () => {
-    let conversation = this.state.conversation;
-    console.log(conversation);
     let message = {
       userName: this.props.userName,
       isSentMessage: true,
       messageBody: this.state.messageText,
     };
-    conversation = [...conversation, message];
 
-    return this.setState({
-      conversation: conversation,
+    this.setState({
+      conversation: [...this.state.conversation, message],
+      messageText: ""
     });
   };
 
@@ -120,6 +125,7 @@ export default class ConversationView extends React.Component {
               class="form-control"
               placeholder="Send a message"
               onChange={this.handleChange}
+              value={this.state.messageText}
             />
             <div class="input-group-append">
               <button
@@ -137,6 +143,7 @@ export default class ConversationView extends React.Component {
   };
 
   renderDefaultView = () => {
+    console.log(history);
     return (
       <div id="page-content-wrapper">
         <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
