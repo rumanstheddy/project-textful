@@ -13,11 +13,17 @@ class ConversationList extends React.Component {
     this.searchRef = React.createRef();
   }
 
+  componentDidMount = () => {
+    this.setState({
+      contactList: this.props.contactList
+    })
+  }
+
   handleSearch = () => {
     let self = this;
     let shouldSearch = false;
-    for (var i = 0; i < this.props.contactList.length; i++) {
-      if (this.props.contactList[i].userName === this.searchRef.current.value) {
+    for (var i = 0; i < this.state.contactList.length; i++) {
+      if (this.state.contactList[i].userName === this.searchRef.current.value) {
         shouldSearch = true;
         break;
       }
@@ -54,7 +60,7 @@ class ConversationList extends React.Component {
         {!this.state.isSearchEnabled ? (
           <div class="list-group list-group-flush">
             {console.log(this.props)}
-            {this.props.contactList.map((user) => (
+            {this.state.contactList.map((user) => (
               <a
                 class="list-group-item list-group-item-action bg-light"
                 onClick={() =>
