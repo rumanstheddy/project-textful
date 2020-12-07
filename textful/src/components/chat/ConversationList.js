@@ -8,7 +8,6 @@ class ConversationList extends React.Component {
     this.state = {
       searchUserName: "",
       isSearchEnabled: false,
-      contactList: [],
     };
     this.searchRef = React.createRef();
   }
@@ -59,8 +58,7 @@ class ConversationList extends React.Component {
                 class="list-group-item list-group-item-action bg-light"
                 onClick={() =>
                   history.push({
-                    pathname:
-                      "/user/chat/" + user.userName,
+                    pathname: "/user/chat/" + user.userName,
                     state: {
                       toUserName: user.userName,
                       userName: this.props.userName,
@@ -78,11 +76,7 @@ class ConversationList extends React.Component {
               class="list-group-item list-group-item-action bg-light"
               onClick={() =>
                 history.push({
-                  pathname:
-                    "/user/" +
-                    this.props.userName +
-                    "/chat/" +
-                    this.state.searchUserName,
+                  pathname: "/user/" + "/chat/" + this.state.searchUserName,
                   state: {
                     toUserName: this.state.searchUserName,
                     userName: this.props.userName,

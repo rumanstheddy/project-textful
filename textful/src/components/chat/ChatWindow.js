@@ -68,6 +68,7 @@ class ChatWindow extends React.Component {
     if (!sessionMgmt.anyValidSession()) return <Redirect to="/login" />;
     return (
       <div class="d-flex" id="wrapper">
+        {console.log("chatwindow:", this.state.contactList)}
         <ConversationList
           fullName={this.state.fullName}
           userName={sessionMgmt.getUserName()}
