@@ -8,22 +8,15 @@ class ConversationList extends React.Component {
     this.state = {
       searchUserName: "",
       isSearchEnabled: false,
-      contactList: [],
     };
     this.searchRef = React.createRef();
-  }
-
-  componentDidMount = () => {
-    this.setState({
-      contactList: this.props.contactList
-    })
   }
 
   handleSearch = () => {
     let self = this;
     let shouldSearch = false;
-    for (var i = 0; i < this.state.contactList.length; i++) {
-      if (this.state.contactList[i].userName === this.searchRef.current.value) {
+    for (var i = 0; i < this.props.contactList.length; i++) {
+      if (this.props.contactList[i].userName === this.searchRef.current.value) {
         shouldSearch = true;
         break;
       }
@@ -60,13 +53,12 @@ class ConversationList extends React.Component {
         {!this.state.isSearchEnabled ? (
           <div class="list-group list-group-flush">
             {console.log(this.props)}
-            {this.state.contactList.map((user) => (
+            {this.props.contactList.map((user) => (
               <a
                 class="list-group-item list-group-item-action bg-light"
                 onClick={() =>
                   history.push({
-                    pathname:
-                      "/user/chat/" + user.userName,
+                    pathname: "/user/chat/" + user.userName,
                     state: {
                       toUserName: user.userName,
                       userName: this.props.userName,
@@ -84,10 +76,7 @@ class ConversationList extends React.Component {
               class="list-group-item list-group-item-action bg-light"
               onClick={() =>
                 history.push({
-                  pathname:
-                    "/user/" +
-                    "/chat/" +
-                    this.state.searchUserName,
+                  pathname: "/user/" + "/chat/" + this.state.searchUserName,
                   state: {
                     toUserName: this.state.searchUserName,
                     userName: this.props.userName,

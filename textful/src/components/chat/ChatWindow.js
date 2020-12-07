@@ -42,7 +42,7 @@ class ChatWindow extends React.Component {
       .then((users) => {
         users.map((user) => {
           if (user.userName !== userName) {
-            return this.setState({
+            this.setState({
               contactList: [...this.state.contactList, user],
             });
           }
@@ -54,6 +54,7 @@ class ChatWindow extends React.Component {
     if (!sessionMgmt.anyValidSession()) return <Redirect to="/login" />;
     return (
       <div class="d-flex" id="wrapper">
+        {console.log("chatwindow:", this.state.contactList)}
         <ConversationList
           fullName={this.state.fullName}
           userName={sessionMgmt.getUserName()}
