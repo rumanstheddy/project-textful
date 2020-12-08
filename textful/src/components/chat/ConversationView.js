@@ -17,15 +17,15 @@ export default class ConversationView extends React.Component {
   }
 
   componentDidMount = () => {
-    this.unlisten = history.listen((location) => {
-      console.log("Route changed");
+    // this.unlisten = history.listen((location) => {
+    //   console.log("Route changed");
       this.handleUrlChange();
-    });
-  };
+    };
+  // };
 
-  componentWillUnmount = () => {
-    this.unlisten();
-  }
+  // componentWillUnmount = () => {
+  //   this.unlisten();
+  // }
 
   handleUrlChange = () => {
     try {
