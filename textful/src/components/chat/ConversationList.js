@@ -1,4 +1,5 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 import history from "../../services/History";
 
 class ConversationList extends React.Component {
@@ -89,10 +90,20 @@ class ConversationList extends React.Component {
             </a>
           </div>
         )}
+        {console.log("came here")}
         <button
           type="button"
           class="btn btn-primary rounded-circle"
-          id="createConvoBtn"
+          id="createConvoBtn" onClick={() => {
+            {console.log("came here too")}
+            history.push({
+              pathname: "/user/chat/users",
+              state: {
+                userName: this.props.userName
+              }
+            })
+          }
+        }
         >
           <i class="fas fa-comment-medical"></i>
         </button>
