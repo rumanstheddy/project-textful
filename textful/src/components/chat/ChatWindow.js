@@ -10,7 +10,6 @@ class ChatWindow extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      fullName: "",
       contactList: [],
       chatList: [],
     };
@@ -62,6 +61,7 @@ class ChatWindow extends React.Component {
           if (user.userName !== userName) {
             return this.setState({
               contactList: [...this.state.contactList, user],
+
             });
           }
         });
@@ -74,13 +74,11 @@ class ChatWindow extends React.Component {
       <div class="d-flex" id="wrapper">
         {console.log("chatwindow:", this.state.contactList)}
         <ConversationList
-          fullName={this.state.fullName}
           userName={sessionMgmt.getUserName()}
           chatList={this.state.chatList}
           contactList={this.state.contactList}
         />
         <ConversationView
-          fullName={this.state.fullName}
           userName={sessionMgmt.getUserName()}
           chatList={this.state.chatList}
         />

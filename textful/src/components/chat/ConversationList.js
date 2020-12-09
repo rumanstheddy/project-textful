@@ -35,7 +35,7 @@ class ConversationList extends React.Component {
     return (
       <div class="bg-light border-right" id="sidebar-wrapper">
         <div class="sidebar-heading" id="userNameTxt">
-          {this.props.fullName}
+          {this.props.userName}
         </div>
         <div class="row" id="searchbox">
           <input

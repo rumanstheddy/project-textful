@@ -162,7 +162,7 @@ export default class ConversationView extends React.Component {
 
         <div class="container" id="defaultConvoViewTxt">
           <h2 class="font-weight-normal">
-            Welcome <b>{this.props.fullName}</b>!
+            Welcome <b>{this.props.userName}</b>!
           </h2>
           <h5 class="font-weight-normal">
             Click on any of the contact names listed on the left to start
