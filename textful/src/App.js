@@ -23,7 +23,7 @@ class App extends React.Component {
           <Route exact path="/register" component={Registration} />
           <Route exact path="/admin/:userName" component={AdminHome} />
           <Route exact path="/profile/:userName" component={UserProfile} />
-          <Route exact path="/user/chat" component={ChatWindow} />       
+          <Route exact path="/user/chat" component={ChatWindow} />
           <Route exact path="/user/chat/users" component={RenderAllUsers} />
           <Route path="/user/chat/:userName2" component={ChatWindow} />
         </Switch>

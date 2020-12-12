@@ -42,8 +42,7 @@ class ChatWindow extends React.Component {
         let listOfConv = res.map((convObj) => {
           return {
             chatId: convObj._id,
-            chatName:
-              convObj.toUser,
+            chatName: convObj.toUser,
             convoType: convObj.convoType,
             privateChatId: convObj.privateChatId,
           };
@@ -62,13 +61,12 @@ class ChatWindow extends React.Component {
     //         });
     //       }
     //     });
-      // });
+    // });
   };
 
   render() {
     if (!sessionMgmt.anyValidSession()) return <Redirect to="/login" />;
     return (
-      
       <div class="d-flex" id="wrapper">
         {console.log(history)}
         {console.log("chatwindow:", this.state.contactList)}

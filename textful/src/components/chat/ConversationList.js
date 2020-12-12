@@ -64,7 +64,7 @@ class ConversationList extends React.Component {
                       // toUserName: user.userName,
                       userName: this.props.userName,
                     },
-                    toUserName: user.userName
+                    toUserName: user.userName,
                   })
                 }
               >
@@ -95,16 +95,18 @@ class ConversationList extends React.Component {
         <button
           type="button"
           class="btn btn-primary rounded-circle"
-          id="createConvoBtn" onClick={() => {
-            {console.log("came here too")}
+          id="createConvoBtn"
+          onClick={() => {
+            {
+              console.log("came here too");
+            }
             history.push({
               pathname: "/user/chat/users",
               state: {
-                userName: this.props.userName
-              }
-            })
-          }
-        }
+                userName: this.props.userName,
+              },
+            });
+          }}
         >
           <i class="fas fa-comment-medical"></i>
         </button>

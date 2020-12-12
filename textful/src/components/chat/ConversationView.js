@@ -20,14 +20,12 @@ export default class ConversationView extends React.Component {
     this.unlisten = history.listen((location) => {
       console.log("Route changed");
       this.handleUrlChange();
-    })
-    }
-  
-
+    });
+  };
 
   componentWillUnmount = () => {
     this.unlisten();
-  }
+  };
 
   handleUrlChange = () => {
     try {
@@ -83,7 +81,7 @@ export default class ConversationView extends React.Component {
 
     this.setState({
       conversation: [...this.state.conversation, message],
-      messageText: ""
+      messageText: "",
     });
   };
 
