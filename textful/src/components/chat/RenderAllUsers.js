@@ -1,5 +1,6 @@
 import React from "react";
 import history from "../../services/History";
+import * as sessionMgmt from "../../services/SessionHandler";
 
 export default class RenderAllUsers extends React.Component {
   constructor(props) {
@@ -103,6 +104,30 @@ export default class RenderAllUsers extends React.Component {
               ))}
             </ul>
           </div>
+          );
+        </div>
+        <div class="bg-light" id="sidebar-wrapper">
+          <div class="list-group list-group-flush">
+            <ul class="list-group-item list-group-item-action bg-light list-unstyled border">
+              {this.state.searchUserNameList.map((user) => (
+                <li
+                  class="h4 bg-light"
+                  key={user}
+                  onClick={() =>
+                    history.push({
+                      pathname: "/user/chat/" + user,
+                      state: {
+                        userName: this.props.userName,
+                      },
+                      toUserName: user,
+                    })
+                  }
+                >
+                  {user}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     );
@@ -152,6 +177,10 @@ export default class RenderAllUsers extends React.Component {
                 onClick={() =>
                   history.push({
                     pathname: "/user/chat/" + user.userName,
+                    state: {
+                      userName: sessionMgmt.getUserName(),
+                    },
+                    toUserName: user.userName,
                   })
                 }
               >

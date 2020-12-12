@@ -54,20 +54,21 @@ class ConversationList extends React.Component {
         {!this.state.isSearchEnabled ? (
           <div class="list-group list-group-flush">
             {console.log(this.props)}
-            {this.props.contactList.map((user) => (
+            {this.props.chatList.map((user) => (
               <a
                 class="list-group-item list-group-item-action bg-light"
                 onClick={() =>
                   history.push({
                     pathname: "/user/chat/" + user.userName,
                     state: {
-                      toUserName: user.userName,
+                      // toUserName: user.userName,
                       userName: this.props.userName,
                     },
+                    toUserName: user.userName
                   })
                 }
               >
-                {user.userName}
+                {user.chatName}
               </a>
             ))}
           </div>
