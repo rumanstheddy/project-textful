@@ -24,7 +24,11 @@ app.use(function (req, res, next) {
     next();
 });
 
-const userController = require('./src/controllers/user.controller');
+const userController = require('./src/controllers/user.controller')
+const privateChatController = require('./src/controllers/privateChat.controller');
+const conversationController = require("./src/controllers/conversation.controller");
+const groupController = require("./src/controllers/groupChat.controller");
+const messageController = require("./src/controllers/message.controller");
 
 server = app.listen(process.env.PORT || 4000)
 const socket = require('socket.io')
@@ -32,4 +36,15 @@ io = socket(server)
 
 let userNameToSocketId = {}
 
-userController(app);
+io.on('connection', (socket) => {
+    socket.on("JOINING", (data) => {
+        userNameToSocketId[data] = socket.id
+        conversationController(app, io, userNameToSocketId);
+    })
+
+    console.log("Came here")
+    userController(app, io);
+    messageController(app, io);
+    privateChatController(app, io);
+    groupController(app, io);
+})
