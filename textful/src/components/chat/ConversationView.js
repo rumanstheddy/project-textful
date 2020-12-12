@@ -13,6 +13,7 @@ export default class ConversationView extends React.Component {
       toUserName: "",
       conversation: [],
       messageText: "",
+      joke: "",
     };
   }
 
@@ -85,8 +86,31 @@ export default class ConversationView extends React.Component {
     });
   };
 
+  sendJoke = async () => {
+    let jokeapiUrl =
+      "https://sv443.net/jokeapi/v2/joke/Programming?type=single";
+    let message = "";
+    await fetch(jokeapiUrl)
+      .then((res) => res.json())
+      .then((jokeObj) => {
+        console.log(jokeObj);
+        let joke = jokeObj.joke;
+        message = {
+          userName: this.props.userName,
+          isSentMessage: true,
+          messageBody: joke,
+        };
+      });
+
+    this.setState({
+      conversation: [...this.state.conversation, message],
+      messageText: "",
+    });
+  };
+
   renderChatView = () => {
     let conversation = this.state.conversation;
+    console.log("joke: ", this.state.joke);
     return (
       <div id="page-content-wrapper">
         <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
@@ -127,6 +151,15 @@ export default class ConversationView extends React.Component {
               onChange={this.handleChange}
               value={this.state.messageText}
             />
+            <div class="input-group-append">
+              <button
+                class="btn btn-warning"
+                type="button"
+                onClick={this.sendJoke}
+              >
+                <i class="far fa-grin-squint"></i>
+              </button>
+            </div>
             <div class="input-group-append">
               <button
                 class="btn btn-primary"
