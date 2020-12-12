@@ -43,11 +43,7 @@ class ChatWindow extends React.Component {
           return {
             chatId: convObj._id,
             chatName:
-              convObj.convoType === "Group"
-                ? convObj.groupName
-                : convObj.toUser === sessionMgmt.getUserName()
-                ? convObj.fromUser
-                : convObj.toUser,
+              convObj.toUser,
             convoType: convObj.convoType,
             privateChatId: convObj.privateChatId,
           };
@@ -55,18 +51,18 @@ class ChatWindow extends React.Component {
         self.setState({ chatList: listOfConv });
       });
 
-    fetch(url)
-      .then((res) => res.json())
-      .then((users) => {
-        users.map((user) => {
-          if (user.userName !== userName) {
-            return this.setState({
-              contactList: [...this.state.contactList, user],
+    // fetch(url)
+    //   .then((res) => res.json())
+    //   .then((users) => {
+    //     users.map((user) => {
+    //       if (user.userName !== userName) {
+    //         return this.setState({
+    //           contactList: [...this.state.contactList, user],
 
-            });
-          }
-        });
-      });
+    //         });
+    //       }
+    //     });
+      // });
   };
 
   render() {
