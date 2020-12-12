@@ -61,9 +61,10 @@ class ConversationList extends React.Component {
                   history.push({
                     pathname: "/user/chat/" + user.userName,
                     state: {
-                      toUserName: user.userName,
+                      // toUserName: user.userName,
                       userName: this.props.userName,
                     },
+                    toUserName: user.userName
                   })
                 }
               >

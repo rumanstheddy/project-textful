@@ -5,6 +5,7 @@ import "./Chat.css";
 import { Redirect } from "react-router-dom";
 import * as sessionMgmt from "../../services/SessionHandler";
 import * as socket from "../../services/ChatSocket";
+import history from "../../services/History";
 
 class ChatWindow extends React.Component {
   constructor(props) {
@@ -71,7 +72,9 @@ class ChatWindow extends React.Component {
   render() {
     if (!sessionMgmt.anyValidSession()) return <Redirect to="/login" />;
     return (
+      
       <div class="d-flex" id="wrapper">
+        {console.log(history)}
         {console.log("chatwindow:", this.state.contactList)}
         <ConversationList
           userName={sessionMgmt.getUserName()}

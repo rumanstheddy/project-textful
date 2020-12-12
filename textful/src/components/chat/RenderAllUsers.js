@@ -1,5 +1,6 @@
 import React from "react";
 import history from "../../services/History";
+import * as sessionMgmt from "../../services/SessionHandler";
 
 
 export default class RenderAllUsers extends React.Component {
@@ -78,9 +79,10 @@ export default class RenderAllUsers extends React.Component {
                     <li class="h4 bg-light"key={user} onClick={() => 
                     history.push({pathname: "/user/chat/" + user,
                     state: {
-                      toUserName: user,
+      
                       userName: this.props.userName,
                     },
+                    toUserName: user
                     })}>
                     {user}
                     </li>
@@ -139,6 +141,11 @@ export default class RenderAllUsers extends React.Component {
                 onClick={() =>
                   history.push({
                     pathname: "/user/chat/" + user.userName,
+                    state: {
+                      
+                      userName: sessionMgmt.getUserName()
+                    },
+                    toUserName: user.userName
                   })
                 }
                 >

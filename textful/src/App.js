@@ -11,6 +11,7 @@ import Home from "./components/home/Home";
 import "@fortawesome/fontawesome-free/js/all.js";
 import ChatWindow from "./components/chat/ChatWindow";
 import RenderAllUsers from "./components/chat/RenderAllUsers";
+import ConversationView from "./components/chat/ConversationView";
 
 class App extends React.Component {
   render() {
@@ -22,11 +23,9 @@ class App extends React.Component {
           <Route exact path="/register" component={Registration} />
           <Route exact path="/admin/:userName" component={AdminHome} />
           <Route exact path="/profile/:userName" component={UserProfile} />
+          <Route exact path="/user/chat" component={ChatWindow} />       
           <Route exact path="/user/chat/users" component={RenderAllUsers} />
-          <Route exact path="/user/chat/:userName2" component={ChatWindow} />
-          <Route exact path="/user/chat" component={ChatWindow} />
-          
-          
+          <Route path="/user/chat/:userName2" component={ChatWindow} />
         </Switch>
       </Router>
     );
