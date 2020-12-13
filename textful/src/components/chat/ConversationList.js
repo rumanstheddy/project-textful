@@ -9,6 +9,7 @@ class ConversationList extends React.Component {
     this.state = {
       searchUserName: "",
       isSearchEnabled: false,
+      searchConversationId: ""
     };
     this.searchRef = React.createRef();
   }
@@ -16,9 +17,11 @@ class ConversationList extends React.Component {
   handleSearch = () => {
     let self = this;
     let shouldSearch = false;
-    for (var i = 0; i < this.props.contactList.length; i++) {
-      if (this.props.contactList[i].userName === this.searchRef.current.value) {
+    let index = 0;
+    for (var i = 0; i < this.props.chatList.length; i++) {
+      if (this.props.chatList[i].userName === this.searchRef.current.value) {
         shouldSearch = true;
+        index = i;
         break;
       }
     }
@@ -26,9 +29,10 @@ class ConversationList extends React.Component {
       this.setState({
         isSearchEnabled: true,
         searchUserName: self.searchRef.current.value,
+        searchConversationId : this.props.chatList[index].chatId
       });
     } else {
-      this.setState({ isSearchEnabled: false, searchUserName: "" });
+      this.setState({ isSearchEnabled: false, searchUserName: "" , searchConversationId: ""});
     }
   };
 
@@ -57,15 +61,19 @@ class ConversationList extends React.Component {
             {this.props.chatList.map((user) => (
               <a
                 class="list-group-item list-group-item-action bg-light"
-                onClick={() =>
-                  history.push({
-                    pathname: "/user/chat/" + user.userName,
-                    state: {
-                      // toUserName: user.userName,
-                      userName: this.props.userName,
-                    },
-                    toUserName: user.userName
-                  })
+                onClick={() => {
+                    history.push({
+                      pathname: "/user/chat/" + user.chatName,
+                      state: {
+                        toUserName: user.chatName,
+                        userName: this.props.userName,
+                        canRenderMessages: true,
+                        conversationId: user.chatId,
+                      },
+                                          
+                    })
+                    this.props.fetchMessage();
+                  }
                 }
               >
                 {user.chatName}
@@ -76,17 +84,20 @@ class ConversationList extends React.Component {
           <div>
             <a
               class="list-group-item list-group-item-action bg-light"
-              onClick={() =>
-                history.push({
-                  pathname: "/user/" + "/chat/" + this.state.searchUserName,
-                  state: {
-                    toUserName: this.state.searchUserName,
-                    userName: this.props.userName,
-                  },
-                })
+              onClick={() => {
+                  history.push({
+                    pathname: "/user/" + "/chat/" + this.state.searchUserName,
+                    state: {
+                      toUserName: this.state.searchUserName,
+                        userName: this.props.userName,
+                        canRenderMessages: true,
+                        conversationId: this.state.searchConversationId,
+                    }
+                  })
+                  this.props.fetchMessage();
+                }
               }
             >
-              {console.log(this.state.searchUserName)}
               {this.state.searchUserName}
             </a>
           </div>

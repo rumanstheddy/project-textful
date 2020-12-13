@@ -17,11 +17,14 @@ export default class ConversationView extends React.Component {
   }
 
   componentDidMount = () => {
-    this.unlisten = history.listen((location) => {
-      console.log("Route changed");
-      this.handleUrlChange();
-    })
+    console.log(history)
+    // if(!history.location.pathname === "/login") {
+      this.unlisten = history.listen((location) => {
+        console.log("Route changed");
+        this.handleUrlChange();
+      })
     }
+  // }
   
 
 
@@ -29,37 +32,20 @@ export default class ConversationView extends React.Component {
     this.unlisten();
   }
 
-  handleUrlChange = () => {
-    try {
-      let toUserName = history.location.toUserName;
-      this.setState({
-        toUsernameExists: true,
-        toUserName: toUserName,
-        conversation: [
-          {
-            userName: this.props.userName,
-            isSentMessage: true,
-            messageBody:
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-          },
-          {
-            userName: toUserName,
-            isSentMessage: false,
-            messageBody:
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-          },
-          {
-            userName: toUserName,
-            isSentMessage: false,
-            messageBody:
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-          },
-        ],
-      });
-    } catch (err) {
-      console.log(err);
+  
+
+    handleUrlChange = () => {
+      if (history.location.state === undefined)
+        return
+
+      if (history.location.state.toUserName === undefined)
+        return
+      
+      let toUserName = history.location.state.toUserName;
+          this.setState({
+            toUsernameExists: true,
+            toUserName: toUserName, })
     }
-  };
 
   handleSignOut = () => {
     if (sessionMgmt.isLoggedIn(this.props.userName)) {
@@ -88,7 +74,7 @@ export default class ConversationView extends React.Component {
   };
 
   renderChatView = () => {
-    let conversation = this.state.conversation;
+    {console.log(history)}
     return (
       <div id="page-content-wrapper">
         <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
@@ -111,11 +97,12 @@ export default class ConversationView extends React.Component {
         <div id="scrollableContent">
           <span>
             {/* compare username from conversation json and this username to display sender and receiver */}
-            {conversation.map((chat) => (
+            {this.props.messageList.map((msg) => (
               <ChatBubble
-                userName={chat.userName}
-                isSentMessage={chat.isSentMessage}
-                messageBody={chat.messageBody}
+                userName={msg.fromUser}
+                messageContent= {msg.text}
+                toUserName={history.location.state.toUserName}
+                time={msg.time}
               />
             ))}
           </span>

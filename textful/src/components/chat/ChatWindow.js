@@ -13,6 +13,8 @@ class ChatWindow extends React.Component {
     this.state = {
       contactList: [],
       chatList: [],
+      messageList: [],
+
     };
 
     socket.joinChat();
@@ -26,7 +28,7 @@ class ChatWindow extends React.Component {
   componentDidMount = () => {
     let self = this;
     console.log(this.props);
-    const url = "https://wbdv-textful-server.herokuapp.com/users/";
+    const url = "http://localhost:4000";
     let userName = "";
     try {
       if (sessionMgmt.anyValidSession()) {
@@ -36,7 +38,15 @@ class ChatWindow extends React.Component {
     } catch (err) {
       console.log(err);
     }
-    fetch(url + userName + "/conversations")
+
+  //   console.log(history.location.state);
+    if(history.location.state !== undefined) {
+      if(history.location.state.canRenderMessages) {
+        this.fetchMessages()
+    }
+  }
+  else {
+    fetch(url + "/users/" + userName + "/conversations")
       .then((res) => res.json())
       .then((res) => {
         let listOfConv = res.map((convObj) => {
@@ -50,7 +60,8 @@ class ChatWindow extends React.Component {
         });
         self.setState({ chatList: listOfConv });
       });
-
+    }
+  }
     // fetch(url)
     //   .then((res) => res.json())
     //   .then((users) => {
@@ -63,7 +74,26 @@ class ChatWindow extends React.Component {
     //       }
     //     });
       // });
-  };
+  
+
+  fetchMessages = () => {
+    let self = this;
+    console.log(this.props);
+    const url = "https://wbdv-textful-server.herokuapp.com/conversations/";
+    let userName = "";
+    try {
+      if (sessionMgmt.anyValidSession()) {
+        userName = sessionMgmt.getUserName();
+        console.log("username: ", userName);
+      } else return <Redirect to="/login" />;
+    } catch (err) {
+      console.log(err);
+    }
+    fetch(url +history.location.state.conversationId+"/messages")
+      .then((res) => res.json())
+      .then((res) => {self.setState({ messageList: res });
+  })
+}
 
   render() {
     if (!sessionMgmt.anyValidSession()) return <Redirect to="/login" />;
@@ -71,15 +101,15 @@ class ChatWindow extends React.Component {
       
       <div class="d-flex" id="wrapper">
         {console.log(history)}
-        {console.log("chatwindow:", this.state.contactList)}
         <ConversationList
           userName={sessionMgmt.getUserName()}
           chatList={this.state.chatList}
-          contactList={this.state.contactList}
+          fetchMessage={this.fetchMessages}
         />
         <ConversationView
           userName={sessionMgmt.getUserName()}
           chatList={this.state.chatList}
+          messageList={this.state.messageList}
         />
       </div>
     );

@@ -20,8 +20,8 @@ class ChatBubble extends React.Component {
           }
         >
           {this.props.userName}
-          <p>{this.props.messageBody}</p>
-          <span class="time_date"> 11:01 AM | Today</span>
+          <p>{this.props.messageContent}</p>
+          <span class="time_date"> {this.props.time}</span>
         </div>
       </div>
     );
