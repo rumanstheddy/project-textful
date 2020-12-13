@@ -156,8 +156,8 @@ export default class ConversationView extends React.Component {
                 class="btn btn-warning"
                 type="button"
                 onClick={this.sendJoke}
-              >
-                <i class="far fa-grin-squint"></i>
+              >Send a joke
+                {/* <i class="far fa-grin-squint"></i> */}
               </button>
             </div>
             <div class="input-group-append">
