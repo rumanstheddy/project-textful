@@ -57,8 +57,9 @@ module.exports = function(app, socket) {
     app.get("/search/:keyword", (req, res) => {
         userDao.getUserByKeyword(req.params.keyword.toLocaleLowerCase())
         .then(users => {
-            const userNames = users.map(user => user.userName)
-            res.json(userNames)
+            // const userNames = users.map(user => user.userName)
+            console.log(users)
+            res.json(users)
         })
         .catch(() => res.status(400).send("Failed to find users"))
     })

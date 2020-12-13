@@ -1,4 +1,5 @@
 const messageDao = require('../services/messageService');
+const conversationDao = require('../services/conversationService');
 
 module.exports = function(app) {
     app.get("/messages/:id", (req, res) => {
@@ -7,12 +8,7 @@ module.exports = function(app) {
         .catch(() => res.status(400).send("Failed to retreive the message"))
     })
 
-    app.get("/messages", (res) => {
-        messageDao.getAllMessages
-        .then((messages) => res.json(messages))
-        .catch(() => res.status(400).send("Failed to retrieve all messages"))})
-
-    app.put("/message/:id", (req, res) => {
+    app.put("/messages/:id", (req, res) => {
         const msgInfo = {
         _id: req.params.id,
         fromUser: req.body.fromUser,
@@ -24,7 +20,7 @@ module.exports = function(app) {
         .catch(() => res.status(400).send("Failed to edit message"))
     })
 
-    app.delete("/message/:id", (req, res) => {
+    app.delete("/messages/:id", (req, res) => {
         messageDao.deleteMessage(req.params.id)
                .then(() => conversationDao.findConvById(req.headers.conversationId))
                .then((conv) => {

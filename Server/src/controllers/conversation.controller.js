@@ -5,6 +5,7 @@ const privateChatDao = require("../services/privateChatService");
 
 module.exports = function(app, socket, userNameToSocketId) {
     app.get("/users/:userName/conversations", (req, res) => {
+        console.log(req)
         conversationDao.findAllConversations()
         .then(async conv => {
             let newConversation = conv.map(async conversation => {
