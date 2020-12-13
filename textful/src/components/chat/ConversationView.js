@@ -58,7 +58,7 @@ export default class ConversationView extends React.Component {
 
   sendMessage = () => {
     let self = this;
-    const url = "http://localhost:4000";
+    const url = "https://wbdv-textful-server.herokuapp.com";
     let userName = "";
     try {
       if (sessionMgmt.anyValidSession()) {
