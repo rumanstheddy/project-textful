@@ -1,3 +1,19 @@
+.row {
+  clear: both;
+  border-spacing: 5px;
+}
+
+.column {
+  float: right;
+
+}
+
+
+.link {
+  color: #0000EE;
+  float: right;
+}
+
 .card {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   max-width: 300px;
@@ -38,3 +54,5 @@ button:hover,
 a:hover {
   opacity: 0.7;
 }
+
+
