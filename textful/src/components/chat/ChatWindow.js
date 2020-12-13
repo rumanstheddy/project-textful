@@ -14,7 +14,7 @@ class ChatWindow extends React.Component {
       contactList: [],
       chatList: [],
       messageList: [],
-
+      conversationId: ""
     };
 
     socket.joinChat();
@@ -27,7 +27,6 @@ class ChatWindow extends React.Component {
 
   componentDidMount = () => {
     let self = this;
-    console.log(this.props);
     const url = "http://localhost:4000";
     let userName = "";
     try {
@@ -53,7 +52,7 @@ class ChatWindow extends React.Component {
           return {
             chatId: convObj._id,
             chatName:
-              convObj.toUser,
+              convObj.toUser === sessionMgmt.getUserName() ? convObj.fromUser: convObj.toUser,
             convoType: convObj.convoType,
             privateChatId: convObj.privateChatId,
           };
@@ -62,18 +61,6 @@ class ChatWindow extends React.Component {
       });
     }
   }
-    // fetch(url)
-    //   .then((res) => res.json())
-    //   .then((users) => {
-    //     users.map((user) => {
-    //       if (user.userName !== userName) {
-    //         return this.setState({
-    //           contactList: [...this.state.contactList, user],
-
-    //         });
-    //       }
-    //     });
-      // });
   
 
   fetchMessages = () => {
@@ -91,7 +78,7 @@ class ChatWindow extends React.Component {
     }
     fetch(url +history.location.state.conversationId+"/messages")
       .then((res) => res.json())
-      .then((res) => {self.setState({ messageList: res });
+      .then((res) => {self.setState({ messageList: res, conversationId: history.location.state.conversationId});
   })
 }
 
@@ -110,6 +97,7 @@ class ChatWindow extends React.Component {
           userName={sessionMgmt.getUserName()}
           chatList={this.state.chatList}
           messageList={this.state.messageList}
+          conversationId={this.state.conversationId}
         />
       </div>
     );

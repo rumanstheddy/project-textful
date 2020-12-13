@@ -3,6 +3,8 @@ import history from "../../services/History";
 import "./Chat.css";
 import ChatBubble from "./ChatBubble";
 import * as sessionMgmt from "../../services/SessionHandler";
+import { Redirect } from "react-router-dom";
+
 
 export default class ConversationView extends React.Component {
   constructor(props) {
@@ -11,30 +13,25 @@ export default class ConversationView extends React.Component {
     this.state = {
       toUsernameExists: false,
       toUserName: "",
-      conversation: [],
+      // conversation: [],
       messageText: "",
     };
+    this.msgRef = React.createRef();
   }
 
   componentDidMount = () => {
     console.log(history)
-    // if(!history.location.pathname === "/login") {
       this.unlisten = history.listen((location) => {
         console.log("Route changed");
         this.handleUrlChange();
       })
     }
-  // }
-  
-
 
   componentWillUnmount = () => {
     this.unlisten();
   }
 
-  
-
-    handleUrlChange = () => {
+  handleUrlChange = () => {
       if (history.location.state === undefined)
         return
 
@@ -61,17 +58,37 @@ export default class ConversationView extends React.Component {
   };
 
   sendMessage = () => {
+    let self = this;
+    const url = "http://localhost:4000";
+    let userName = "";
+    try {
+      if (sessionMgmt.anyValidSession()) {
+        userName = sessionMgmt.getUserName();
+        console.log("username: ", userName);
+      } else return <Redirect to="/login" />;
+    } catch (err) {
+      console.log(err);
+    }
     let message = {
+      text: this.msgRef.current.value,
       userName: this.props.userName,
-      isSentMessage: true,
-      messageBody: this.state.messageText,
+      time: new Date(),
+      messageContent: this.state.messageText,
+      conversationId: this.props.conversationId
     };
 
-    this.setState({
-      conversation: [...this.state.conversation, message],
-      messageText: ""
-    });
-  };
+    
+
+    fetch(url+"/conversations/"+this.props.conversationId+"/messages", {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({message: message})
+    })
+    .then((res) => res.json()) 
+  }
 
   renderChatView = () => {
     {console.log(history)}
@@ -115,7 +132,7 @@ export default class ConversationView extends React.Component {
               placeholder="Send a message"
               onChange={this.handleChange}
               value={this.state.messageText}
-            />
+              ref= {this.msgRef}            />
             <div class="input-group-append">
               <button
                 class="btn btn-primary"
