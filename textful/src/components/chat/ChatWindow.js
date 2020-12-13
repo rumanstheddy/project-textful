@@ -82,6 +82,7 @@ class ChatWindow extends React.Component {
   })
 }
 
+
   render() {
     if (!sessionMgmt.anyValidSession()) return <Redirect to="/login" />;
     return (
