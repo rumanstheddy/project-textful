@@ -1,6 +1,7 @@
 import React from "react";
-import { useParams } from "react-router-dom";
 import history from "../../services/History";
+import * as sessionMgmt from "../../services/SessionHandler";
+
 
 class ConversationList extends React.Component {
   constructor(props) {
@@ -66,7 +67,7 @@ class ConversationList extends React.Component {
                       pathname: "/user/chat/" + user.chatName,
                       state: {
                         toUserName: user.chatName,
-                        userName: this.props.userName,
+                        userName: sessionMgmt.getUserName(),
                         canRenderMessages: true,
                         conversationId: user.chatId,
                       },
@@ -89,7 +90,7 @@ class ConversationList extends React.Component {
                     pathname: "/user/" + "/chat/" + this.state.searchUserName,
                     state: {
                       toUserName: this.state.searchUserName,
-                        userName: this.props.userName,
+                      userName: sessionMgmt.getUserName(),
                         canRenderMessages: true,
                         conversationId: this.state.searchConversationId,
                     }

@@ -13,8 +13,7 @@ export default class ConversationView extends React.Component {
     this.state = {
       toUsernameExists: false,
       toUserName: "",
-      // conversation: [],
-      messageText: "",
+      messageSent: false
     };
     this.msgRef = React.createRef();
   }
@@ -51,11 +50,11 @@ export default class ConversationView extends React.Component {
     }
   };
 
-  handleChange = (event) => {
-    console.log("EVENT: ", event);
-    this.setState({ messageText: event.target.value });
-    console.log(this.state.messageText);
-  };
+  // handleChange = (event) => {
+  //   console.log("EVENT: ", event);
+  //   this.setState({ messageText: event.target.value });
+  //   console.log(this.state.messageText);
+  // };
 
   sendMessage = () => {
     let self = this;
@@ -71,7 +70,7 @@ export default class ConversationView extends React.Component {
     }
     let message = {
       text: this.msgRef.current.value,
-      userName: this.props.userName,
+      fromUser: sessionMgmt.getUserName(),
       time: new Date(),
       messageContent: this.state.messageText,
       conversationId: this.props.conversationId
@@ -91,6 +90,7 @@ export default class ConversationView extends React.Component {
   }
 
   renderChatView = () => {
+    
     {console.log(history)}
     return (
       <div id="page-content-wrapper">
@@ -116,7 +116,7 @@ export default class ConversationView extends React.Component {
             {/* compare username from conversation json and this username to display sender and receiver */}
             {this.props.messageList.map((msg) => (
               <ChatBubble
-                userName={msg.fromUser}
+                fromUser={msg.fromUser}
                 messageContent= {msg.text}
                 toUserName={history.location.state.toUserName}
                 time={msg.time}
