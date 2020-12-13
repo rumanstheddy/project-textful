@@ -27,7 +27,7 @@ class ChatWindow extends React.Component {
 
   componentDidMount = () => {
     let self = this;
-    const url = "http://localhost:4000";
+    const url = "https://wbdv-textful-server.herokuapp.com/";
     let userName = "";
     try {
       if (sessionMgmt.anyValidSession()) {
@@ -45,7 +45,7 @@ class ChatWindow extends React.Component {
     }
   }
   else {
-    fetch(url + "/users/" + userName + "/conversations")
+    fetch(url + "users/" + userName + "/conversations")
       .then((res) => res.json())
       .then((res) => {
         let listOfConv = res.map((convObj) => {
