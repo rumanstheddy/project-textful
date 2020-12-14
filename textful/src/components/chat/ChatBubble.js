@@ -9,22 +9,14 @@ class ChatBubble extends React.Component {
     super(props);
 
     this.state = {
-      isEditable : false,
-      loggedInUserSentMessage: false,
-      
+      isEditable : false
     };
 
     this.editMsgRef = React.createRef();
   }
 
-  componentDidMount() {
-    if(this.props.fromUser === sessionMgmt.getUserName()) {
-        this.setState({loggedInUserSentMessage: true, }) 
-    }
-  }
-
   handleEditMessage = () => {
-      this.setState({isEditable: true, loggedInUserSentMessage: true});
+      this.setState({isEditable: true});
   }
 
   updateMessage = () => {
@@ -39,11 +31,11 @@ class ChatBubble extends React.Component {
 
     console.log(newMsgObj);
     this.props.handleUpdateMessage(this.props.messageId, newMsgObj);
-    this.handleCancelEdit();  
+    this.setState({isEditable: false})
   }
 
   handleCancelEdit = () => {
-    this.setState({loggedInUserSentMessage: true, isEditable: false})
+    this.setState({isEditable: false})
   }
 
   render() {
@@ -57,7 +49,7 @@ class ChatBubble extends React.Component {
           }
         >
           {this.props.fromUser}
-          {this.state.loggedInUserSentMessage && this.state.isEditable?
+          {this.props.loggedInUserSentMessage && this.state.isEditable?
           <div class="float-right d-flex">
             
             <div class="update_icon" onClick={() => this.updateMessage()}><i class="fas fa-check" ></i></div>
@@ -65,7 +57,7 @@ class ChatBubble extends React.Component {
             </div> :
             null
           }
-          {this.state.loggedInUserSentMessage && !this.state.isEditable?
+          {this.props.loggedInUserSentMessage && !this.state.isEditable?
           <div class="float-right d-flex">
             
           <div class="edit_icon" onClick={() => this.handleEditMessage()}><i class="fas fa-pencil-alt" ></i></div>
@@ -73,7 +65,7 @@ class ChatBubble extends React.Component {
           null
           }
 
-        {this.state.loggedInUserSentMessage ?
+        {this.props.loggedInUserSentMessage ?
         <div class="float-right d-flex">
             <div class="delete_icon" onClick= {() => this.props.handleDeleteMessage(this.props.messageId, this.props.conversationId)}>
               <i class="fas fa-trash "></i></div> 
