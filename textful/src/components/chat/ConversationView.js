@@ -59,11 +59,13 @@ export default class ConversationView extends React.Component {
     } catch (err) {
       console.log(err);
     }
+    if(this.msgRef.current.value === "") {
+      return;
+    }
     let message = {
       text: this.msgRef.current.value,
       fromUser: sessionMgmt.getUserName(),
       time: new Date(),
-      messageContent: this.state.messageText,
       conversationId: this.props.conversationId,
     };
 
