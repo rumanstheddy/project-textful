@@ -47,37 +47,63 @@ export default class ConversationView extends React.Component {
     }
   };
 
-  sendMessage = () => {
+  sendMessage = (type) => {
     let self = this;
+    let message = {};
     const url = "https://wbdv-textful-server.herokuapp.com";
     let userName = "";
-    try {
-      if (sessionMgmt.anyValidSession()) {
-        userName = sessionMgmt.getUserName();
-        console.log("username: ", userName);
-      } else return <Redirect to="/login" />;
-    } catch (err) {
-      console.log(err);
+    if (type === "message") {
+      try {
+        if (sessionMgmt.anyValidSession()) {
+          userName = sessionMgmt.getUserName();
+          console.log("username: ", userName);
+        } else return <Redirect to="/login" />;
+      } catch (err) {
+        console.log(err);
+      }
+      message = {
+        text: this.msgRef.current.value,
+        fromUser: sessionMgmt.getUserName(),
+        time: new Date(),
+        conversationId: this.props.conversationId,
+      };
+      fetch(url + "/conversations/" + this.props.conversationId + "/messages", {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ message: message }),
+      }).then(() => this.fetchMessages());
+    } else {
+      let jokeapiUrl =
+        "https://sv443.net/jokeapi/v2/joke/Programming?type=single";
+      fetch(jokeapiUrl)
+        .then((res) => res.json())
+        .then((jokeObj) => {
+          console.log(jokeObj);
+          let joke = jokeObj.joke;
+          message = {
+            text: joke,
+            fromUser: sessionMgmt.getUserName(),
+            time: new Date(),
+            conversationId: this.props.conversationId,
+          };
+          fetch(
+            url + "/conversations/" + this.props.conversationId + "/messages",
+            {
+              method: "PUT",
+              headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ message: message }),
+            }
+          ).then(() => this.fetchMessages());
+        });
     }
-    if(this.msgRef.current.value === "") {
-      return;
-    }
-    let message = {
-      text: this.msgRef.current.value,
-      fromUser: sessionMgmt.getUserName(),
-      time: new Date(),
-      conversationId: this.props.conversationId,
-    };
-
-    fetch(url + "/conversations/" + this.props.conversationId + "/messages", {
-      method: "PUT",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ message: message }),
-    }).then(() => this.fetchMessages());
-  };
+  }
+    
 
   fetchMessages = () => {
     let self = this;
@@ -103,7 +129,7 @@ export default class ConversationView extends React.Component {
           toUserName: history.location.state.toUserName,
         });
       });
-  };
+  }
 
   handleDeleteMessage = (messageId, conversationId) => {
     let self = this;
@@ -185,9 +211,18 @@ export default class ConversationView extends React.Component {
             />
             <div class="input-group-append">
               <button
+                class="btn btn-warning"
+                type="button"
+                onClick={() => this.sendMessage("joke")}
+              >
+                Send a joke
+              </button>
+            </div>
+            <div class="input-group-append">
+              <button
                 class="btn btn-primary"
                 type="button"
-                onClick={this.sendMessage}
+                onClick={() => this.sendMessage("message")}
               >
                 <i class="fas fa-arrow-right"></i>
               </button>
@@ -265,6 +300,10 @@ export default class ConversationView extends React.Component {
                 messageContent={msg.text}
                 toUserName={history.location.state.toUserName}
                 time={msg.time}
+                messageId={msg._id}
+                handleDeleteMessage={this.handleDeleteMessage}
+                conversationId={msg.conversationId}
+                handleUpdateMessage={this.handleUpdateMessage}
               />
             ))}
           </span>
@@ -281,9 +320,18 @@ export default class ConversationView extends React.Component {
             />
             <div class="input-group-append">
               <button
+                class="btn btn-warning"
+                type="button"
+                onClick={() => this.sendMessage("joke")}
+              >
+                Send a joke
+              </button>
+            </div>
+            <div class="input-group-append">
+              <button
                 class="btn btn-primary"
                 type="button"
-                onClick={this.sendMessage}
+                onClick={() => this.sendMessage("message")}
               >
                 <i class="fas fa-arrow-right"></i>
               </button>

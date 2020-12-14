@@ -14,7 +14,7 @@ class ChatWindow extends React.Component {
       contactList: [],
       chatList: [],
       messageList: [],
-      conversationId: ""
+      conversationId: "",
     };
 
     if (window.performance.getEntriesByType("navigation")) {
@@ -42,30 +42,30 @@ class ChatWindow extends React.Component {
       console.log(err);
     }
 
-  //   console.log(history.location.state);
-    if(history.location.state !== undefined) {
-      if(history.location.state.canRenderMessages) {
-        this.fetchMessages()
-    }
-  }
-  else {
-    fetch(url + "/users/" + userName + "/conversations")
-      .then((res) => res.json())
-      .then((res) => {
-        let listOfConv = res.map((convObj) => {
-          return {
-            chatId: convObj._id,
-            chatName:
-              convObj.toUser === sessionMgmt.getUserName() ? convObj.fromUser: convObj.toUser,
-            convoType: convObj.convoType,
-            privateChatId: convObj.privateChatId,
-          };
+    //   console.log(history.location.state);
+    if (history.location.state !== undefined) {
+      if (history.location.state.canRenderMessages) {
+        this.fetchMessages();
+      }
+    } else {
+      fetch(url + "/users/" + userName + "/conversations")
+        .then((res) => res.json())
+        .then((res) => {
+          let listOfConv = res.map((convObj) => {
+            return {
+              chatId: convObj._id,
+              chatName:
+                convObj.toUser === sessionMgmt.getUserName()
+                  ? convObj.fromUser
+                  : convObj.toUser,
+              convoType: convObj.convoType,
+              privateChatId: convObj.privateChatId,
+            };
+          });
+          self.setState({ chatList: listOfConv });
         });
-        self.setState({ chatList: listOfConv });
-      });
     }
-  }
-  
+  };
 
   fetchMessages = () => {
     let self = this;
@@ -80,16 +80,19 @@ class ChatWindow extends React.Component {
     } catch (err) {
       console.log(err);
     }
-    fetch(url +history.location.state.conversationId+"/messages")
+    fetch(url + history.location.state.conversationId + "/messages")
       .then((res) => res.json())
-      .then((res) => {self.setState({ messageList: res, conversationId: history.location.state.conversationId});
-  })
-}
+      .then((res) => {
+        self.setState({
+          messageList: res,
+          conversationId: history.location.state.conversationId,
+        });
+      });
+  };
 
   render() {
     if (!sessionMgmt.anyValidSession()) return <Redirect to="/login" />;
     return (
-      
       <div class="d-flex" id="wrapper">
         {console.log(history)}
         <ConversationList
