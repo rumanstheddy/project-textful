@@ -5,13 +5,29 @@
 
 .column {
   float: right;
-
 }
 
-
 .link {
-  color: #0000EE;
+  color: #0000ee;
   float: right;
+}
+
+div#editableProfile {
+  position: relative;
+}
+
+button#editProfileBtn {
+  position: absolute;
+  left: 42%;
+  top: 105%
+}
+
+h2#username {
+  color: blue;
+}
+
+#userNameTxt {
+  color: #0000ee;
 }
 
 .card {
@@ -20,10 +36,15 @@
   margin: auto;
   text-align: center;
   font-family: arial;
+  overflow: hidden;
 }
 img#profilePic {
   height: 300px;
   width: 300px;
+}
+
+a.list-group-item {
+  font-size: 16px;
 }
 
 .title {
@@ -54,5 +75,3 @@ button:hover,
 a:hover {
   opacity: 0.7;
 }
-
-

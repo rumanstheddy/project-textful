@@ -15,9 +15,6 @@ class ConversationList extends React.Component {
     this.searchRef = React.createRef();
   }
 
-  // getSnapshotBeforeUpdate = (prevProps, prevState) => {
-  //   localStorage.setItem("list", JSON.stringify(prevProps));
-  // };
 
   handleSearch = () => {
     let self = this;
@@ -59,6 +56,9 @@ class ConversationList extends React.Component {
     return (
       <div class="bg-light border-right" id="sidebar-wrapper">
         <div class="sidebar-heading" id="userNameTxt">
+          <a class="btn btn-success" id="homeBtn" onClick={() => history.push("/")}>
+            <i class="fas fa-home"></i>
+          </a>
           <a
             onClick={() => {
               history.push("/profile");

@@ -172,7 +172,12 @@ export default class ConversationView extends React.Component {
           <a
             class="navbar-brand"
             id="contactName"
-            onClick={() => history.push("/profile/" + this.state.toUserName)}
+            onClick={() =>
+              history.push({
+                pathname: "/profile/" + this.state.toUserName,
+                state: {fromChatWindow: true},
+              })
+            }
           >
             {this.state.toUserName}
           </a>

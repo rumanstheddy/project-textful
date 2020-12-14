@@ -1,32 +1,38 @@
 .header {
-    text-align: center;
+  text-align: center;
 }
 
 .header .description {
-    color: #007bff;
+  color: #007bff;
+}
+.jumbotron {
+  margin: auto;
+  width: 50%;
+  background-color: white;
+  text-align: center;
+  padding-top: 120px;
 }
 
-
 .title {
-    color: grey;
-    font-size: 50px;
+  color: grey;
+  font-size: 50px;
 }
 
 .sub-title {
-    color: grey;
-    font-size: 20px;
+  color: grey;
+  font-size: 20px;
 }
 
 .profileLink {
-    color: blue;
+  color: blue;
 }
 
 .no-users {
-    color: red;
-    font-size: 20px;
+  color: red;
+  font-size: 20px;
 }
 
 .no-convo {
-    color: red;
-    font-size: 20px;
+  color: red;
+  font-size: 20px;
 }
