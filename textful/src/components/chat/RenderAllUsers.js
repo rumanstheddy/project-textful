@@ -12,17 +12,75 @@ export default class RenderAllUsers extends React.Component {
       searchUserNameList: [],
       isSearchEnabled: false,
       searchValue: "",
+      convos: [],
     };
     this.searchRef = React.createRef();
   }
 
   componentDidMount() {
     let self = this;
+    let userName = this.props.location.state.userName;
     const url = "https://wbdv-textful-server.herokuapp.com/users/";
     fetch(url)
       .then((res) => res.json())
       .then((usersList) => self.setState({ allUserList: usersList }));
+
+    fetch(url + userName + "/conversations")
+      .then((res) => res.json())
+      .then((convos) =>
+        self.setState({
+          convos: convos,
+        })
+      );
   }
+
+  createConversation = (tousername) => {
+    let url = "https://wbdv-textful-server.herokuapp.com/conversations";
+    this.state.convos.map((convo) => {
+      if (convo.toUser !== tousername) {
+        let chat = {
+          fromUser: this.props.location.state.userName,
+          toUser: tousername,
+        };
+
+        fetch(url + "/individual", {
+          method: "POST",
+          body: JSON.stringify(chat),
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json; charset=UTF-8",
+          },
+        })
+          .then((res) => res.json())
+          .then((res) => {
+            console.log(res);
+            let chatId = res._id;
+
+            let conversation = {
+              convoType: "Individual",
+              privateChatId: chatId,
+            };
+            fetch(url, {
+              method: "POST",
+              body: JSON.stringify(conversation),
+              mode: "cors",
+              headers: {
+                "Content-Type": "application/json; charset=UTF-8",
+              },
+            })
+              .then((res) => res.json())
+              .then((res) => {
+                console.log("convo ", res);
+                history.push("/user/chat/" + tousername);
+              });
+          });
+        console.log("creating");
+      } else {
+        console.log("already created");
+        history.push("/user/chat/" + tousername);
+      }
+    });
+  };
 
   handleChange = (event) => {
     let self = this;
@@ -55,13 +113,19 @@ export default class RenderAllUsers extends React.Component {
   };
 
   renderSearchView = () => {
-    const userContent = this.state.searchUserNameList.map((userObj) => (
+    let filteredList = this.state.searchUserNameList.filter(
+      (userObj) => userObj.userName !== this.props.location.state.userName
+    );
+    const userContent = filteredList.map((userObj) => (
       <tr>
         <td>{userObj.userName}</td>
-        <td>{userObj.firstName}</td>
-        <td>{userObj.lastName}</td>
+        <td class="d-none d-sm-table-cell">{userObj.firstName}</td>
+        <td class="d-none d-sm-table-cell">{userObj.lastName}</td>
         <td>
-          <Button variant="primary" onClick={() => console.log("clicked")}>
+          <Button
+            variant="primary"
+            onClick={() => this.createConversation(userObj.userName)}
+          >
             chat
           </Button>
         </td>
@@ -88,7 +152,7 @@ export default class RenderAllUsers extends React.Component {
               onClick={this.cancelSearch}
               id="cancelSearchBtn"
             >
-              <i class="fas fa-search-minus"></i>
+              clear
             </button>
           </div>
         </div>
@@ -106,13 +170,19 @@ export default class RenderAllUsers extends React.Component {
   };
 
   renderDefaultView = () => {
-    const userContent = this.state.allUserList.map((userObj) => (
+    let filteredList = this.state.allUserList.filter(
+      (userObj) => userObj.userName !== this.props.location.state.userName
+    );
+    const userContent = filteredList.map((userObj) => (
       <tr>
         <td>{userObj.userName}</td>
         <td class="d-none d-sm-table-cell">{userObj.firstName}</td>
         <td class="d-none d-sm-table-cell">{userObj.lastName}</td>
         <td>
-          <Button variant="primary" onClick={() => console.log("clicked")}>
+          <Button
+            variant="primary"
+            onClick={() => this.createConversation(userObj.userName)}
+          >
             chat
           </Button>
         </td>

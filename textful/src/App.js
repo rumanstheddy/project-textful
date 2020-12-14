@@ -11,7 +11,6 @@ import Home from "./components/home/Home";
 import "@fortawesome/fontawesome-free/js/all.js";
 import ChatWindow from "./components/chat/ChatWindow";
 import RenderAllUsers from "./components/chat/RenderAllUsers";
-import ConversationView from "./components/chat/ConversationView";
 
 class App extends React.Component {
   render() {
