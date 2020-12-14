@@ -18,7 +18,7 @@ a#homeBtn {
 
 #userNameTxt {
   text-align: center;
-  position:relative;
+  position: relative;
 }
 
 #wrapper {
@@ -97,7 +97,7 @@ button#createConvoBtn {
   color: #0062cc;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1px) {
   #sidebar-wrapper {
     margin-left: 0;
   }

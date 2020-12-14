@@ -4,7 +4,7 @@ import Nav from "react-bootstrap/Nav";
 import history from "../../services/History";
 import "./Home.css";
 import * as sessionMgmt from "../../services/SessionHandler";
-import { Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 export default class Home extends React.Component {
   constructor(props) {
@@ -116,7 +116,7 @@ export default class Home extends React.Component {
                 </span>
               ) : (
                 <h2 className="sub-title">
-                  {" "}
+                  <br />
                   Our Newest User is{" "}
                   <a
                     className="profileLink"
@@ -132,14 +132,16 @@ export default class Home extends React.Component {
                   <br />
                   <br />
                   <p>
-                    Click on the button below to register and start chatting!
+                    Click <Link to="/register">here</Link> to register and start
+                    chatting!
                   </p>
+                  <p>Already a user? click on the button below to login!</p>
                   <a
                     class="btn btn-primary btn-lg"
                     role="button"
-                    onClick={() => history.push("/register")}
+                    onClick={() => history.push("/login")}
                   >
-                    Get started
+                    Login
                   </a>
                 </h2>
               )}

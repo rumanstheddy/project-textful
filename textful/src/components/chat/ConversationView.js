@@ -12,8 +12,9 @@ export default class ConversationView extends React.Component {
     this.state = {
       toUsernameExists: false,
       toUserName: "",
-      updatedMessageList: []
+      updatedMessageList: [],
     };
+    
     this.msgRef = React.createRef();
   }
 
@@ -22,6 +23,18 @@ export default class ConversationView extends React.Component {
     this.unlisten = history.listen((location) => {
       console.log("Route changed");
       this.handleUrlChange();
+    });
+    this.scrollToBottom();
+  };
+
+  componentDidUpdate() {
+    this.scrollToBottom();
+  }
+
+  scrollToBottom = () => {
+    const { messageList } = this.refs;
+    messageList.scrollIntoView({
+      behavior: "smooth",
     });
   };
 
@@ -35,10 +48,13 @@ export default class ConversationView extends React.Component {
     if (history.location.state.toUserName === undefined) return;
 
     let toUserName = history.location.state.toUserName;
-    this.setState({
-      toUsernameExists: true,
-      toUserName: toUserName
-    }, this.fetchMessages);
+    this.setState(
+      {
+        toUsernameExists: true,
+        toUserName: toUserName,
+      },
+      this.fetchMessages
+    );
   };
 
   handleSignOut = () => {
@@ -76,8 +92,8 @@ export default class ConversationView extends React.Component {
         },
         body: JSON.stringify({ message: message }),
       }).then(() => {
-        this.msgRef.current.value = ""
-        this.fetchMessages()
+        this.msgRef.current.value = "";
+        this.fetchMessages();
       });
     } else {
       let jokeapiUrl =
@@ -175,7 +191,7 @@ export default class ConversationView extends React.Component {
             onClick={() =>
               history.push({
                 pathname: "/profile/" + this.state.toUserName,
-                state: {fromChatWindow: true},
+                state: { fromChatWindow: true },
               })
             }
           >
@@ -203,10 +219,13 @@ export default class ConversationView extends React.Component {
                 handleDeleteMessage={this.handleDeleteMessage}
                 conversationId={msg.conversationId}
                 handleUpdateMessage={this.handleUpdateMessage}
-                loggedInUserSentMessage={msg.fromUser === sessionMgmt.getUserName()}
+                loggedInUserSentMessage={
+                  msg.fromUser === sessionMgmt.getUserName()
+                }
               />
             ))}
           </span>
+          <div style={{ float: "left", clear: "both" }} ref="messageList"></div>
         </div>
         <div class="row col-9 ml-4 p-0 shadow-lg" id="chatInputFld">
           <div class="input-group">
@@ -272,6 +291,7 @@ export default class ConversationView extends React.Component {
             <i class="fas fa-comment-medical" id="newConvoInfoTxt"></i> located
             on the bottom left.
           </h5>
+          <div ref="messageList"></div>
         </div>
       </div>
     );
@@ -317,10 +337,13 @@ export default class ConversationView extends React.Component {
                 handleDeleteMessage={this.handleDeleteMessage}
                 conversationId={msg.conversationId}
                 handleUpdateMessage={this.handleUpdateMessage}
-                loggedInUserSentMessage={msg.fromUser === sessionMgmt.getUserName()}
+                loggedInUserSentMessage={
+                  msg.fromUser === sessionMgmt.getUserName()
+                }
               />
             ))}
           </span>
+          <div ref="messageList"></div>
         </div>
         <div class="row col-9 ml-4 p-0 shadow-lg" id="chatInputFld">
           <div class="input-group">
