@@ -75,7 +75,7 @@ class ConversationList extends React.Component {
             type="search"
             placeholder="Search"
           ></input>
-          <button type="button" onClick={this.closeSearch} class="btn bg-transparent" style={{"margin-left": "-40px", "z-index": "100"}}>
+          <button type="button" onClick={this.closeSearch} class="btn bg-transparent" style={{"margin-left": "-40px", "z-index": "100", "color":"#0275d8"}}>
             <i class="fa fa-times"></i>
           </button>
           
