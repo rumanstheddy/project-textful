@@ -24,7 +24,7 @@ class ConversationList extends React.Component {
     let shouldSearch = false;
     let index = 0;
     for (var i = 0; i < this.props.chatList.length; i++) {
-      if (this.props.chatList[i].userName === this.searchRef.current.value) {
+      if (this.props.chatList[i].chatName === this.searchRef.current.value) {
         shouldSearch = true;
         index = i;
         break;
@@ -45,6 +45,16 @@ class ConversationList extends React.Component {
     }
   };
 
+  closeSearch = () => {
+    this.searchRef.current.value = "";
+    this.setState({
+      isSearchEnabled: false,
+      searchUserName: "",
+      searchConversationId: "",
+      
+    });
+  }
+
   render() {
     return (
       <div class="bg-light border-right" id="sidebar-wrapper">
@@ -58,13 +68,18 @@ class ConversationList extends React.Component {
           </a>
         </div>
 
-        <div class="row" id="searchbox">
+        <div class="row input-group" id="searchbox">
           <input
             class="form-control col-9"
             ref={this.searchRef}
             type="search"
             placeholder="Search"
           ></input>
+          <button type="button" onClick={this.closeSearch} class="btn bg-transparent" style={{"margin-left": "-40px", "z-index": "100"}}>
+            <i class="fa fa-times"></i>
+          </button>
+          
+          
           <div class="col-3" onClick={this.handleSearch}>
             <button class="btn btn-primary" type="button">
               <i class="fas fa-search fa-2x" id="searchIcon"></i>
@@ -101,7 +116,7 @@ class ConversationList extends React.Component {
               <a
                 onClick={() => {
                   history.push({
-                    pathname: "/user/" + "/chat/" + this.state.searchUserName,
+                    pathname: "/user" + "/chat/" + this.state.searchUserName,
                     state: {
                       toUserName: this.state.searchUserName,
                       userName: sessionMgmt.getUserName(),
