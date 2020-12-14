@@ -5,13 +5,19 @@
 
 .column {
   float: right;
-
 }
 
-
 .link {
-  color: #0000EE;
+  color: #0000ee;
   float: right;
+}
+
+h2#username {
+  color: blue;
+}
+
+#userNameTxt {
+  color: #0000ee;
 }
 
 .card {
@@ -54,5 +60,3 @@ button:hover,
 a:hover {
   opacity: 0.7;
 }
-
-

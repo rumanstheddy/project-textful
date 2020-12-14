@@ -11,8 +11,14 @@ a#signoutLink {
   cursor: pointer;
 }
 
+a#homeBtn {
+  position: absolute;
+  left: 20px;
+}
+
 #userNameTxt {
   text-align: center;
+  position:relative;
 }
 
 #wrapper {
