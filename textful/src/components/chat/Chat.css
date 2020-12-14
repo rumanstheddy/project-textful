@@ -2,6 +2,9 @@ a#contactName {
   padding-left: 30px;
   cursor: pointer;
 }
+button#cancelSearchBtn {
+  padding-left: 10px;
+}
 
 a#signoutLink {
   font-size: 1.1em;

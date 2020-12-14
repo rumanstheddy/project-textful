@@ -1,6 +1,6 @@
 import React from "react";
 import history from "../../services/History";
-import * as sessionMgmt from "../../services/SessionHandler";
+import { Table, Button } from "react-bootstrap";
 
 export default class RenderAllUsers extends React.Component {
   constructor(props) {
@@ -11,6 +11,7 @@ export default class RenderAllUsers extends React.Component {
       allUserList: [],
       searchUserNameList: [],
       isSearchEnabled: false,
+      searchValue: "",
     };
     this.searchRef = React.createRef();
   }
@@ -22,6 +23,13 @@ export default class RenderAllUsers extends React.Component {
       .then((res) => res.json())
       .then((usersList) => self.setState({ allUserList: usersList }));
   }
+
+  handleChange = (event) => {
+    let self = this;
+    self.setState({
+      searchValue: event.target.value,
+    });
+  };
 
   handleSearch = () => {
     let self = this;
@@ -38,7 +46,107 @@ export default class RenderAllUsers extends React.Component {
       );
   };
 
+  cancelSearch = () => {
+    let self = this;
+    self.setState({
+      searchValue: "",
+      isSearchEnabled: false,
+    });
+  };
+
   renderSearchView = () => {
+    const userContent = this.state.searchUserNameList.map((userObj) => (
+      <tr>
+        <td>{userObj.userName}</td>
+        <td>{userObj.firstName}</td>
+        <td>{userObj.lastName}</td>
+        <td>
+          <Button variant="primary" onClick={() => console.log("clicked")}>
+            chat
+          </Button>
+        </td>
+      </tr>
+    ));
+    return (
+      <div>
+        <div class="row" id="searchbox">
+          <input
+            class="form-control col-9"
+            ref={this.searchRef}
+            type="search"
+            onChange={this.handleChange}
+            value={this.state.searchValue}
+            placeholder="Search"
+          ></input>
+          <div class="col-3" onClick={this.handleSearch}>
+            <button class="btn btn-primary" type="button">
+              <i class="fas fa-search fa-2x" id="searchIcon"></i>
+            </button>
+            <button
+              class="btn btn-danger"
+              type="button"
+              onClick={this.cancelSearch}
+              id="cancelSearchBtn"
+            >
+              <i class="fas fa-search-minus"></i>
+            </button>
+          </div>
+        </div>
+        <Table striped bordered hove>
+          <thead>
+            <th>Username</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Actions</th>
+          </thead>
+          <tbody>{userContent}</tbody>
+        </Table>
+      </div>
+    );
+  };
+
+  renderDefaultView = () => {
+    const userContent = this.state.allUserList.map((userObj) => (
+      <tr>
+        <td>{userObj.userName}</td>
+        <td class="d-none d-sm-table-cell">{userObj.firstName}</td>
+        <td class="d-none d-sm-table-cell">{userObj.lastName}</td>
+        <td>
+          <Button variant="primary" onClick={() => console.log("clicked")}>
+            chat
+          </Button>
+        </td>
+      </tr>
+    ));
+    return (
+      <div>
+        <div class="row" id="searchbox">
+          <input
+            class="form-control col-9"
+            ref={this.searchRef}
+            type="search"
+            placeholder="Search"
+          ></input>
+          <div class="col-3" onClick={this.handleSearch}>
+            <button class="btn btn-primary" type="button">
+              <i class="fas fa-search fa-2x" id="searchIcon"></i>
+            </button>
+          </div>
+        </div>
+        <Table striped bordered hove>
+          <thead>
+            <th>Username</th>
+            <th class="d-none d-sm-table-cell">First Name</th>
+            <th class="d-none d-sm-table-cell">Last Name</th>
+            <th>Actions</th>
+          </thead>
+          <tbody>{userContent}</tbody>
+        </Table>
+      </div>
+    );
+  };
+
+  render() {
     return (
       <div class="container table-striped">
         <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
@@ -57,7 +165,7 @@ export default class RenderAllUsers extends React.Component {
                     })
                   }
                 >
-                  Back to Chat Screen
+                  Back
                 </a>
               </div>
             </li>
@@ -68,135 +176,12 @@ export default class RenderAllUsers extends React.Component {
             </li>
           </ul>
         </nav>
-        <h3> LIST OF USERS </h3>
-        <div class="row" id="searchbox">
-          <input
-            class="form-control col-9"
-            ref={this.searchRef}
-            type="search"
-            placeholder="Search"
-          ></input>
-          <div class="col-3" onClick={this.handleSearch}>
-            <button class="btn btn-primary" type="button">
-              <i class="fas fa-search fa-2x" id="searchIcon"></i>
-            </button>
-          </div>
-        </div>
-        <div class="bg-light" id="sidebar-wrapper">
-          <div class="list-group list-group-flush">
-            <ul class="list-group-item list-group-item-action bg-light list-unstyled border">
-              {this.state.searchUserNameList.map((user) => (
-                <li
-                  class="h4 bg-light"
-                  key={user}
-                  onClick={() =>
-                    history.push({
-                      pathname: "/user/chat/" + user,
-                      state: {
-                        toUserName: user,
-                        userName: this.props.userName,
-                      },
-                    })
-                  }
-                >
-                  {user}
-                </li>
-              ))}
-            </ul>
-          </div>
-          );
-        </div>
-        <div class="bg-light" id="sidebar-wrapper">
-          <div class="list-group list-group-flush">
-            <ul class="list-group-item list-group-item-action bg-light list-unstyled border">
-              {this.state.searchUserNameList.map((user) => (
-                <li
-                  class="h4 bg-light"
-                  key={user}
-                  onClick={() =>
-                    history.push({
-                      pathname: "/user/chat/" + user,
-                      state: {
-                        userName: this.props.userName,
-                      },
-                      toUserName: user,
-                    })
-                  }
-                >
-                  {user}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
+        <h3> List of Users </h3>
+        {this.state.isSearchEnabled &&
+        this.state.searchUserNameList.length !== 0
+          ? this.renderSearchView()
+          : this.renderDefaultView()}
       </div>
     );
-  };
-
-  renderDefaultView = () => {
-    return (
-      <div class="container table-striped">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-          <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-            <li>
-              <div className="btn-link">
-                <a
-                  className="btn btn-primary"
-                  onClick={() => history.push({ pathname: "/user/chat/" })}
-                >
-                  Back to Chat Screen
-                </a>
-              </div>
-            </li>
-            <li class="nav-item" onClick={() => history.push("/login")}>
-              <a class="nav-link" id="signoutLink">
-                Sign out <i class="fas fa-sign-out-alt"></i>
-              </a>
-            </li>
-          </ul>
-        </nav>
-        <h3> LIST OF USERS </h3>
-        <div class="row" id="searchbox">
-          <input
-            class="form-control col-9"
-            ref={this.searchRef}
-            type="search"
-            placeholder="Search"
-          ></input>
-          <div class="col-3" onClick={this.handleSearch}>
-            <button class="btn btn-primary" type="button">
-              <i class="fas fa-search fa-2x" id="searchIcon"></i>
-            </button>
-          </div>
-        </div>
-        <div class="bg-light" id="sidebar-wrapper">
-          <div class="list-group list-group-flush">
-            {this.state.allUserList.map((user) => (
-              <a
-                class="list-group-item list-group-item-action bg-light"
-                onClick={() =>
-                  history.push({
-                    pathname: "/user/chat/" + user.userName,
-                    state: {
-                      userName: sessionMgmt.getUserName(),
-                    },
-                    toUserName: user.userName,
-                  })
-                }
-              >
-                {user.userName}
-              </a>
-            ))}
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  render() {
-    return this.state.isSearchEnabled &&
-      this.state.searchUserNameList.length !== 0
-      ? this.renderSearchView()
-      : this.renderDefaultView();
   }
 }
