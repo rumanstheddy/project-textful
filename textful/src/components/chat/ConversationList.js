@@ -2,7 +2,6 @@ import React from "react";
 import history from "../../services/History";
 import * as sessionMgmt from "../../services/SessionHandler";
 
-
 class ConversationList extends React.Component {
   constructor(props) {
     super(props);
@@ -10,10 +9,15 @@ class ConversationList extends React.Component {
     this.state = {
       searchUserName: "",
       isSearchEnabled: false,
-      searchConversationId: ""
+      chatList: [],
+      searchConversationId: "",
     };
     this.searchRef = React.createRef();
   }
+
+  // getSnapshotBeforeUpdate = (prevProps, prevState) => {
+  //   localStorage.setItem("list", JSON.stringify(prevProps));
+  // };
 
   handleSearch = () => {
     let self = this;
@@ -30,14 +34,21 @@ class ConversationList extends React.Component {
       this.setState({
         isSearchEnabled: true,
         searchUserName: self.searchRef.current.value,
-        searchConversationId : this.props.chatList[index].chatId
+        searchConversationId: this.props.chatList[index].chatId,
       });
     } else {
-      this.setState({ isSearchEnabled: false, searchUserName: "" , searchConversationId: ""});
+      this.setState({
+        isSearchEnabled: false,
+        searchUserName: "",
+        searchConversationId: "",
+      });
     }
   };
 
   render() {
+    {
+      console.log(this.state.chatList, typeof this.state.chatList);
+    }
     return (
       <div class="bg-light border-right" id="sidebar-wrapper">
         <div class="sidebar-heading" id="userNameTxt">
@@ -63,19 +74,17 @@ class ConversationList extends React.Component {
               <a
                 class="list-group-item list-group-item-action bg-light"
                 onClick={() => {
-                    history.push({
-                      pathname: "/user/chat/" + user.chatName,
-                      state: {
-                        toUserName: user.chatName,
-                        userName: sessionMgmt.getUserName(),
-                        canRenderMessages: true,
-                        conversationId: user.chatId,
-                      },
-                                          
-                    })
-                    this.props.fetchMessage();
-                  }
-                }
+                  history.push({
+                    pathname: "/user/chat/" + user.chatName,
+                    state: {
+                      toUserName: user.chatName,
+                      userName: sessionMgmt.getUserName(),
+                      canRenderMessages: true,
+                      conversationId: user.chatId,
+                    },
+                  });
+                  this.props.fetchMessage();
+                }}
               >
                 {user.chatName}
               </a>
@@ -86,18 +95,17 @@ class ConversationList extends React.Component {
             <a
               class="list-group-item list-group-item-action bg-light"
               onClick={() => {
-                  history.push({
-                    pathname: "/user/" + "/chat/" + this.state.searchUserName,
-                    state: {
-                      toUserName: this.state.searchUserName,
-                      userName: sessionMgmt.getUserName(),
-                        canRenderMessages: true,
-                        conversationId: this.state.searchConversationId,
-                    }
-                  })
-                  this.props.fetchMessage();
-                }
-              }
+                history.push({
+                  pathname: "/user/" + "/chat/" + this.state.searchUserName,
+                  state: {
+                    toUserName: this.state.searchUserName,
+                    userName: sessionMgmt.getUserName(),
+                    canRenderMessages: true,
+                    conversationId: this.state.searchConversationId,
+                  },
+                });
+                this.props.fetchMessage();
+              }}
             >
               {this.state.searchUserName}
             </a>
@@ -107,16 +115,18 @@ class ConversationList extends React.Component {
         <button
           type="button"
           class="btn btn-primary rounded-circle"
-          id="createConvoBtn" onClick={() => {
-            {console.log("came here too")}
+          id="createConvoBtn"
+          onClick={() => {
+            {
+              console.log("came here too");
+            }
             history.push({
               pathname: "/user/chat/users",
               state: {
-                userName: this.props.userName
-              }
-            })
-          }
-        }
+                userName: this.props.userName,
+              },
+            });
+          }}
         >
           <i class="fas fa-comment-medical"></i>
         </button>
