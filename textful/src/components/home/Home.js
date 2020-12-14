@@ -48,7 +48,10 @@ export default class Home extends React.Component {
         let listOfConv = res.map((convObj) => {
           return {
             chatId: convObj._id,
-            chatName: convObj.toUser,
+            chatName:
+              convObj.toUser === sessionMgmt.getUserName()
+                ? convObj.fromUser
+                : convObj.toUser,
             convoType: convObj.convoType,
             privateChatId: convObj.privateChatId,
           };
@@ -112,30 +115,42 @@ export default class Home extends React.Component {
                   </h2>
                 </span>
               ) : (
-                <span>
-                  <h2 className="sub-title">
-                    {" "}
-                    Our Newest User is{" "}
-                    <a
-                      className="profileLink"
-                      onClick={() =>
-                        history.push(
-                          "/profile/" +
-                            this.state.users[this.state.users.length - 1]
-                              .userName
-                        )
-                      }
-                    >
-                      {this.state.users[this.state.users.length - 1].firstName}
-                    </a>
-                  </h2>
-                </span>
+                <h2 className="sub-title">
+                  {" "}
+                  Our Newest User is{" "}
+                  <a
+                    className="profileLink"
+                    onClick={() =>
+                      history.push(
+                        "/profile/" +
+                          this.state.users[this.state.users.length - 1].userName
+                      )
+                    }
+                  >
+                    {this.state.users[this.state.users.length - 1].firstName}
+                  </a>
+                  <br />
+                  <br />
+                  <p>
+                    Click on the button below to register and start chatting!
+                  </p>
+                  <a
+                    class="btn btn-primary btn-lg"
+                    role="button"
+                    onClick={() => history.push("/register")}
+                  >
+                    Get started
+                  </a>
+                </h2>
               )}
             </div>
           ) : (
             <span>
               {" "}
-              <h2 className="display-4"> Welcome, {sessionMgmt.getUserName()}! </h2>
+              <h2 className="display-4">
+                {" "}
+                Welcome, {sessionMgmt.getUserName()}!{" "}
+              </h2>
               {!this.state.conversations[
                 this.state.conversations.length - 1
               ] ? (
