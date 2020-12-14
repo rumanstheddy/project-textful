@@ -8,7 +8,7 @@ createMessage = (messageInfo) => {
 getMessageById = (id) => {return msgModel.findOne({_id: id})}
 
 editMessage = (msgId, msgInfo) => {
-    return msgModel.updateOne({_id: msgId}, {$set: {...msgInfo}})
+    return msgModel.updateOne({_id: msgId}, {$set: {text: msgInfo.content, time: msgInfo.time}})
 }
 
 getAllMessages = () => {return msgModel.find()}
