@@ -87,9 +87,9 @@ export default class AdminHome extends React.Component {
     return (
       <Container>
         <NavBar
-          userName={sessionMgmt.getUserName()}
-          user={this.props.location.state}
-          showSearch={true}
+            userName={sessionMgmt.getUserName()}
+            user={this.props.location.state}
+            showSearch={true}
         />
         <h2>Welcome {sessionMgmt.getUserName()}!</h2>
         <Button variant="primary" onClick={() => history.push("/register")}>
