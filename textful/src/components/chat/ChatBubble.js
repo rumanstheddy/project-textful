@@ -18,12 +18,14 @@ class ChatBubble extends React.Component {
       <div class={this.props.isSentMessage ? "outgoing_msg " : "incoming_msg "}>
         <div
           class={
-            this.props.isSentMessage
-              ? "sent_msg "
-              : "received_msg received_withd_msg"+activeClassForFloatRight
+            "received_msg received_withd_msg"+activeClassForFloatRight
           }
         >
           {this.props.fromUser}
+          <div> 
+            <i class="fas fa-edit"></i>
+            <i class="fas fa-trash"></i>
+          </div>
           <p class={activeClass}>{this.props.messageContent}</p>
           <span class="time_date"> {this.props.time}</span>
         </div>

@@ -75,7 +75,7 @@ export default class ConversationView extends React.Component {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ message: message }),
-    }).then((res) => res.json());
+    }).then(() => this.fetchMessages());
   };
 
   fetchMessages = () => {
