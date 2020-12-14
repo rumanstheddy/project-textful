@@ -5,7 +5,6 @@ import ChatBubble from "./ChatBubble";
 import * as sessionMgmt from "../../services/SessionHandler";
 import { Redirect } from "react-router-dom";
 
-
 export default class ConversationView extends React.Component {
   constructor(props) {
     super(props);
@@ -13,35 +12,34 @@ export default class ConversationView extends React.Component {
     this.state = {
       toUsernameExists: false,
       toUserName: "",
-      messageSent: false
+      messageSent: false,
     };
     this.msgRef = React.createRef();
   }
 
   componentDidMount = () => {
-    console.log(history)
-      this.unlisten = history.listen((location) => {
-        console.log("Route changed");
-        this.handleUrlChange();
-      })
-    }
+    console.log(history);
+    this.unlisten = history.listen((location) => {
+      console.log("Route changed");
+      this.handleUrlChange();
+    });
+  };
 
   componentWillUnmount = () => {
     this.unlisten();
-  }
+  };
 
   handleUrlChange = () => {
-      if (history.location.state === undefined)
-        return
+    if (history.location.state === undefined) return;
 
-      if (history.location.state.toUserName === undefined)
-        return
-      
-      let toUserName = history.location.state.toUserName;
-          this.setState({
-            toUsernameExists: true,
-            toUserName: toUserName, })
-    }
+    if (history.location.state.toUserName === undefined) return;
+
+    let toUserName = history.location.state.toUserName;
+    this.setState({
+      toUsernameExists: true,
+      toUserName: toUserName,
+    });
+  };
 
   handleSignOut = () => {
     if (sessionMgmt.isLoggedIn(this.props.userName)) {
@@ -73,25 +71,21 @@ export default class ConversationView extends React.Component {
       fromUser: sessionMgmt.getUserName(),
       time: new Date(),
       messageContent: this.state.messageText,
-      conversationId: this.props.conversationId
+      conversationId: this.props.conversationId,
     };
 
-    
-
-    fetch(url+"/conversations/"+this.props.conversationId+"/messages", {
+    fetch(url + "/conversations/" + this.props.conversationId + "/messages", {
       method: "PUT",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({message: message})
-    })
-    .then((res) => res.json()) 
-  }
+      body: JSON.stringify({ message: message }),
+    }).then((res) => res.json());
+  };
 
   renderChatView = () => {
-    
-    {console.log(history)}
+    // {console.log(history)}
     return (
       <div id="page-content-wrapper">
         <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
@@ -117,7 +111,7 @@ export default class ConversationView extends React.Component {
             {this.props.messageList.map((msg) => (
               <ChatBubble
                 fromUser={msg.fromUser}
-                messageContent= {msg.text}
+                messageContent={msg.text}
                 toUserName={history.location.state.toUserName}
                 time={msg.time}
               />
@@ -132,7 +126,8 @@ export default class ConversationView extends React.Component {
               placeholder="Send a message"
               onChange={this.handleChange}
               value={this.state.messageText}
-              ref= {this.msgRef}            />
+              ref={this.msgRef}
+            />
             <div class="input-group-append">
               <button
                 class="btn btn-primary"
@@ -149,7 +144,7 @@ export default class ConversationView extends React.Component {
   };
 
   renderDefaultView = () => {
-    console.log(history);
+    // console.log(history);
     return (
       <div id="page-content-wrapper">
         <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">

@@ -17,6 +17,14 @@ class ChatWindow extends React.Component {
       conversationId: "",
     };
 
+    if (window.performance.getEntriesByType("navigation")) {
+      if (
+        window.performance.getEntriesByType("navigation")[0].type === "reload"
+      ) {
+        history.push("/user/chat");
+      }
+    }
+
     socket.joinChat();
     socket.registerForEvent("NEW_MESSAGE", this.addMessageToState);
   }
@@ -27,9 +35,7 @@ class ChatWindow extends React.Component {
 
   componentDidMount = () => {
     let self = this;
-
     const url = "https://wbdv-textful-server.herokuapp.com";
-
     let userName = "";
     try {
       if (sessionMgmt.anyValidSession()) {
