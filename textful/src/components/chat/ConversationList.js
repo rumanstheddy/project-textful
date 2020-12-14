@@ -46,9 +46,6 @@ class ConversationList extends React.Component {
   };
 
   render() {
-    {
-      console.log(this.state.chatList, typeof this.state.chatList);
-    }
     return (
       <div class="bg-light border-right" id="sidebar-wrapper">
         <div class="sidebar-heading" id="userNameTxt">

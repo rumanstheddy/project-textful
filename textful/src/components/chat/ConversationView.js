@@ -69,6 +69,14 @@ export default class ConversationView extends React.Component {
         messageContent: this.state.messageText,
         conversationId: this.props.conversationId,
       };
+      fetch(url + "/conversations/" + this.props.conversationId + "/messages", {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ message: message }),
+      }).then(() => this.fetchMessages());
     } else {
       let jokeapiUrl =
         "https://sv443.net/jokeapi/v2/joke/Programming?type=single";
@@ -83,40 +91,20 @@ export default class ConversationView extends React.Component {
             time: new Date(),
             conversationId: this.props.conversationId,
           };
+          fetch(
+            url + "/conversations/" + this.props.conversationId + "/messages",
+            {
+              method: "PUT",
+              headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ message: message }),
+            }
+          ).then(() => this.fetchMessages());
         });
     }
-
-    fetch(url + "/conversations/" + this.props.conversationId + "/messages", {
-      method: "PUT",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ message: message }),
-    }).then(() => this.fetchMessages());
   };
-
-  // sendJoke = async () => {
-  //   let jokeapiUrl =
-  //     "https://sv443.net/jokeapi/v2/joke/Programming?type=single";
-  //   let message = "";
-  //   await fetch(jokeapiUrl)
-  //     .then((res) => res.json())
-  //     .then((jokeObj) => {
-  //       console.log(jokeObj);
-  //       let joke = jokeObj.joke;
-  //       message = {
-  //         userName: this.props.userName,
-  //         isSentMessage: true,
-  //         messageBody: joke,
-  //       };
-  //     });
-
-  //   this.setState({
-  //     conversation: [...this.state.conversation, message],
-  //     messageText: "",
-  //   });
-  // };
 
   fetchMessages = () => {
     let self = this;
@@ -295,9 +283,18 @@ export default class ConversationView extends React.Component {
             />
             <div class="input-group-append">
               <button
+                class="btn btn-warning"
+                type="button"
+                onClick={() => this.sendMessage("joke")}
+              >
+                Send a joke
+              </button>
+            </div>
+            <div class="input-group-append">
+              <button
                 class="btn btn-primary"
                 type="button"
-                onClick={this.sendMessage}
+                onClick={() => this.sendMessage("message")}
               >
                 <i class="fas fa-arrow-right"></i>
               </button>

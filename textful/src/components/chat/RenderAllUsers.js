@@ -36,50 +36,59 @@ export default class RenderAllUsers extends React.Component {
 
   createConversation = (tousername) => {
     let url = "https://wbdv-textful-server.herokuapp.com/conversations";
-    this.state.convos.map((convo) => {
-      if (convo.toUser !== tousername) {
-        let chat = {
-          fromUser: this.props.location.state.userName,
-          toUser: tousername,
-        };
+    let convoExists = false;
+    let convos = this.state.convos;
+    for (let index = 0; index < convos.length; ++index) {
+      let convo = convos[index];
 
-        fetch(url + "/individual", {
-          method: "POST",
-          body: JSON.stringify(chat),
-          mode: "cors",
-          headers: {
-            "Content-Type": "application/json; charset=UTF-8",
-          },
-        })
-          .then((res) => res.json())
-          .then((res) => {
-            console.log(res);
-            let chatId = res._id;
-
-            let conversation = {
-              convoType: "Individual",
-              privateChatId: chatId,
-            };
-            fetch(url, {
-              method: "POST",
-              body: JSON.stringify(conversation),
-              mode: "cors",
-              headers: {
-                "Content-Type": "application/json; charset=UTF-8",
-              },
-            })
-              .then((res) => res.json())
-              .then((res) => {
-                console.log("convo ", res);
-                history.push("/user/chat/" + tousername);
-              });
-          });
-        console.log("creating");
-      } else {
-        console.log("already created");
-        history.push("/user/chat/" + tousername);
+      if (convo.toUser === tousername) {
+        convoExists = true;
+        break;
       }
-    });
+    }
+
+    if (convoExists === false) {
+      let chat = {
+        fromUser: this.props.location.state.userName,
+        toUser: tousername,
+      };
+
+      fetch(url + "/individual", {
+        method: "POST",
+        body: JSON.stringify(chat),
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json; charset=UTF-8",
+        },
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          console.log(res);
+          let chatId = res._id;
+
+          let conversation = {
+            convoType: "Individual",
+            privateChatId: chatId,
+          };
+          fetch(url, {
+            method: "POST",
+            body: JSON.stringify(conversation),
+            mode: "cors",
+            headers: {
+              "Content-Type": "application/json; charset=UTF-8",
+            },
+          })
+            .then((res) => res.json())
+            .then((res) => {
+              console.log("convo ", res);
+              history.push("/user/chat/" + tousername);
+            });
+        });
+      console.log("creating");
+    } else {
+      console.log("already exists");
+      history.push("/user/chat");
+    }
   };
 
   handleChange = (event) => {
@@ -124,6 +133,7 @@ export default class RenderAllUsers extends React.Component {
         <td>
           <Button
             variant="primary"
+            type="button"
             onClick={() => this.createConversation(userObj.userName)}
           >
             chat
@@ -181,6 +191,7 @@ export default class RenderAllUsers extends React.Component {
         <td>
           <Button
             variant="primary"
+            type="button"
             onClick={() => this.createConversation(userObj.userName)}
           >
             chat
