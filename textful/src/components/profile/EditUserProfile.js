@@ -101,6 +101,14 @@ export default class EditUserProfile extends React.Component {
                 {/*    </Nav>*/}
                 {/*</Navbar>*/}
 
+                <Navbar bg="light" expand="lg">
+                    <Navbar.Brand onClick={() => history.push("/")}>Textful</Navbar.Brand>
+                    <Nav className="mr-auto">
+                        <Nav.Link onClick={() => history.push("/")}>Home</Nav.Link>
+                        <Nav.Link onClick={() => history.push("/login")}>Login</Nav.Link>
+                    </Nav>
+                </Navbar>
+
                 <div className="form-group">
                     <h1>Edit Profile</h1>
                 </div>
