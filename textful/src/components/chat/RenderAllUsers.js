@@ -1,6 +1,7 @@
 import React from "react";
 import history from "../../services/History";
 import { Table, Button } from "react-bootstrap";
+import * as sessionMgmt from "../../services/SessionHandler";
 
 export default class RenderAllUsers extends React.Component {
   constructor(props) {
@@ -123,7 +124,9 @@ export default class RenderAllUsers extends React.Component {
 
   renderSearchView = () => {
     let filteredList = this.state.searchUserNameList.filter(
-      (userObj) => userObj.userName !== this.props.location.state.userName
+      (userObj) =>
+        userObj.userName !== this.props.location.state.userName &&
+        userObj.userType !== "Admin"
     );
     const userContent = filteredList.map((userObj) => (
       <tr>
@@ -181,7 +184,9 @@ export default class RenderAllUsers extends React.Component {
 
   renderDefaultView = () => {
     let filteredList = this.state.allUserList.filter(
-      (userObj) => userObj.userName !== this.props.location.state.userName
+      (userObj) =>
+        userObj.userName !== this.props.location.state.userName &&
+        userObj.userType !== "Admin"
     );
     const userContent = filteredList.map((userObj) => (
       <tr>
@@ -235,10 +240,10 @@ export default class RenderAllUsers extends React.Component {
             <li>
               <div className="btn-link">
                 <a
-                  className="btn btn-primary"
+                  className="btn btn-danger"
                   onClick={() =>
                     history.push({
-                      pathname: "/user/chat/",
+                      pathname: "/user/chat",
                       state: {
                         toUserName: "",
                         userName: this.props.userName,
@@ -249,11 +254,6 @@ export default class RenderAllUsers extends React.Component {
                   Back
                 </a>
               </div>
-            </li>
-            <li class="nav-item" onClick={() => history.push("/login")}>
-              <a class="nav-link" id="signoutLink">
-                Sign out <i class="fas fa-sign-out-alt"></i>
-              </a>
             </li>
           </ul>
         </nav>

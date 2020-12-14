@@ -49,11 +49,14 @@ class ConversationList extends React.Component {
     return (
       <div class="bg-light border-right" id="sidebar-wrapper">
         <div class="sidebar-heading" id="userNameTxt">
-            <a onClick={() => {
-                history.push("/profile")
-            }}>{this.props.userName}</a>
+          <a
+            onClick={() => {
+              history.push("/profile");
+            }}
+          >
+            {this.props.userName}
+          </a>
         </div>
-
 
         <div class="row" id="searchbox">
           <input
@@ -72,44 +75,46 @@ class ConversationList extends React.Component {
           <div class="list-group list-group-flush">
             {console.log(this.props)}
             {this.props.chatList.map((user) => (
+              <li class="list-group-item list-group-item-action bg-light">
+                <a
+                  onClick={() => {
+                    history.push({
+                      pathname: "/user/chat/" + user.chatName,
+                      state: {
+                        toUserName: user.chatName,
+                        userName: sessionMgmt.getUserName(),
+                        canRenderMessages: true,
+                        conversationId: user.chatId,
+                      },
+                    });
+                    this.props.fetchMessage();
+                  }}
+                >
+                  {user.chatName}
+                </a>
+              </li>
+            ))}
+          </div>
+        ) : (
+          <div>
+            <li class="list-group-item list-group-item-action bg-light">
               <a
-                class="list-group-item list-group-item-action bg-light"
                 onClick={() => {
                   history.push({
-                    pathname: "/user/chat/" + user.chatName,
+                    pathname: "/user/" + "/chat/" + this.state.searchUserName,
                     state: {
-                      toUserName: user.chatName,
+                      toUserName: this.state.searchUserName,
                       userName: sessionMgmt.getUserName(),
                       canRenderMessages: true,
-                      conversationId: user.chatId,
+                      conversationId: this.state.searchConversationId,
                     },
                   });
                   this.props.fetchMessage();
                 }}
               >
-                {user.chatName}
+                {this.state.searchUserName}
               </a>
-            ))}
-          </div>
-        ) : (
-          <div>
-            <a
-              class="list-group-item list-group-item-action bg-light"
-              onClick={() => {
-                history.push({
-                  pathname: "/user/" + "/chat/" + this.state.searchUserName,
-                  state: {
-                    toUserName: this.state.searchUserName,
-                    userName: sessionMgmt.getUserName(),
-                    canRenderMessages: true,
-                    conversationId: this.state.searchConversationId,
-                  },
-                });
-                this.props.fetchMessage();
-              }}
-            >
-              {this.state.searchUserName}
-            </a>
+            </li>
           </div>
         )}
         {console.log("came here")}

@@ -81,7 +81,7 @@ export default class ConversationView extends React.Component {
       });
     } else {
       let jokeapiUrl =
-        "https://sv443.net/jokeapi/v2/joke/Programming?type=single";
+        "https://sv443.net/jokeapi/v2/joke/Any?blacklistFlags=nsfw,religious,political,racist,sexist&type=single";
       fetch(jokeapiUrl)
         .then((res) => res.json())
         .then((jokeObj) => {
@@ -106,8 +106,7 @@ export default class ConversationView extends React.Component {
           ).then(() => this.fetchMessages());
         });
     }
-  }
-    
+  };
 
   fetchMessages = () => {
     let self = this;
@@ -133,37 +132,33 @@ export default class ConversationView extends React.Component {
           toUserName: history.location.state.toUserName,
         });
       });
-  }
+  };
 
   handleDeleteMessage = (messageId, conversationId) => {
     let self = this;
     const url = "https://wbdv-textful-server.herokuapp.com/";
-    fetch(url+"messages/"+messageId, {
+    fetch(url + "messages/" + messageId, {
       method: "DELETE",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        "conversationId": conversationId
-      }
-    })
-    .then(() => self.fetchMessages());
-  }
+        conversationId: conversationId,
+      },
+    }).then(() => self.fetchMessages());
+  };
 
   handleUpdateMessage = (messageId, messageObj) => {
-
-      let self = this;
+    let self = this;
     const url = "https://wbdv-textful-server.herokuapp.com/";
-    fetch(url+"messages/"+messageId, {
+    fetch(url + "messages/" + messageId, {
       method: "PUT",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(messageObj)
-    })
-    .then(() => self.fetchMessages());
-  }
-  
+      body: JSON.stringify(messageObj),
+    }).then(() => self.fetchMessages());
+  };
 
   renderChatView = () => {
     // {console.log(history)}
@@ -174,12 +169,16 @@ export default class ConversationView extends React.Component {
             <i class="fas fa-chevron-left"></i>
           </button> */}
 
-          <a class="navbar-brand" id="contactName">
+          <a
+            class="navbar-brand"
+            id="contactName"
+            onClick={() => history.push("/profile/" + this.state.toUserName)}
+          >
             {this.state.toUserName}
           </a>
 
           <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-            <li class="nav-item" onClick={() => history.push("/login")}>
+            <li class="nav-item" onClick={() => this.handleSignOut()}>
               <a class="nav-link" id="signoutLink">
                 Sign out <i class="fas fa-sign-out-alt"></i>
               </a>
@@ -284,12 +283,16 @@ export default class ConversationView extends React.Component {
             <i class="fas fa-chevron-left"></i>
           </button> */}
 
-          <a class="navbar-brand" id="contactName">
+          <a
+            class="navbar-brand"
+            id="contactName"
+            onClick={() => history.push("/profile/" + this.state.toUserName)}
+          >
             {this.state.toUserName}
           </a>
 
           <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-            <li class="nav-item" onClick={() => history.push("/login")}>
+            <li class="nav-item" onClick={() => this.handleSignOut()}>
               <a class="nav-link" id="signoutLink">
                 Sign out <i class="fas fa-sign-out-alt"></i>
               </a>
