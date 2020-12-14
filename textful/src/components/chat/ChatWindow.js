@@ -36,6 +36,7 @@ class ChatWindow extends React.Component {
     } catch (err) {
       console.log(err);
     }
+    
     fetch(url + userName + "/conversations")
       .then((res) => res.json())
       .then((res) => {
@@ -50,26 +51,13 @@ class ChatWindow extends React.Component {
         self.setState({ chatList: listOfConv });
       });
 
-    // fetch(url)
-    //   .then((res) => res.json())
-    //   .then((users) => {
-    //     users.map((user) => {
-    //       if (user.userName !== userName) {
-    //         return this.setState({
-    //           contactList: [...this.state.contactList, user],
-
-    //         });
-    //       }
-    //     });
-    // });
+    console.log("history", history);
   };
 
   render() {
     if (!sessionMgmt.anyValidSession()) return <Redirect to="/login" />;
     return (
       <div class="d-flex" id="wrapper">
-        {console.log(history)}
-        {console.log("chatwindow:", this.state.contactList)}
         <ConversationList
           userName={sessionMgmt.getUserName()}
           chatList={this.state.chatList}

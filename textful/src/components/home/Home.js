@@ -22,10 +22,26 @@ export default class Home extends React.Component {
           </Nav>
         </Navbar>
 
-        <div className="header">
-          <h1 className="title">Welcome to Textful!</h1>
-          <h5 className="description">
-          </h5>
+        <div class="jumbotron">
+          <h2 class="display-4">
+            Welcome to <b>Textful</b>!
+          </h2>
+          <p class="lead">
+            A simple chat application made by our team:
+            <br /> Ayub, Durga and Sumanth
+          </p>
+          <hr class="my-4" />
+          <p id="centerTxt">
+            Click on the button to register and start chatting!
+          </p>
+          <a
+            class="btn btn-primary btn-lg"
+            id="registerBtn"
+            onClick={() => history.push("/register")}
+            role="button"
+          >
+            Get Started
+          </a>
         </div>
       </div>
     );

@@ -1,7 +1,24 @@
 .header {
-    text-align: center;
+  text-align: center;
 }
 
 .header .description {
-    color: #007bff;
+  color: #007bff;
+}
+
+.Navbar {
+  position: relative;
+}
+
+.jumbotron {
+  margin: auto;
+  width: 50%;
+  background-color: white;
+  text-align: center;
+  padding-top: 120px;
+}
+
+h2.display-4 {
+  text-align: center;
+  padding-bottom: 5px;
 }

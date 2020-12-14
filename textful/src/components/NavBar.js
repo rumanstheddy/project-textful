@@ -33,15 +33,7 @@ class NavBar extends React.Component {
             {this.props.showSearch ? (
               <NavItem className="ml-5">
                 <Form inline>
-                  {sessionMgmt.getUserRole() === "Admin" ? (
-                    <Nav.Link
-                      onClick={() => {
-                        history.push("/admin/" + self.props.id);
-                      }}
-                    >
-                      Admin Home
-                    </Nav.Link>
-                  ) : null}
+
 
                   <Nav.Link
                     onClick={() => {
