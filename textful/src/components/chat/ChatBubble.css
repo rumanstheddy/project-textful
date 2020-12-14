@@ -45,3 +45,8 @@
   padding: 30px 15px 0 25px;
   width: 60%;
 }
+
+.edit_icon, .delete_icon, .update_icon, .close_edit_icon {
+  color: #0275d8;
+  padding-right: 5px;
+}

@@ -8,7 +8,42 @@ class ChatBubble extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      isEditable : false,
+      loggedInUserSentMessage: false,
+      
+    };
+
+    this.editMsgRef = React.createRef();
+  }
+
+  componentDidMount() {
+    if(this.props.fromUser === sessionMgmt.getUserName()) {
+        this.setState({loggedInUserSentMessage: true, }) 
+    }
+  }
+
+  handleEditMessage = () => {
+      this.setState({isEditable: true, loggedInUserSentMessage: true});
+  }
+
+  updateMessage = () => {
+    var newMsg = this.editMsgRef.current.value;
+    console.log(newMsg);
+    const newMsgObj = {
+      fromUser: sessionMgmt.getUserName(),
+      content: newMsg,
+      time:new Date(),
+      conversationId: this.props.conversationId
+    }
+
+    console.log(newMsgObj);
+    this.props.handleUpdateMessage(this.props.messageId, newMsgObj);
+    this.handleCancelEdit();  
+  }
+
+  handleCancelEdit = () => {
+    this.setState({loggedInUserSentMessage: true, isEditable: false})
   }
 
   render() {
@@ -22,11 +57,38 @@ class ChatBubble extends React.Component {
           }
         >
           {this.props.fromUser}
-          <div> 
-            <i class="fas fa-edit"></i>
-            <i class="fas fa-trash"></i>
-          </div>
-          <p class={activeClass}>{this.props.messageContent}</p>
+          {this.state.loggedInUserSentMessage && this.state.isEditable?
+          <div class="float-right d-flex">
+            
+            <div class="update_icon" onClick={() => this.updateMessage()}><i class="fas fa-check" ></i></div>
+            <div class="close_edit_icon" onClick={() => this.handleCancelEdit()}><i class="fas fa-times" ></i></div>
+            </div> :
+            null
+          }
+          {this.state.loggedInUserSentMessage && !this.state.isEditable?
+          <div class="float-right d-flex">
+            
+          <div class="edit_icon" onClick={() => this.handleEditMessage()}><i class="fas fa-pencil-alt" ></i></div>
+          </div> :
+          null
+          }
+
+        {this.state.loggedInUserSentMessage ?
+        <div class="float-right d-flex">
+            <div class="delete_icon" onClick= {() => this.props.handleDeleteMessage(this.props.messageId, this.props.conversationId)}>
+              <i class="fas fa-trash "></i></div> 
+          </div> : null }
+          {this.state.isEditable ?
+          <input
+            type="text"
+            class="form-control"
+            placeholder={this.props.messageContent}
+            ref = {this.editMsgRef}
+          />
+            :
+            <p class={activeClass}>{this.props.messageContent}</p>
+            }
+          
           <span class="time_date"> {this.props.time}</span>
         </div>
       </div>

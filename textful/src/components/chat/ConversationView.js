@@ -12,7 +12,6 @@ export default class ConversationView extends React.Component {
     this.state = {
       toUsernameExists: false,
       toUserName: "",
-      messageSent: false,
     };
     this.msgRef = React.createRef();
   }
@@ -104,6 +103,36 @@ export default class ConversationView extends React.Component {
       });
   };
 
+  handleDeleteMessage = (messageId, conversationId) => {
+    let self = this;
+    const url = "https://wbdv-textful-server.herokuapp.com/";
+    fetch(url+"messages/"+messageId, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "conversationId": conversationId
+      }
+    })
+    .then(() => self.fetchMessages());
+  }
+
+  handleUpdateMessage = (messageId, messageObj) => {
+
+      let self = this;
+    const url = "https://wbdv-textful-server.herokuapp.com/";
+    fetch(url+"messages/"+messageId, {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(messageObj)
+    })
+    .then(() => self.fetchMessages());
+  }
+  
+
   renderChatView = () => {
     // {console.log(history)}
     return (
@@ -134,6 +163,10 @@ export default class ConversationView extends React.Component {
                 messageContent={msg.text}
                 toUserName={history.location.state.toUserName}
                 time={msg.time}
+                messageId={msg._id}
+                handleDeleteMessage={this.handleDeleteMessage}
+                conversationId={msg.conversationId}
+                handleUpdateMessage={this.handleUpdateMessage}
               />
             ))}
           </span>

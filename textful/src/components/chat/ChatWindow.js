@@ -26,12 +26,8 @@ class ChatWindow extends React.Component {
     }
 
     socket.joinChat();
-    socket.registerForEvent("NEW_MESSAGE", this.addMessageToState);
+    socket.registerForEvent("NEW_MESSAGE", this.fetchMessages);
   }
-
-  addMessageToState = () => {
-    console.log("chat component");
-  };
 
   componentDidMount = () => {
     let self = this;
