@@ -12,6 +12,7 @@ export default class ConversationView extends React.Component {
     this.state = {
       toUsernameExists: false,
       toUserName: "",
+      updatedMessageList: []
     };
     this.msgRef = React.createRef();
   }
@@ -36,8 +37,8 @@ export default class ConversationView extends React.Component {
     let toUserName = history.location.state.toUserName;
     this.setState({
       toUsernameExists: true,
-      toUserName: toUserName,
-    });
+      toUserName: toUserName
+    }, this.fetchMessages);
   };
 
   handleSignOut = () => {
@@ -74,7 +75,10 @@ export default class ConversationView extends React.Component {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ message: message }),
-      }).then(() => this.fetchMessages());
+      }).then(() => {
+        this.msgRef.current.value = ""
+        this.fetchMessages()
+      });
     } else {
       let jokeapiUrl =
         "https://sv443.net/jokeapi/v2/joke/Any?blacklistFlags=nsfw,religious,political,racist,sexist&type=single";
@@ -199,6 +203,7 @@ export default class ConversationView extends React.Component {
                 handleDeleteMessage={this.handleDeleteMessage}
                 conversationId={msg.conversationId}
                 handleUpdateMessage={this.handleUpdateMessage}
+                loggedInUserSentMessage={msg.fromUser === sessionMgmt.getUserName()}
               />
             ))}
           </span>
@@ -312,6 +317,7 @@ export default class ConversationView extends React.Component {
                 handleDeleteMessage={this.handleDeleteMessage}
                 conversationId={msg.conversationId}
                 handleUpdateMessage={this.handleUpdateMessage}
+                loggedInUserSentMessage={msg.fromUser === sessionMgmt.getUserName()}
               />
             ))}
           </span>
