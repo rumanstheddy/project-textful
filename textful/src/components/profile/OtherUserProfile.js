@@ -1,6 +1,9 @@
 import React from "react";
 import "./UserProfile.css";
 import history from "../../services/History";
+import Navbar from "react-bootstrap/Navbar";
+import Nav from "react-bootstrap/Nav";
+import * as sessionMgmt from "../../services/SessionHandler";
 
 class OtherUserProfile extends React.Component {
     constructor(props) {
@@ -36,6 +39,32 @@ class OtherUserProfile extends React.Component {
     render () {
         return (
             <div class="container">
+                <Navbar bg="light" expand="lg">
+                    <Navbar.Brand onClick={() => history.push("/")}>Textful</Navbar.Brand>
+                    <Nav className="mr-auto">
+                        <Nav.Link onClick={() => history.push("/")}>Home</Nav.Link>
+
+                        {!sessionMgmt.anyValidSession() ? (<span>
+                            <Nav className="mr-auto">
+                                <Nav.Link onClick={() => history.push("/login")}>Login</Nav.Link>
+                            </Nav>
+                        </span>) : (<span> <Nav className="mr-auto">
+                            <Nav.Link onClick={() => history.push("/user/chat")}>Chat</Nav.Link>
+                            <Nav.Link onClick={() => history.push("/profile")}>
+                                Profile
+                            </Nav.Link>
+                            <Nav.Link onClick={() => {
+                                let userName = sessionMgmt.getUserName();
+                                sessionMgmt.logout(userName)
+                                history.push("/login")}}>
+                                Sign Out
+                            </Nav.Link>
+                        </Nav>
+                        </span>)
+                        }
+                    </Nav>
+                </Navbar>
+
                 <br/>
                 <button
                     type="button"

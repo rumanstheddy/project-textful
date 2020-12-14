@@ -24,7 +24,7 @@ class App extends React.Component {
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Registration} />
           <Route exact path="/admin/:userName" component={AdminHome} />
-          <Route exact path="/profile/" component={UserProfile} />
+          <Route exact path="/profile" component={UserProfile} />
           <Route exact path="/profile/edit" component={EditUserProfile} />
           <Route exact path="/profile/:userName" component={OtherUserProfile} />
           <Route exact path="/user/chat" component={ChatWindow} />       

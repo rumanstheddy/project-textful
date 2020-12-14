@@ -5,3 +5,28 @@
 .header .description {
     color: #007bff;
 }
+
+
+.title {
+    color: grey;
+    font-size: 50px;
+}
+
+.sub-title {
+    color: grey;
+    font-size: 20px;
+}
+
+.profileLink {
+    color: blue;
+}
+
+.no-users {
+    color: red;
+    font-size: 20px;
+}
+
+.no-convo {
+    color: red;
+    font-size: 20px;
+}

@@ -3,6 +3,8 @@ import "./UserProfile.css";
 import history from "../../services/History";
 import useParams, {Redirect} from "react-router-dom";
 import * as sessionMgmt from "../../services/SessionHandler";
+import Navbar from "react-bootstrap/Navbar";
+import Nav from "react-bootstrap/Nav";
 
 class UserProfile extends React.Component {
 
@@ -68,6 +70,13 @@ class UserProfile extends React.Component {
     render () {
     return (
         <div class="container">
+            <Navbar bg="light" expand="lg">
+                <Navbar.Brand onClick={() => history.push("/")}>Textful</Navbar.Brand>
+                <Nav className="mr-auto">
+                    <Nav.Link onClick={() => history.push("/")}>Home</Nav.Link>
+                    <Nav.Link onClick={() => history.push("/login")}>Logout</Nav.Link>
+                </Nav>
+            </Navbar>
 
             <div class ="row">
                 <div class="column">
@@ -75,7 +84,10 @@ class UserProfile extends React.Component {
                     <button
                         type="button"
                         className="btn btn-danger"
-                        onClick={() => history.push("/user/chat")}
+                        onClick={() => {
+                            if (!sessionMgmt.anyValidSession()) return history.push('/login')
+                            history.push("/user/chat")
+                        }}
                     >
                         <i className="fas fa-times"></i>
                     </button>

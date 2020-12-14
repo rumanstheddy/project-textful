@@ -65,7 +65,7 @@ export default class Registration extends React.Component {
           <Navbar.Brand onClick={() => history.push("/")}>Textful</Navbar.Brand>
           <Nav className="mr-auto">
             <Nav.Link onClick={() => history.push("/")}>Home</Nav.Link>
-            <Nav.Link onClick={() => history.push("/login")}>login</Nav.Link>
+            <Nav.Link onClick={() => history.push("/login")}>Login</Nav.Link>
           </Nav>
         </Navbar>
 
