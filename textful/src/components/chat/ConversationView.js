@@ -48,12 +48,6 @@ export default class ConversationView extends React.Component {
     }
   };
 
-  // handleChange = (event) => {
-  //   console.log("EVENT: ", event);
-  //   this.setState({ messageText: event.target.value });
-  //   console.log(this.state.messageText);
-  // };
-
   sendMessage = () => {
     let self = this;
     const url = "https://wbdv-textful-server.herokuapp.com";
@@ -82,6 +76,32 @@ export default class ConversationView extends React.Component {
       },
       body: JSON.stringify({ message: message }),
     }).then((res) => res.json());
+  };
+
+  fetchMessages = () => {
+    let self = this;
+    console.log(this.props);
+    const url = "https://wbdv-textful-server.herokuapp.com/conversations/";
+    let userName = "";
+    try {
+      if (sessionMgmt.anyValidSession()) {
+        userName = sessionMgmt.getUserName();
+        console.log("username: ", userName);
+      } else return <Redirect to="/login" />;
+    } catch (err) {
+      console.log(err);
+    }
+    fetch(url + history.location.state.conversationId + "/messages")
+      .then((res) => res.json())
+      .then((res) => {
+        self.setState({
+          updatedMessageList: res,
+          conversationId: history.location.state.conversationId,
+          getUpdatedMessages: true,
+          toUsernameExists: true,
+          toUserName: history.location.state.toUserName,
+        });
+      });
   };
 
   renderChatView = () => {
@@ -178,9 +198,72 @@ export default class ConversationView extends React.Component {
     );
   };
 
+  rerenderChatView = () => {
+    {
+      console.log(history);
+    }
+    return (
+      <div id="page-content-wrapper">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+          {/* <button class="btn btn-primary" id="menu-toggle">
+            <i class="fas fa-chevron-left"></i>
+          </button> */}
+
+          <a class="navbar-brand" id="contactName">
+            {this.state.toUserName}
+          </a>
+
+          <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+            <li class="nav-item" onClick={() => history.push("/login")}>
+              <a class="nav-link" id="signoutLink">
+                Sign out <i class="fas fa-sign-out-alt"></i>
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <div id="scrollableContent">
+          <span>
+            {/* compare username from conversation json and this username to display sender and receiver */}
+            {this.state.updatedMessageList.map((msg) => (
+              <ChatBubble
+                fromUser={msg.fromUser}
+                messageContent={msg.text}
+                toUserName={history.location.state.toUserName}
+                time={msg.time}
+              />
+            ))}
+          </span>
+        </div>
+        <div class="row col-9 ml-4 p-0 shadow-lg" id="chatInputFld">
+          <div class="input-group">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Send a message"
+              onChange={this.handleChange}
+              value={this.state.messageText}
+              ref={this.msgRef}
+            />
+            <div class="input-group-append">
+              <button
+                class="btn btn-primary"
+                type="button"
+                onClick={this.sendMessage}
+              >
+                <i class="fas fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   render() {
     return this.state.toUsernameExists
-      ? this.renderChatView()
+      ? this.state.getUpdatedMessages
+        ? this.rerenderChatView()
+        : this.renderChatView()
       : this.renderDefaultView();
   }
 }
