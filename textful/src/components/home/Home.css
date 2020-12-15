@@ -13,6 +13,10 @@
   padding-top: 120px;
 }
 
+h2.display-4 {
+  white-space: nowrap;
+}
+
 .title {
   color: grey;
   font-size: 50px;

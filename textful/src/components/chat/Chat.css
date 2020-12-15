@@ -1,3 +1,7 @@
+body {
+  font-family: "Noto Sans JP", sans-serif;
+}
+
 a#contactName {
   padding-left: 30px;
   cursor: pointer;
