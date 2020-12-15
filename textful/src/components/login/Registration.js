@@ -40,7 +40,7 @@ export default class Registration extends React.Component {
       .then((res) => {
         sessionMgmt.loginUser(newUser.userName, res);
         console.log(newUser);
-        if (newUser.userType === Admin) {
+        if (newUser.userType === "Admin") {
           history.push("/admin/" + newUser.userName);
         } else history.push("/user/chat");
       })
