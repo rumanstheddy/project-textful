@@ -3,7 +3,6 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import history from "../../services/History";
 import * as sessionMgmt from "../../services/SessionHandler";
-import { Alert } from "react-bootstrap";
 import { Redirect } from "react-router-dom";
 
 export default class EditUserProfile extends React.Component {
