@@ -38,6 +38,7 @@ let userNameToSocketId = {}
 
 io.on('connection', (socket) => {
     socket.on("JOINING", (data) => {
+        console.log("socket joining");
         userNameToSocketId[data] = socket.id
         conversationController(app, io, userNameToSocketId);
     })

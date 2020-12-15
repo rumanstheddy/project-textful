@@ -13,20 +13,27 @@ class ChatWindow extends React.Component {
     this.state = {
       contactList: [],
       chatList: [],
+      messageList: [],
+      conversationId: "",
     };
 
-    socket.joinChat();
-    socket.registerForEvent("NEW_MESSAGE", this.addMessageToState);
-  }
+    if (window.performance.getEntriesByType("navigation")) {
+      if (
+        window.performance.getEntriesByType("navigation")[0].type === "reload"
+      ) {
+        history.push("/user/chat");
+      }
+    }
 
-  addMessageToState = () => {
-    console.log("chat component");
-  };
+    if (sessionMgmt.anyValidSession()) {
+      socket.joinChat();
+      socket.registerForEvent("NEW_MESSAGE", this.fetchMessages);
+    } else history.push("/login");
+  }
 
   componentDidMount = () => {
     let self = this;
-    console.log(this.props);
-    const url = "https://wbdv-textful-server.herokuapp.com/users/";
+    const url = "https://wbdv-textful-server.herokuapp.com";
     let userName = "";
     try {
       if (sessionMgmt.anyValidSession()) {
@@ -36,36 +43,70 @@ class ChatWindow extends React.Component {
     } catch (err) {
       console.log(err);
     }
-    
-    fetch(url + userName + "/conversations")
+
+    //   console.log(history.location.state);
+    if (history.location.state !== undefined) {
+      if (history.location.state.canRenderMessages) {
+        this.fetchMessages();
+      }
+    } else {
+      fetch(url + "/users/" + userName + "/conversations")
+        .then((res) => res.json())
+        .then((res) => {
+          let listOfConv = res.map((convObj) => {
+            return {
+              chatId: convObj._id,
+              chatName:
+                convObj.toUser === sessionMgmt.getUserName()
+                  ? convObj.fromUser
+                  : convObj.toUser,
+              convoType: convObj.convoType,
+              privateChatId: convObj.privateChatId,
+            };
+          });
+          self.setState({ chatList: listOfConv });
+        });
+    }
+  };
+
+  fetchMessages = () => {
+    let self = this;
+    console.log(this.props);
+    const url = "https://wbdv-textful-server.herokuapp.com/conversations/";
+    let userName = "";
+    try {
+      if (sessionMgmt.anyValidSession()) {
+        userName = sessionMgmt.getUserName();
+        console.log("username: ", userName);
+      } else return <Redirect to="/login" />;
+    } catch (err) {
+      console.log(err);
+    }
+    fetch(url + history.location.state.conversationId + "/messages")
       .then((res) => res.json())
       .then((res) => {
-        let listOfConv = res.map((convObj) => {
-          return {
-            chatId: convObj._id,
-            chatName: convObj.toUser,
-            convoType: convObj.convoType,
-            privateChatId: convObj.privateChatId,
-          };
+        self.setState({
+          messageList: res,
+          conversationId: history.location.state.conversationId,
         });
-        self.setState({ chatList: listOfConv });
       });
-
-    console.log("history", history);
   };
 
   render() {
     if (!sessionMgmt.anyValidSession()) return <Redirect to="/login" />;
     return (
       <div class="d-flex" id="wrapper">
+        {console.log(history)}
         <ConversationList
           userName={sessionMgmt.getUserName()}
           chatList={this.state.chatList}
-          contactList={this.state.contactList}
+          fetchMessage={this.fetchMessages}
         />
         <ConversationView
           userName={sessionMgmt.getUserName()}
           chatList={this.state.chatList}
+          messageList={this.state.messageList}
+          conversationId={this.state.conversationId}
         />
       </div>
     );

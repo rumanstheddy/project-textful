@@ -1,6 +1,6 @@
 import React from "react";
-import { useParams } from "react-router-dom";
 import history from "../../services/History";
+import * as sessionMgmt from "../../services/SessionHandler";
 
 class ConversationList extends React.Component {
   constructor(props) {
@@ -9,6 +9,8 @@ class ConversationList extends React.Component {
     this.state = {
       searchUserName: "",
       isSearchEnabled: false,
+      chatList: [],
+      searchConversationId: "",
     };
     this.searchRef = React.createRef();
   }
@@ -16,9 +18,11 @@ class ConversationList extends React.Component {
   handleSearch = () => {
     let self = this;
     let shouldSearch = false;
-    for (var i = 0; i < this.props.contactList.length; i++) {
-      if (this.props.contactList[i].userName === this.searchRef.current.value) {
+    let index = 0;
+    for (var i = 0; i < this.props.chatList.length; i++) {
+      if (this.props.chatList[i].chatName === this.searchRef.current.value) {
         shouldSearch = true;
+        index = i;
         break;
       }
     }
@@ -26,26 +30,67 @@ class ConversationList extends React.Component {
       this.setState({
         isSearchEnabled: true,
         searchUserName: self.searchRef.current.value,
+        searchConversationId: this.props.chatList[index].chatId,
       });
     } else {
-      this.setState({ isSearchEnabled: false, searchUserName: "" });
+      this.setState({
+        isSearchEnabled: false,
+        searchUserName: "",
+        searchConversationId: "",
+      });
     }
+  };
+
+  closeSearch = () => {
+    this.searchRef.current.value = "";
+    this.setState({
+      isSearchEnabled: false,
+      searchUserName: "",
+      searchConversationId: "",
+    });
   };
 
   render() {
     return (
       <div class="bg-light border-right" id="sidebar-wrapper">
         <div class="sidebar-heading" id="userNameTxt">
-          {this.props.userName}
+          <a
+            class="btn btn-success"
+            id="homeBtn"
+            onClick={() => history.push("/")}
+          >
+            <i class="fas fa-home"></i>
+          </a>
+          <a
+            onClick={() => {
+              history.push("/profile");
+            }}
+          >
+            {this.props.userName}
+          </a>
         </div>
-        <div class="row" id="searchbox">
+
+        <div class="row input-group" id="searchbox">
           <input
-            class="form-control col-9"
+            class="form-control col-8"
             ref={this.searchRef}
             type="search"
             placeholder="Search"
           ></input>
-          <div class="col-3" onClick={this.handleSearch}>
+          <button
+            type="button"
+            onClick={this.closeSearch}
+            class="btn bg-transparent"
+            style={{
+              "margin-left": "-40px",
+              "z-index": "100",
+              color: "#0275d8",
+            }}
+          >
+            <i class="fa fa-times"></i>
+          </button>
+
+          <div class="col-4" onClick={this.handleSearch} id="searchUserBtn">
             <button class="btn btn-primary" type="button">
               <i class="fas fa-search fa-2x" id="searchIcon"></i>
             </button>
@@ -55,40 +100,46 @@ class ConversationList extends React.Component {
           <div class="list-group list-group-flush">
             {console.log(this.props)}
             {this.props.chatList.map((user) => (
-              <a
-                class="list-group-item list-group-item-action bg-light"
-                onClick={() =>
-                  history.push({
-                    pathname: "/user/chat/" + user.userName,
-                    state: {
-                      // toUserName: user.userName,
-                      userName: this.props.userName,
-                    },
-                    toUserName: user.userName,
-                  })
-                }
-              >
-                {user.chatName}
-              </a>
+              <li class="list-group-item list-group-item-action bg-light">
+                <a
+                  onClick={() => {
+                    history.push({
+                      pathname: "/user/chat/" + user.chatName,
+                      state: {
+                        toUserName: user.chatName,
+                        userName: sessionMgmt.getUserName(),
+                        canRenderMessages: true,
+                        conversationId: user.chatId,
+                      },
+                    });
+                    this.props.fetchMessage();
+                  }}
+                >
+                  {user.chatName}
+                </a>
+              </li>
             ))}
           </div>
         ) : (
           <div>
-            <a
-              class="list-group-item list-group-item-action bg-light"
-              onClick={() =>
-                history.push({
-                  pathname: "/user/" + "/chat/" + this.state.searchUserName,
-                  state: {
-                    toUserName: this.state.searchUserName,
-                    userName: this.props.userName,
-                  },
-                })
-              }
-            >
-              {console.log(this.state.searchUserName)}
-              {this.state.searchUserName}
-            </a>
+            <li class="list-group-item list-group-item-action bg-light">
+              <a
+                onClick={() => {
+                  history.push({
+                    pathname: "/user" + "/chat/" + this.state.searchUserName,
+                    state: {
+                      toUserName: this.state.searchUserName,
+                      userName: sessionMgmt.getUserName(),
+                      canRenderMessages: true,
+                      conversationId: this.state.searchConversationId,
+                    },
+                  });
+                  this.props.fetchMessage();
+                }}
+              >
+                {this.state.searchUserName}
+              </a>
+            </li>
           </div>
         )}
         {console.log("came here")}

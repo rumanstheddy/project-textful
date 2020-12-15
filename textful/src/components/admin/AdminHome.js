@@ -73,9 +73,9 @@ export default class AdminHome extends React.Component {
     );
     const userContent = filteredList.map((userObj) => (
       <tr>
-        <td>{userObj._id}</td>
-        <td>{userObj.firstName}</td>
-        <td>{userObj.lastName}</td>
+        <td class="d-none d-sm-table-cell">{userObj._id}</td>
+        <td class="d-none d-md-table-cell">{userObj.firstName}</td>
+        <td class="d-none d-md-table-cell">{userObj.lastName}</td>
         <td>{userObj.userName}</td>
         <td>
           <Button variant="danger" onClick={() => this.deleteUser(userObj._id)}>
@@ -87,9 +87,9 @@ export default class AdminHome extends React.Component {
     return (
       <Container>
         <NavBar
-          userName={sessionMgmt.getUserName()}
-          user={this.props.location.state}
-          showSearch={true}
+            userName={sessionMgmt.getUserName()}
+            user={this.props.location.state}
+            showSearch={true}
         />
         <h2>Welcome {sessionMgmt.getUserName()}!</h2>
         <Button variant="primary" onClick={() => history.push("/register")}>
@@ -97,9 +97,9 @@ export default class AdminHome extends React.Component {
         </Button>
         <Table striped bordered hove>
           <thead>
-            <th>User Id</th>
-            <th>First Name</th>
-            <th>Last Name</th>
+            <th class="d-none d-sm-table-cell">User Id</th>
+            <th class="d-none d-md-table-cell">First Name</th>
+            <th class="d-none d-md-table-cell">Last Name</th>
             <th>User Name</th>
             <th>Actions</th>
           </thead>

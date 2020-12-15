@@ -3,6 +3,7 @@ import history from "../../services/History";
 import "./Chat.css";
 import ChatBubble from "./ChatBubble";
 import * as sessionMgmt from "../../services/SessionHandler";
+import { Redirect } from "react-router-dom";
 
 export default class ConversationView extends React.Component {
   constructor(props) {
@@ -11,16 +12,29 @@ export default class ConversationView extends React.Component {
     this.state = {
       toUsernameExists: false,
       toUserName: "",
-      conversation: [],
-      messageText: "",
-      joke: "",
+      updatedMessageList: [],
     };
+    
+    this.msgRef = React.createRef();
   }
 
   componentDidMount = () => {
+    console.log(history);
     this.unlisten = history.listen((location) => {
       console.log("Route changed");
       this.handleUrlChange();
+    });
+    this.scrollToBottom();
+  };
+
+  componentDidUpdate() {
+    this.scrollToBottom();
+  }
+
+  scrollToBottom = () => {
+    const { messageList } = this.refs;
+    messageList.scrollIntoView({
+      behavior: "smooth",
     });
   };
 
@@ -29,35 +43,18 @@ export default class ConversationView extends React.Component {
   };
 
   handleUrlChange = () => {
-    try {
-      let toUserName = history.location.toUserName;
-      this.setState({
+    if (history.location.state === undefined) return;
+
+    if (history.location.state.toUserName === undefined) return;
+
+    let toUserName = history.location.state.toUserName;
+    this.setState(
+      {
         toUsernameExists: true,
         toUserName: toUserName,
-        conversation: [
-          {
-            userName: this.props.userName,
-            isSentMessage: true,
-            messageBody:
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-          },
-          {
-            userName: toUserName,
-            isSentMessage: false,
-            messageBody:
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-          },
-          {
-            userName: toUserName,
-            isSentMessage: false,
-            messageBody:
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-          },
-        ],
-      });
-    } catch (err) {
-      console.log(err);
-    }
+      },
+      this.fetchMessages
+    );
   };
 
   handleSignOut = () => {
@@ -67,28 +64,120 @@ export default class ConversationView extends React.Component {
     }
   };
 
-  handleChange = (event) => {
-    console.log("EVENT: ", event);
-    this.setState({ messageText: event.target.value });
-    console.log(this.state.messageText);
+  sendMessage = (type) => {
+    let self = this;
+    let message = {};
+    const url = "https://wbdv-textful-server.herokuapp.com";
+    let userName = "";
+    if (type === "message") {
+      try {
+        if (sessionMgmt.anyValidSession()) {
+          userName = sessionMgmt.getUserName();
+          console.log("username: ", userName);
+        } else return <Redirect to="/login" />;
+      } catch (err) {
+        console.log(err);
+      }
+      message = {
+        text: this.msgRef.current.value,
+        fromUser: sessionMgmt.getUserName(),
+        time: new Date(),
+        conversationId: this.props.conversationId,
+      };
+      fetch(url + "/conversations/" + this.props.conversationId + "/messages", {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ message: message }),
+      }).then(() => {
+        this.msgRef.current.value = "";
+        this.fetchMessages();
+      });
+    } else {
+      let jokeapiUrl =
+        "https://sv443.net/jokeapi/v2/joke/Any?blacklistFlags=nsfw,religious,political,racist,sexist&type=single";
+      fetch(jokeapiUrl)
+        .then((res) => res.json())
+        .then((jokeObj) => {
+          console.log(jokeObj);
+          let joke = jokeObj.joke;
+          message = {
+            text: joke,
+            fromUser: sessionMgmt.getUserName(),
+            time: new Date(),
+            conversationId: this.props.conversationId,
+          };
+          fetch(
+            url + "/conversations/" + this.props.conversationId + "/messages",
+            {
+              method: "PUT",
+              headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ message: message }),
+            }
+          ).then(() => this.fetchMessages());
+        });
+    }
   };
 
-  sendMessage = () => {
-    let message = {
-      userName: this.props.userName,
-      isSentMessage: true,
-      messageBody: this.state.messageText,
-    };
+  fetchMessages = () => {
+    let self = this;
+    console.log(this.props);
+    const url = "https://wbdv-textful-server.herokuapp.com/conversations/";
+    let userName = "";
+    try {
+      if (sessionMgmt.anyValidSession()) {
+        userName = sessionMgmt.getUserName();
+        console.log("username: ", userName);
+      } else return <Redirect to="/login" />;
+    } catch (err) {
+      console.log(err);
+    }
+    fetch(url + history.location.state.conversationId + "/messages")
+      .then((res) => res.json())
+      .then((res) => {
+        self.setState({
+          updatedMessageList: res,
+          conversationId: history.location.state.conversationId,
+          getUpdatedMessages: true,
+          toUsernameExists: true,
+          toUserName: history.location.state.toUserName,
+        });
+      });
+  };
 
-    this.setState({
-      conversation: [...this.state.conversation, message],
-      messageText: "",
-    });
+  handleDeleteMessage = (messageId, conversationId) => {
+    let self = this;
+    const url = "https://wbdv-textful-server.herokuapp.com/";
+    fetch(url + "messages/" + messageId, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        conversationId: conversationId,
+      },
+    }).then(() => self.fetchMessages());
+  };
+
+  handleUpdateMessage = (messageId, messageObj) => {
+    let self = this;
+    const url = "https://wbdv-textful-server.herokuapp.com/";
+    fetch(url + "messages/" + messageId, {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(messageObj),
+    }).then(() => self.fetchMessages());
   };
 
   renderChatView = () => {
-    let conversation = this.state.conversation;
-    console.log("joke: ", this.state.joke);
+    // {console.log(history)}
     return (
       <div id="page-content-wrapper">
         <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
@@ -96,12 +185,21 @@ export default class ConversationView extends React.Component {
             <i class="fas fa-chevron-left"></i>
           </button> */}
 
-          <a class="navbar-brand" id="contactName">
+          <a
+            class="navbar-brand"
+            id="contactName"
+            onClick={() =>
+              history.push({
+                pathname: "/profile/" + this.state.toUserName,
+                state: { fromChatWindow: true },
+              })
+            }
+          >
             {this.state.toUserName}
           </a>
 
           <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-            <li class="nav-item" onClick={() => history.push("/login")}>
+            <li class="nav-item" onClick={() => this.handleSignOut()}>
               <a class="nav-link" id="signoutLink">
                 Sign out <i class="fas fa-sign-out-alt"></i>
               </a>
@@ -111,14 +209,23 @@ export default class ConversationView extends React.Component {
         <div id="scrollableContent">
           <span>
             {/* compare username from conversation json and this username to display sender and receiver */}
-            {conversation.map((chat) => (
+            {this.props.messageList.map((msg) => (
               <ChatBubble
-                userName={chat.userName}
-                isSentMessage={chat.isSentMessage}
-                messageBody={chat.messageBody}
+                fromUser={msg.fromUser}
+                messageContent={msg.text}
+                toUserName={history.location.state.toUserName}
+                time={msg.time}
+                messageId={msg._id}
+                handleDeleteMessage={this.handleDeleteMessage}
+                conversationId={msg.conversationId}
+                handleUpdateMessage={this.handleUpdateMessage}
+                loggedInUserSentMessage={
+                  msg.fromUser === sessionMgmt.getUserName()
+                }
               />
             ))}
           </span>
+          <div style={{ float: "left", clear: "both" }} ref="messageList"></div>
         </div>
         <div class="row col-9 ml-4 p-0 shadow-lg" id="chatInputFld">
           <div class="input-group">
@@ -128,12 +235,22 @@ export default class ConversationView extends React.Component {
               placeholder="Send a message"
               onChange={this.handleChange}
               value={this.state.messageText}
+              ref={this.msgRef}
             />
+            <div class="input-group-append">
+              <button
+                class="btn btn-warning"
+                type="button"
+                onClick={() => this.sendMessage("joke")}
+              >
+                Send a joke
+              </button>
+            </div>
             <div class="input-group-append">
               <button
                 class="btn btn-primary"
                 type="button"
-                onClick={this.sendMessage}
+                onClick={() => this.sendMessage("message")}
               >
                 <i class="fas fa-arrow-right"></i>
               </button>
@@ -145,7 +262,7 @@ export default class ConversationView extends React.Component {
   };
 
   renderDefaultView = () => {
-    console.log(history);
+    // console.log(history);
     return (
       <div id="page-content-wrapper">
         <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
@@ -174,6 +291,89 @@ export default class ConversationView extends React.Component {
             <i class="fas fa-comment-medical" id="newConvoInfoTxt"></i> located
             on the bottom left.
           </h5>
+          <div ref="messageList"></div>
+        </div>
+      </div>
+    );
+  };
+
+  rerenderChatView = () => {
+    {
+      console.log(history);
+    }
+    return (
+      <div id="page-content-wrapper">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+          {/* <button class="btn btn-primary" id="menu-toggle">
+            <i class="fas fa-chevron-left"></i>
+          </button> */}
+
+          <a
+            class="navbar-brand"
+            id="contactName"
+            onClick={() => history.push("/profile/" + this.state.toUserName)}
+          >
+            {this.state.toUserName}
+          </a>
+
+          <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+            <li class="nav-item" onClick={() => this.handleSignOut()}>
+              <a class="nav-link" id="signoutLink">
+                Sign out <i class="fas fa-sign-out-alt"></i>
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <div id="scrollableContent">
+          <span>
+            {/* compare username from conversation json and this username to display sender and receiver */}
+            {this.state.updatedMessageList.map((msg) => (
+              <ChatBubble
+                fromUser={msg.fromUser}
+                messageContent={msg.text}
+                toUserName={history.location.state.toUserName}
+                time={msg.time}
+                messageId={msg._id}
+                handleDeleteMessage={this.handleDeleteMessage}
+                conversationId={msg.conversationId}
+                handleUpdateMessage={this.handleUpdateMessage}
+                loggedInUserSentMessage={
+                  msg.fromUser === sessionMgmt.getUserName()
+                }
+              />
+            ))}
+          </span>
+          <div ref="messageList"></div>
+        </div>
+        <div class="row col-9 ml-4 p-0 shadow-lg" id="chatInputFld">
+          <div class="input-group">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Send a message"
+              onChange={this.handleChange}
+              value={this.state.messageText}
+              ref={this.msgRef}
+            />
+            <div class="input-group-append">
+              <button
+                class="btn btn-warning"
+                type="button"
+                onClick={() => this.sendMessage("joke")}
+              >
+                Send a joke
+              </button>
+            </div>
+            <div class="input-group-append">
+              <button
+                class="btn btn-primary"
+                type="button"
+                onClick={() => this.sendMessage("message")}
+              >
+                <i class="fas fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -181,7 +381,9 @@ export default class ConversationView extends React.Component {
 
   render() {
     return this.state.toUsernameExists
-      ? this.renderChatView()
+      ? this.state.getUpdatedMessages
+        ? this.rerenderChatView()
+        : this.renderChatView()
       : this.renderDefaultView();
   }
 }

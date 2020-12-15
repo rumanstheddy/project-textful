@@ -1,68 +1,83 @@
 import React from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
-import "./Registration.css";
 import history from "../../services/History";
 import * as sessionMgmt from "../../services/SessionHandler";
-import { Alert } from "react-bootstrap";
+import { Redirect } from "react-router-dom";
 
-export default class Registration extends React.Component {
+export default class EditUserProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      user: {},
       userType: "User",
       showAlert: false,
     };
 
     this.firstNameRef = React.createRef();
     this.lastNameRef = React.createRef();
-    this.userNameRef = React.createRef();
     this.passwordRef = React.createRef();
   }
 
-  handleClickForSignUp = () => {
-    let newUser = {};
-    newUser.firstName = this.firstNameRef.current.value;
-    newUser.lastName = this.lastNameRef.current.value;
-    newUser.userName = this.userNameRef.current.value;
-    newUser.password = this.passwordRef.current.value;
-    newUser.userType = this.state.userType;
+  componentDidMount() {
+    const url = "https://wbdv-textful-server.herokuapp.com/users/";
+    let userName = "";
+    try {
+      if (sessionMgmt.anyValidSession()) {
+        userName = sessionMgmt.getUserName();
+        console.log("username: ", userName);
+      } else return <Redirect to="/login" />;
+    } catch (err) {
+      console.log(err);
+    }
 
-    fetch("https://wbdv-textful-server.herokuapp.com/users", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newUser),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        sessionMgmt.loginUser(newUser.userName, res);
-        console.log(newUser);
-        if (newUser.userType === "Admin") {
-          history.push("/admin/" + newUser.userName);
-        } else history.push("/user/chat");
-      })
-      .catch(() => this.setState({}));
-  };
+    fetch(url + userName)
+      .then((resp) => resp.json())
+      .then((resp) => {
+        this.setState({ user: resp });
+      });
+  }
 
-  handleUserTypeSelection = (e) => {
-    this.setState({ userType: e.target.value });
+  handleClickToSaveUser = () => {
+    console.log(this.firstNameRef.current.value);
+
+    let editedUser = {};
+
+    if (this.firstNameRef.current.value != "") {
+      editedUser.firstName = this.firstNameRef.current.value;
+    } else {
+      editedUser.firstName = this.state.user.firstName;
+    }
+
+    if (this.lastNameRef.current.value != "") {
+      editedUser.lastName = this.lastNameRef.current.value;
+    } else {
+      editedUser.lastName = this.state.user.lastName;
+    }
+
+    if (this.passwordRef.current.value != "") {
+      editedUser.password = this.passwordRef.current.value;
+    } else {
+      editedUser.password = this.state.user.password;
+    }
+
+    fetch(
+      "https://wbdv-textful-server.herokuapp.com/users/" +
+        this.state.user.userName,
+      {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(editedUser),
+      }
+    ).then(() => history.push("/profile"));
   };
 
   render() {
     return (
       <div className="container">
-        {this.state.showAlert ? (
-          <Alert
-            variant="danger"
-            onClose={() => this.setState({ showAlert: false })}
-            dismissible
-          >
-            <Alert.Heading>Unable to register. Please try again.</Alert.Heading>
-          </Alert>
-        ) : null}
         <Navbar bg="light" expand="lg">
           <Navbar.Brand onClick={() => history.push("/")}>Textful</Navbar.Brand>
           <Nav className="mr-auto">
@@ -72,7 +87,7 @@ export default class Registration extends React.Component {
         </Navbar>
 
         <div className="form-group">
-          <h1>Sign Up</h1>
+          <h1>Edit Profile</h1>
         </div>
         <div className="row form-group">
           <div className="col">
@@ -86,7 +101,7 @@ export default class Registration extends React.Component {
               className="form-control"
               ref={this.firstNameRef}
               id="firstName"
-              placeholder="First Name"
+              placeholder={this.state.user.firstName}
               required
             />
           </div>
@@ -104,7 +119,7 @@ export default class Registration extends React.Component {
               className="form-control"
               ref={this.lastNameRef}
               id="lastName"
-              placeholder="Last Name"
+              placeholder={this.state.user.lastName}
               required
             />
           </div>
@@ -121,9 +136,8 @@ export default class Registration extends React.Component {
               type="text"
               className="form-control"
               id="username"
-              ref={this.userNameRef}
-              placeholder="Your User Name"
-              required
+              placeholder={this.state.user.userName}
+              readOnly={true}
             />
           </div>
         </div>
@@ -140,7 +154,7 @@ export default class Registration extends React.Component {
               className="form-control"
               id="password"
               ref={this.passwordRef}
-              placeholder="Your Password"
+              placeholder={this.state.user.password}
               required
             />
           </div>
@@ -149,36 +163,31 @@ export default class Registration extends React.Component {
         <div className="row form-group">
           <div className="col">
             <label htmlFor="fname" className="control-label">
-              Select Type of User
+              Type of User
             </label>
           </div>
           <div className="col-10">
-            <select
-              id="userType"
-              value={this.state.userType}
-              onChange={this.handleUserTypeSelection}
-            >
-              <option value="Admin">Admin</option>
-              <option value="User">User</option>
+            <select>
+              <option aria-readonly={true}>{this.state.user.userType}</option>
             </select>
           </div>
         </div>
 
         <div className="btn-link">
           <a
-            className="btn btn-primary"
-            onClick={() => this.handleClickForSignUp()}
+            className="btn btn-success"
+            onClick={() => this.handleClickToSaveUser()}
           >
-            Register
+            Save
           </a>
         </div>
 
         <div className="row form-group justify-content-between">
           <div className="col">
             <button
-              className="btn btn-primary"
+              className="btn btn-danger"
               id="cancelBtn"
-              onClick={() => history.push("/login")}
+              onClick={() => history.goBack()}
             >
               Cancel
             </button>

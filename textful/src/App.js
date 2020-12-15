@@ -12,6 +12,8 @@ import "@fortawesome/fontawesome-free/js/all.js";
 import ChatWindow from "./components/chat/ChatWindow";
 import RenderAllUsers from "./components/chat/RenderAllUsers";
 import ConversationView from "./components/chat/ConversationView";
+import EditUserProfile from "./components/profile/EditUserProfile";
+import OtherUserProfile from "./components/profile/OtherUserProfile";
 
 class App extends React.Component {
   render() {
@@ -22,8 +24,10 @@ class App extends React.Component {
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Registration} />
           <Route exact path="/admin/:userName" component={AdminHome} />
-          <Route exact path="/profile/:userName" component={UserProfile} />
-          <Route exact path="/user/chat" component={ChatWindow} />
+          <Route exact path="/profile" component={UserProfile} />
+          <Route exact path="/profile/edit" component={EditUserProfile} />
+          <Route exact path="/profile/:userName" component={OtherUserProfile} />
+          <Route exact path="/user/chat" component={ChatWindow} />       
           <Route exact path="/user/chat/users" component={RenderAllUsers} />
           <Route path="/user/chat/:userName2" component={ChatWindow} />
         </Switch>

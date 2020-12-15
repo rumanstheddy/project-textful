@@ -14,7 +14,7 @@ createConvBtwTwoUsers = (convInfo) => {
 }
 
 findConvById = (id) => {
-    return convModel.find({_id: id})
+    return convModel.findOne({_id: id})
 }
 
 updateMessageListInConversation = (convId, msgId) => {
@@ -26,7 +26,7 @@ findAllConversations = () => {
 }
 
 updateConversation = (conversationInfo) => {
-    return convModel.update({_id: conversationInfo._id}, {$set:{message: conversationInfo.message, fromUser: conversationInfo.fromUser, toUser: conversationInfo.toUser, convoType: conversationInfo.convoType}})
+    return convModel.updateOne({_id: conversationInfo._id}, {$set:{message: conversationInfo.message, fromUser: conversationInfo.fromUser, toUser: conversationInfo.toUser, convoType: conversationInfo.convoType}})
 }
 
 deleteConversationById = (convId) => {return convModel.deleteOne({_id: convId})}

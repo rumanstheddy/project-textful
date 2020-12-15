@@ -1,6 +1,13 @@
+body {
+  font-family: "Noto Sans JP", sans-serif;
+}
+
 a#contactName {
   padding-left: 30px;
   cursor: pointer;
+}
+button#cancelSearchBtn {
+  padding-left: 10px;
 }
 
 a#signoutLink {
@@ -8,8 +15,14 @@ a#signoutLink {
   cursor: pointer;
 }
 
+a#homeBtn {
+  position: absolute;
+  left: 20px;
+}
+
 #userNameTxt {
   text-align: center;
+  position: relative;
 }
 
 #wrapper {
@@ -40,6 +53,12 @@ button#createConvoBtn {
   padding-right: 16px;
   padding-top: 16px;
   padding-bottom: 75px;
+}
+
+button#searchUserBtn {
+  margin-right: 10px;
+  position: absolute;
+  right: 10px;
 }
 
 #sidebar-wrapper .sidebar-heading {
@@ -88,7 +107,7 @@ button#createConvoBtn {
   color: #0062cc;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1px) {
   #sidebar-wrapper {
     margin-left: 0;
   }
