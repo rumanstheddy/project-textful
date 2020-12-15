@@ -124,6 +124,9 @@ class UserProfile extends React.Component {
 
                 <h2 id="username">{this.state.user.userName}</h2>
                 <h4>
+                  <b>Password:</b> {this.state.user.password}
+                </h4>
+                <h4>
                   <b>First Name:</b> {this.state.user.firstName}
                 </h4>
                 <h4>
