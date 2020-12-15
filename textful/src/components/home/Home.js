@@ -106,7 +106,10 @@ export default class Home extends React.Component {
           {!sessionMgmt.anyValidSession() ? (
             <div>
               <h2 className="display-4"> Welcome to Textful! </h2>
-
+              <p class="lead">
+                A simple chat application made by our team:
+                <br /> Ayub, Durga and Sumanth
+              </p>
               {!this.state.users[this.state.users.length - 1] ? (
                 <span>
                   <h2 className="no-users">

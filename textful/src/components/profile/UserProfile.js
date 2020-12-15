@@ -70,6 +70,27 @@ class UserProfile extends React.Component {
   }
 
   render() {
+    let content =
+      this.state.user.userType !== "Admin" ? (
+        <div className="col-4">
+          <br></br>
+          <br></br>
+          <h3>Currently Talking To: </h3>
+          {this.state.conversations.map((user) => (
+            <ul class="list-group">
+              <a
+                class="list-group-item"
+                onClick={() => history.push("/profile/" + user.chatName)}
+              >
+                {user.chatName}
+              </a>
+            </ul>
+          ))}
+        </div>
+      ) : (
+        <div></div>
+      );
+
     return (
       <div class="container">
         <Navbar bg="light" expand="lg">
@@ -119,22 +140,7 @@ class UserProfile extends React.Component {
               </button>
             </div>
           </div>
-
-          <div className="col-4">
-            <br></br>
-            <br></br>
-            <h3>Currently Talking To: </h3>
-            {this.state.conversations.map((user) => (
-              <ul class="list-group">
-                <a
-                  class="list-group-item"
-                  onClick={() => history.push("/profile/" + user.chatName)}
-                >
-                  {user.chatName}
-                </a>
-              </ul>
-            ))}
-          </div>
+          {content}
         </div>
       </div>
     );
