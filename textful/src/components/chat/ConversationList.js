@@ -15,7 +15,6 @@ class ConversationList extends React.Component {
     this.searchRef = React.createRef();
   }
 
-
   handleSearch = () => {
     let self = this;
     let shouldSearch = false;
@@ -48,15 +47,18 @@ class ConversationList extends React.Component {
       isSearchEnabled: false,
       searchUserName: "",
       searchConversationId: "",
-      
     });
-  }
+  };
 
   render() {
     return (
       <div class="bg-light border-right" id="sidebar-wrapper">
         <div class="sidebar-heading" id="userNameTxt">
-          <a class="btn btn-success" id="homeBtn" onClick={() => history.push("/")}>
+          <a
+            class="btn btn-success"
+            id="homeBtn"
+            onClick={() => history.push("/")}
+          >
             <i class="fas fa-home"></i>
           </a>
           <a
@@ -70,17 +72,25 @@ class ConversationList extends React.Component {
 
         <div class="row input-group" id="searchbox">
           <input
-            class="form-control col-9"
+            class="form-control col-8"
             ref={this.searchRef}
             type="search"
             placeholder="Search"
           ></input>
-          <button type="button" onClick={this.closeSearch} class="btn bg-transparent" style={{"margin-left": "-40px", "z-index": "100", "color":"#0275d8"}}>
+          <button
+            type="button"
+            onClick={this.closeSearch}
+            class="btn bg-transparent"
+            style={{
+              "margin-left": "-40px",
+              "z-index": "100",
+              color: "#0275d8",
+            }}
+          >
             <i class="fa fa-times"></i>
           </button>
-          
-          
-          <div class="col-3" onClick={this.handleSearch}>
+
+          <div class="col-4" onClick={this.handleSearch} id="searchUserBtn">
             <button class="btn btn-primary" type="button">
               <i class="fas fa-search fa-2x" id="searchIcon"></i>
             </button>
