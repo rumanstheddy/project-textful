@@ -157,7 +157,6 @@ export default class Registration extends React.Component {
               onChange={this.handleUserTypeSelection}
             >
               <option value="Admin">Admin</option>
-              <option value="Moderator">Moderator</option>
               <option value="User">User</option>
             </select>
           </div>
