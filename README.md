@@ -1,4 +1,4 @@
 # Textful
-Textful is a web based application which enables its users to exchange text messages directly or through groups, which they have formed.
+Textful represents a sophisticated web-based platform that empowers users to exchange text messages individually or within groups they create.
 
-Most of the chat applications heavily rely on web sockets of browsers to communicate over the internet. Trying to streamline this problem, we thought of building a solution that heavily depends on web APIs which minimizes the application’s dependency on web sockets.
+In the realm of chat applications, the conventional approach leans heavily on the utilization of web sockets within browsers to facilitate internet-based communication. To address this, our innovation at Textful involves crafting a robust solution that strategically leverages web APIs. This strategic pivot significantly reduces the application's reliance on web sockets, ensuring a more efficient and reliable mode of communication for our users.
