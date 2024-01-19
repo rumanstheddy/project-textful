@@ -34,7 +34,7 @@ export default class Login extends React.Component {
       this.state.currentUser.username = this.state.username;
       this.state.currentUser.password = this.state.password;
 
-      fetch("https://wbdv-textful-server.herokuapp.com/users")
+      fetch("https://textful-server.onrender.com/users")
         .then((resp) => resp.json())
         .then((resp) => {
           for (let i = 0; i < resp.length; i++) {

@@ -19,7 +19,7 @@ export default class AdminHome extends React.Component {
 
   componentDidMount = () => {
     console.log(this.props);
-    const url = "https://wbdv-textful-server.herokuapp.com/users/";
+    const url = "https://textful-server.onrender.com/users/";
 
     fetch(url, {
       method: "GET",
@@ -49,7 +49,7 @@ export default class AdminHome extends React.Component {
 
   deleteUser = (userId) => {
     let self = this;
-    fetch("https://wbdv-textful-server.herokuapp.com/users/" + userId, {
+    fetch("https://textful-server.onrender.com/users/" + userId, {
       method: "DELETE",
       headers: {
         Accept: "application/json",

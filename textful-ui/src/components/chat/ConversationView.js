@@ -67,7 +67,7 @@ export default class ConversationView extends React.Component {
   sendMessage = (type) => {
     let self = this;
     let message = {};
-    const url = "https://wbdv-textful-server.herokuapp.com";
+    const url = "https://textful-server.onrender.com";
     let userName = "";
     if (type === "message") {
       try {
@@ -127,7 +127,7 @@ export default class ConversationView extends React.Component {
   fetchMessages = () => {
     let self = this;
     console.log(this.props);
-    const url = "https://wbdv-textful-server.herokuapp.com/conversations/";
+    const url = "https://textful-server.onrender.com/conversations/";
     let userName = "";
     try {
       if (sessionMgmt.anyValidSession()) {
@@ -152,7 +152,7 @@ export default class ConversationView extends React.Component {
 
   handleDeleteMessage = (messageId, conversationId) => {
     let self = this;
-    const url = "https://wbdv-textful-server.herokuapp.com/";
+    const url = "https://textful-server.onrender.com/";
     fetch(url + "messages/" + messageId, {
       method: "DELETE",
       headers: {
@@ -165,7 +165,7 @@ export default class ConversationView extends React.Component {
 
   handleUpdateMessage = (messageId, messageObj) => {
     let self = this;
-    const url = "https://wbdv-textful-server.herokuapp.com/";
+    const url = "https://textful-server.onrender.com/";
     fetch(url + "messages/" + messageId, {
       method: "PUT",
       headers: {

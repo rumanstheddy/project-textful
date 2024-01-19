@@ -20,7 +20,7 @@ export default class EditUserProfile extends React.Component {
   }
 
   componentDidMount() {
-    const url = "https://wbdv-textful-server.herokuapp.com/users/";
+    const url = "https://textful-server.onrender.com/users/";
     let userName = "";
     try {
       if (sessionMgmt.anyValidSession()) {
@@ -62,7 +62,7 @@ export default class EditUserProfile extends React.Component {
     }
 
     fetch(
-      "https://wbdv-textful-server.herokuapp.com/users/" +
+      "https://textful-server.onrender.com/users/" +
         this.state.user.userName,
       {
         method: "PUT",

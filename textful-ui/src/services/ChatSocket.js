@@ -3,7 +3,7 @@ import * as sessionMgmt from './SessionHandler';
 
 var chatSocket = null;
 if (chatSocket === null)
-        chatSocket = io('https://wbdv-textful-server.herokuapp.com/');
+        chatSocket = io('https://textful-server.onrender.com/');
 
 export function joinChat() {
     chatSocket.emit('JOINING', sessionMgmt.getUserName())

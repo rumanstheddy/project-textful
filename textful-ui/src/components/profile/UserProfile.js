@@ -25,7 +25,7 @@ class UserProfile extends React.Component {
   }
 
   componentDidMount() {
-    const url = "https://wbdv-textful-server.herokuapp.com/users/";
+    const url = "https://textful-server.onrender.com/users/";
     let userName = "";
     try {
       if (sessionMgmt.anyValidSession()) {

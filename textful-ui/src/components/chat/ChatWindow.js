@@ -33,7 +33,7 @@ class ChatWindow extends React.Component {
 
   componentDidMount = () => {
     let self = this;
-    const url = "https://wbdv-textful-server.herokuapp.com";
+    const url = "https://textful-server.onrender.com";
     let userName = "";
     try {
       if (sessionMgmt.anyValidSession()) {
@@ -72,7 +72,7 @@ class ChatWindow extends React.Component {
   fetchMessages = () => {
     let self = this;
     console.log(this.props);
-    const url = "https://wbdv-textful-server.herokuapp.com/conversations/";
+    const url = "https://textful-server.onrender.com/conversations/";
     let userName = "";
     try {
       if (sessionMgmt.anyValidSession()) {

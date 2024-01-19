@@ -28,7 +28,7 @@ export default class Registration extends React.Component {
     newUser.password = this.passwordRef.current.value;
     newUser.userType = this.state.userType;
 
-    fetch("https://wbdv-textful-server.herokuapp.com/users", {
+    fetch("https://textful-server.onrender.com/users", {
       method: "POST",
       headers: {
         Accept: "application/json",

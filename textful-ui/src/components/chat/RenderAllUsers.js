@@ -21,7 +21,7 @@ export default class RenderAllUsers extends React.Component {
   componentDidMount() {
     let self = this;
     let userName = this.props.location.state.userName;
-    const url = "https://wbdv-textful-server.herokuapp.com/users/";
+    const url = "https://textful-server.onrender.com/users/";
     fetch(url)
       .then((res) => res.json())
       .then((usersList) => self.setState({ allUserList: usersList }));
@@ -36,7 +36,7 @@ export default class RenderAllUsers extends React.Component {
   }
 
   createConversation = (tousername) => {
-    let url = "https://wbdv-textful-server.herokuapp.com/conversations";
+    let url = "https://textful-server.onrender.com/conversations";
     let convoExists = false;
     let convos = this.state.convos;
     for (let index = 0; index < convos.length; ++index) {
@@ -103,7 +103,7 @@ export default class RenderAllUsers extends React.Component {
     let self = this;
     var searchUserName = self.searchRef.current.value;
     const url =
-      "https://wbdv-textful-server.herokuapp.com/search/" + searchUserName;
+      "https://textful-server.onrender.com/search/" + searchUserName;
     fetch(url)
       .then((res) => res.json())
       .then((userNamesList) =>

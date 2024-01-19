@@ -15,7 +15,7 @@ export default class UserList extends React.Component {
     componentDidMount = () => {
         // const userId = this.props.match.params.id;
         // this.setState({ userId: userId });
-        fetch("https://wbdv-textful-server.herokuapp.com/users", {
+        fetch("https://textful-server.onrender.com/users", {
             method: "GET",
             mode: "cors",
             headers: {
@@ -40,7 +40,7 @@ export default class UserList extends React.Component {
     startSearch = () => {
         let username = this.state.searchValue;
         console.log("username:", this.state.searchValue);
-        fetch("https://wbdv-textful-server.herokuapp.com/users/" + username, {
+        fetch("https://textful-server.onrender.com/users/" + username, {
             method: "GET",
             mode: "cors",
             headers: {

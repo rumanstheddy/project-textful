@@ -1,11 +1,12 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
+
 const uri = process.env.DB_URL;
 try {
   mongoose.connect(
     uri,
     { useNewUrlParser: true, useUnifiedTopology: true },
-    () => console.log("connected")
+    () => console.log("connected to the Db!")
   );
 } catch (error) {
   console.log("could not connect", error);
@@ -50,8 +51,9 @@ server.listen(port, () => {
 let userNameToSocketId = {};
 
 io.on("connection", (socket) => {
+  console.log("Websocket connected!");
   socket.on("JOINING", (data) => {
-    console.log("socket joining");
+    console.log("socket joining...");
     userNameToSocketId[data] = socket.id;
     conversationController(app, io, userNameToSocketId);
   });
