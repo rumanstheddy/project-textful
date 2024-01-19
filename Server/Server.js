@@ -1,3 +1,4 @@
+require("dotenv").config();
 const mongoose = require("mongoose");
 const uri = process.env.DB_URL;
 try {
@@ -7,7 +8,7 @@ try {
     () => console.log("connected")
   );
 } catch (error) {
-  console.log("could not connect");
+  console.log("could not connect", error);
 }
 
 const express = require("express");
