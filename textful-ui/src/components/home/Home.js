@@ -167,8 +167,11 @@ export default class Home extends React.Component {
                 </span>
               ) : (
                 <span>
-                  <h2 className="sub-title">
-                    {" "}
+                  {/*
+                   * ! This is not populating on user login, need to fix
+                   */}
+                  {/* <h2 className="sub-title">
+                    {console.log(this.state.conversations)}
                     Your Most Recent Conversation was with{" "}
                     <a
                       className="profileLink"
@@ -187,7 +190,7 @@ export default class Home extends React.Component {
                         ].chatName
                       }{" "}
                     </a>
-                  </h2>
+                  </h2> */}
                 </span>
               )}
             </span>
